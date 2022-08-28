@@ -33,15 +33,14 @@
 
 
     <!-- Styles -->
-    <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/all.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 
     <script src="{{ asset('js/fecha.min.js') }}" defer></script>
     <link href="{{ asset('css/hotel-datepicker.css') }}" rel="stylesheet">
     <script src="{{ asset('js/hotel-datepicker.min.js') }}" defer></script>
-
-
 
 
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -93,6 +92,7 @@
                                 @if(Auth::user()->isAdmin())
                                     <a class="dropdown-item" href="/orders">Заказы</a>
                                     <a class="dropdown-item" href="/schedule">Расписание</a>
+                                    <a class="dropdown-item" href="{{route('reports')}}">Отчёты</a>
 
 
                                 @endif
@@ -132,5 +132,6 @@
         </main>
     </center>
 </div>
+@stack('scripts')
 </body>
 </html>

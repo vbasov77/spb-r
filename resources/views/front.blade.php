@@ -64,6 +64,7 @@
                             @if(Auth::user()->isAdmin())
                                 <a class="dropdown-item" href="/orders">Заказы</a>
                                 <a class="dropdown-item" href="/schedule">Расписание</a>
+                                <a class="dropdown-item" href="{{route('reports')}}">Отчёты</a>
                             @endif
                             <a class="dropdown-item" href="/profile">Профиль</a>
                             <a class="dropdown-item" href="{{ route('logout') }}"

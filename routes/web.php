@@ -26,6 +26,10 @@ Route::post('/order_info', 'CalendarController@verification');
 Route::get('/test', 'CalendarController@view');
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/error_book', 'CalendarController@comeErrorBlade')->name('error.book');
+
+Route::get('/reports', 'ReportsController@view')->name('reports')->middleware('admin');
+
 //
 //Route::any('/web_money_result', 'WebMoneyController@view');
 //Route::get('/web_money_success', 'WebMoneyController@success');

@@ -9,6 +9,7 @@ use App\Mail\RejectOrder;
 use App\Mail\SendBooking;
 use App\Mail\DeleteOrder;
 use App\Mail\SendUserDeleteOrder;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -45,6 +46,11 @@ class OrdersController extends Controller
 
     public function delete($id)
     {
+        $result = Booking::where('id', $id)->get();
+        $date[]= $result[0]->no_in;
+        $date[]= $result[0]->no_out;
+        $condition = 2;
+        DateController::setCountNightObj($date, $result[0] ->summ, $condition);
         DbController::deleteOrder($id);
         return redirect()->action('OrdersController@view');
     }
@@ -82,6 +88,11 @@ class OrdersController extends Controller
 
     public function reject(int $id)
     {
+        $res = Booking::where('id', $id)->get();
+        $date[]= $res[0]->no_in;
+        $date[]= $res[0]->no_out;
+        $condition = 2;
+        DateController::setCountNightObj($date, $res[0] ->summ, $condition);
         $result = DbController::GetBookingOrderId($id);
         $data = [
             'name_user' => $result [0]['name_user'],
