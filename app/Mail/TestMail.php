@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class SendUserDeleteOrder extends Mailable
+class TestMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $subject;
@@ -31,7 +31,7 @@ class SendUserDeleteOrder extends Mailable
     public function build()
     {
         return $this->subject($this->subject)
-            ->view('mail.user_del_order', [
+            ->view('mail.test', [
                 'data' => $this -> data
             ]);
     }

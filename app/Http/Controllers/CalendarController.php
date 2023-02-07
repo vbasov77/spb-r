@@ -31,6 +31,7 @@ class CalendarController extends Controller
             $it = explode('/', $check[$i]);
             $array_dates[] = $it[0];
         }
+        dd($array_dates);
         $all_dates = DB::table('booking')->get('date_book');
         if (!empty(count($all_dates))) {
             foreach ($all_dates as $da) {
@@ -162,11 +163,15 @@ class CalendarController extends Controller
             $dat[] = $date_u[1];
             $date_view = [];
             foreach ($d as $item) {
+                // проверка есть ли в массиве, если да, то дастаём стоимости даты из массива $array_rooms
+                // Если выбранной даты нет в массиве, то отправляем сообщение, что админом не заполнена одна из дат.
                 $str_arr = $item['date_book'];
-                if (!empty(array_search($str_arr, $dat)) && $item ['stat'] != 1) { // проверка есть ли в массиве
+                if (!empty(in_array($str_arr, $dat))/* && $item ['stat'] != 1*/) { // проверка есть ли в массиве
                     $cumm_cost = $item['cost'] + $cost_arr;
                     $date_view[] = $item ['date_book'] . "/" . $cumm_cost . " руб.";
                     $cost[] = $item['cost'] + $cost_arr;
+                } else {
+                    return view('sorry.sorry');
                 }
             }
             $sum = array_sum($cost);

@@ -57,6 +57,11 @@ class OrdersController extends Controller
 
     public function deleteProf($id)
     {
+        $result = Booking::where('id', $id)->get();
+        $date[]= $result[0]->no_in;
+        $date[]= $result[0]->no_out;
+        $condition = 2;
+        DateController::setCountNightObj($date, $result[0] ->summ, $condition);
         $data = DbController::deleteOrder($id);
         $subject = 'Удаление бронирования';
         $toEmail = '0120912@mail.ru';

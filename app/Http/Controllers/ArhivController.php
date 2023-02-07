@@ -9,8 +9,6 @@ class ArhivController extends Controller
 {
     public function view()
     {
-
-
     }
 
     public function oneView(int $id)

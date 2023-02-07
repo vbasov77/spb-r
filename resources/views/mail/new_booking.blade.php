@@ -1,4 +1,4 @@
-SPB-R.RU<br>
+mieten.ru<br>
 Новое бронирование<br>
 <br>
 Даты: {{$data['in'] . ' - ' . $data ['out']}}<br>

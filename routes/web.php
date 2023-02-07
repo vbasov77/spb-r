@@ -29,6 +29,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/error_book', 'CalendarController@comeErrorBlade')->name('error.book');
 
 Route::get('/reports', 'ReportsController@view')->name('reports')->middleware('admin');
+Route::get('/del_schedule', 'DateController@delSchedule')->name('del.schedule')->middleware('admin');
 
 //
 //Route::any('/web_money_result', 'WebMoneyController@view');
@@ -77,6 +78,8 @@ Route::get('/schedule/edit', 'ScheduleController@viewEdit')->middleware('admin')
 Route::get('/schedule/csv', 'ScheduleController@viewCsv')->middleware('admin');
 Route::post('/get_csv', 'ScheduleController@getCsv')->middleware('admin');
 Route::post('/update_csv', 'ScheduleController@updateCsv')->middleware('admin');
+
+Route::get('/testy', 'TestController@test');
 
 Route::get('/clear', function() {
     Artisan::call('cache:clear');

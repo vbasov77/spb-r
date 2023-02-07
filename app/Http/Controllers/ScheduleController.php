@@ -23,7 +23,6 @@ class ScheduleController extends Controller
                         $dis_s [] = date("Y-m-d", strtotime($item));
                     }
                     $dis_a[] = implode(',', $dis_s);
-
                 } elseif ($res[$i]['stat'] == 1) {
 
                     $dis_ii = explode(',', $res [$i]['date_book']);
@@ -31,8 +30,6 @@ class ScheduleController extends Controller
                         $dis_io [] = date("Y-m-d", strtotime($item));
                     }
                     $dis_in[] = implode(',', $dis_io);
-
-
                 } else {
                     $dis_o = explode(',', $res [$i]['date_book']);
                     foreach ($dis_o as $item) {
@@ -43,22 +40,24 @@ class ScheduleController extends Controller
                 }
 
             }
+//            dd($dis_io);
             $date_book = implode(',', $dis_s);
-            $no_in = implode(',', $dis_io);
-            $no_out = implode(',', $dis_ou);
+//            $no_in = implode(',', $dis_io);
+//            $no_out = implode(',', $dis_ou);
 
 
         } else {
             $date_book = "";
-            $no_in = "";
-            $no_out = "";
+//            $no_in = "";
+//            $no_out = "";
         }
-        return view('/schedule')->with(['date_book' => $date_book, 'no_in' => $no_in, 'no_out' => $no_out]);
+        return view('/schedule')->with(['date_book' => $date_book/*, 'no_in' => $no_in, 'no_out' => $no_out*/]);
     }
 
 
     public function schedule()
     {
+
         $d = $_POST ['date_book'];
         $d = preg_replace("/\s+/", "", $d);// удалили пробелы
         $dd = explode("-", $d);// реобразовали в массив
@@ -67,7 +66,7 @@ class ScheduleController extends Controller
         $date_b = DateController::getDates($startTime, $endTime);// Получили промежуточные даты
         $cost = $_POST['cost'];
         $stat = 0;
-        $stat_in = 1;
+        $stat_in = 0;
         $stat_out = 2;
 
         DbController::createTableSchedule($startTime, $cost, $stat_in);
@@ -217,7 +216,7 @@ class ScheduleController extends Controller
     public function viewCsv()
     {
         if(empty($_GET)){
-           $_GET ['message'] = false;
+            $_GET ['message'] = false;
         }
         return view('/schedule/view_csv', ['message'=>$_GET['message']]);
     }

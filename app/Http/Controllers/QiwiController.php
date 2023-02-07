@@ -75,7 +75,7 @@ class QiwiController extends Controller
         $billId = $_POST ['billId'];
         $amount = $_POST ['amount'];
         $id = $_POST ['id'];;
-        $url = "https://oplata.qiwi.com/create?publicKey=" . $publicKey . "&amount=" . $amount . "&billId=" . $billId . "&comment=" . $id . "&customFields[themeCode]=Vytalyi-BRODDK2q2-&successUrl=https://spb-r.ru/q_success";
+        $url = "https://oplata.qiwi.com/create?publicKey=" . $publicKey . "&amount=" . $amount . "&billId=" . $billId . "&comment=" . $id . "&customFields[themeCode]=Vytalyi-BRODDK2q2-&successUrl=https://mieten.ru/q_success";
         echo '<meta http-equiv="refresh" content="0; URL=' . $url . '">';
 
     }
@@ -84,7 +84,6 @@ class QiwiController extends Controller
     {
         $mess = "Оплата прошла успешно!";
         return redirect()->action('DankeController@view', ['mess' => $mess]);
-
     }
 
 }

@@ -27,7 +27,7 @@
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
-            SPB-R.RU
+            MIETEN.RU
             {{--                    {{ config('app.name', 'Laravel') }}--}}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -138,10 +138,11 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-lg-8">
                 <div class="body-front">
-                    <h2>от 1380 руб.</h2>
-                    <p> от 14 дней - 1380 руб <br>
-                        до 14 дней - 1700 руб<br>
+                    <h2>от 900 руб.</h2>
+                    <p> от 30 дней - 900 руб <br>
+                        до 30 дней - 1100 руб<br>
                         на 1 сутки не сдаётся<br>
+
                     </p>
                 </div>
             </div>
@@ -328,7 +329,7 @@
                         <button class="btn btn-outline-success"
                                 onclick="window.location.href = 'https://wa.clck.bar/79110120912';">
                             <i
-                                    class="fab fa-whatsapp"></i> по WhatsApp
+                                    class="fab fa-whatsapp"></i> в WhatsApp
                         </button>
                     </center>
                     <br>
@@ -403,7 +404,7 @@
                             Александро-Невская лавра.
                             <em>Вторая станция</em>. <strong>Маяковская, Площадь Восстания</strong>: ТРЦ Галерея, БКЗ
                             Октябрьский.
-                            <em>Третья станция</em>.  <strong>Гостинный Двор</strong>: Казанский Собор, Спас на Крови,
+                            <em>Третья станция</em>.  <strong>Гостинный Двор</strong>: Казанский Собор, Спас на Крови,
                             Гостинный Двор, Эрмитаж.
                         </div>
                         <hr class="d-none d-lg-block mb-0 me-0"/>
@@ -435,7 +436,7 @@
         <center>
             <button class="btn btn-outline-success" onclick="window.location.href = 'https://wa.clck.bar/79110120912';">
                 <i
-                        class="fab fa-whatsapp"></i> по WhatsApp
+                        class="fab fa-whatsapp"></i> в WhatsApp
             </button>
         </center>
         <br>

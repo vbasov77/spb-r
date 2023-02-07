@@ -130,8 +130,8 @@ class DateController extends Controller
     {
         if ($sum_night <= 1) {
             $c = 830;
-        } elseif ($sum_night > 1 && $sum_night <= 14) {
-            $c = 320;
+        } elseif ($sum_night > 1 && $sum_night <= 30) {
+            $c = 300;
         }  else ($c = 0);
         return $c;
 
@@ -211,6 +211,19 @@ class DateController extends Controller
         }
 
         return $arri;
+    }
+
+    public function delSchedule(){
+        $date = date('d.m.Y');
+        $schedules = Schedule::all();
+        $count = 0;
+        foreach ($schedules as $schedule){
+            if(strtotime($schedule->date_book) < strtotime($date)){
+                Schedule::where('id', $schedule->id)->delete();
+                $count += 1;
+            }
+        }
+        return view('messages.del_schedule', ['count'=>$count]);
     }
 
 

@@ -17,7 +17,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
     <!-- Font Awesome icons (free version)-->
-    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+{{--    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>--}}
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -53,7 +53,7 @@
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
-                SPB-R.RU
+                MIETEN.RU
                 {{--                    {{ config('app.name', 'Laravel') }}--}}
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -88,13 +88,12 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="/settings">Настройки</a>
                                 @if(Auth::user()->isAdmin())
                                     <a class="dropdown-item" href="/orders">Заказы</a>
-                                    <a class="dropdown-item" href="/schedule">Расписание</a>
                                     <a class="dropdown-item" href="{{route('reports')}}">Отчёты</a>
-
-
+                                    <a class="dropdown-item" href="/schedule">Расписание</a>
+                                    <a class="dropdown-item" href="/settings">Настройки</a>
+                                    <a class="dropdown-item" href="{{route('del.schedule')}}">Очистить базу</a>
                                 @endif
                                 <a class="dropdown-item" href="/profile">Профиль</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"

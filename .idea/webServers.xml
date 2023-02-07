@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="d8953a54-ef7d-448b-94e1-b7606e30c8be" name="SPB-R" url="http://hostven03.com">
-        <fileTransfer host="hostven03.com" port="21" rootFolder="/spb-r.ru">
+        <fileTransfer host="hostven03.com" port="21" rootFolder="/mieten.ru">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
