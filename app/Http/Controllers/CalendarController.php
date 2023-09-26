@@ -7,6 +7,7 @@ use App\Mail\NewBooking;
 use App\Mail\SendBooking;
 
 use App\Mail\SendRegister;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +20,9 @@ class CalendarController extends Controller
     {
         $url = url()->current();
         $data = DateController::getBookingDates();
-        return view('front')->with(['data' => $data]);
+        $frontSettings = DB::table("front_settings")->where("id", 1)->first();
+        $dataSettings = explode("&", $frontSettings->settings);
+        return view('front')->with(['data' => $data, 'dataSettings' => $dataSettings]);
     }
 
 
@@ -31,7 +34,6 @@ class CalendarController extends Controller
             $it = explode('/', $check[$i]);
             $array_dates[] = $it[0];
         }
-        dd($array_dates);
         $all_dates = DB::table('booking')->get('date_book');
         if (!empty(count($all_dates))) {
             foreach ($all_dates as $da) {
@@ -138,9 +140,9 @@ class CalendarController extends Controller
         return view('/verification_booking')->with(['date_view' => $date_view, 'more_book' => $more_b, 'sum' => $_POST['sum']]);
     }
 
-    public function addInfo()
+    public function addInfo(Request $request)
     {
-        if (!empty($_POST ['date_book']) == "") {
+        if (!empty($request->date_book) == "") {
             try {
                 throw new InvalidArgumentException("Вы не выбрали даты!");
             } catch (InvalidArgumentException $e) {
@@ -148,36 +150,42 @@ class CalendarController extends Controller
                 return view('front')->with(['data' => $data, 'error' => $e->getMessage()]);
             }
         } else {
-            $d = DbController::GetScheduleTable();
+            $d = Schedule::all();
             $date_u = preg_replace("/\s+/", "", $_POST['date_book']);// удалили пробелы
             $date_u = explode("-", $date_u);
             $arr_date = DateController::getDates($date_u[0], $date_u[1]);
             $sum_night = count($arr_date) + 1;
-            $cost_arr = DateController::plusCost($sum_night);
+            $plusCost = DateController::plusCost($sum_night);
             $dat = [];
-            $dat[] = $date_u[0];
             $cost = [];
             foreach ($arr_date as $value) {
-                $dat [] = $value;
+                $dat [] = strtotime($value);
             }
-            $dat[] = $date_u[1];
+            $allDates = [];
+            foreach ($d as $value) {
+                $allDates[] = strtotime($value->date_book);
+            }
+            $dat[] = strtotime($date_u[1]);
             $date_view = [];
-            foreach ($d as $item) {
+            $sumCost = 0;
+            foreach ($dat as $item) {
                 // проверка есть ли в массиве, если да, то дастаём стоимости даты из массива $array_rooms
                 // Если выбранной даты нет в массиве, то отправляем сообщение, что админом не заполнена одна из дат.
-                $str_arr = $item['date_book'];
-                if (!empty(in_array($str_arr, $dat))/* && $item ['stat'] != 1*/) { // проверка есть ли в массиве
-                    $cumm_cost = $item['cost'] + $cost_arr;
-                    $date_view[] = $item ['date_book'] . "/" . $cumm_cost . " руб.";
-                    $cost[] = $item['cost'] + $cost_arr;
+                if (in_array($item, $dat)) { // проверка есть ли в массиве
+                    foreach ($d as $date) {
+                        if (strtotime($date->date_book) == $item) {
+                            $sumCost += $date->cost + $plusCost;
+                            $costDate = $date->cost + $plusCost;
+                            $date_view[] = $date->date_book . "/" . $costDate . " руб.";
+                        }
+                    }
                 } else {
                     return view('sorry.sorry');
                 }
             }
-            $sum = array_sum($cost);
             $data = $_POST;
-            $date_view[] = "<b>Итого: " . $sum_night . "ноч/ " . $sum . " руб.</b>";
-            return view('orders/order_info', ['data' => $data, 'date_view' => $date_view, 'sum' => $sum, 'sum_night' => $sum_night]);
+            $date_view[] = "<b>Итого: " . $sum_night . "ноч/ " . $sumCost . " руб.</b>";
+            return view('orders/order_info', ['data' => $data, 'date_view' => $date_view, 'sum' => $sumCost, 'sum_night' => $sum_night]);
 
         }
 

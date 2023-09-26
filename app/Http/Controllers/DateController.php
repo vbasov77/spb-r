@@ -68,6 +68,8 @@ class DateController extends Controller
         }
     }
 
+
+
     public static function setReportInTable(array $data, int $count_night, int $sum, string $month, $condition)
     {
         //Массив $data должен состоять из двух элементов - количество ночей и суммы, если таковые имеются в BD.
@@ -129,9 +131,9 @@ class DateController extends Controller
     public static function plusCost($sum_night)
     {
         if ($sum_night <= 1) {
-            $c = 830;
+            $c = 0;
         } elseif ($sum_night > 1 && $sum_night <= 30) {
-            $c = 300;
+            $c = 0;
         }  else ($c = 0);
         return $c;
 

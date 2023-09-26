@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\DeleteOrder;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -11,8 +12,6 @@ class DbController extends Controller
 {
     public static function createTableBooking($data)
     {
-
-
         DB::insert("INSERT INTO booking(name_user, phone_user, email_user, nationality, date_book, no_in, no_out, more_book, summ )
 VALUES (:name_user, :phone_user, :email_user, :nationality, :date_book, :no_in, :no_out,  :more_book, :summ)",
             ['name_user' => $data ['name_user'], 'phone_user' => $data ['phone_user'], 'email_user' => $data['email_user'], 'nationality' => $data['nationality'], 'date_book' => $data['date_book'], 'no_in' => $data['no_in'], 'no_out' => $data['no_out'], 'more_book' => $data['more_book'], 'summ' => $data['sum']]);
@@ -22,6 +21,13 @@ VALUES (:name_user, :phone_user, :email_user, :nationality, :date_book, :no_in, 
     {
         $result = DB::select("SELECT * FROM booking");
         $c = json_decode(json_encode($result), true);
+        return $c;
+    }
+    public static function GetScheduleTable()
+    {
+        $result = DB::select("SELECT * FROM schedule");
+        $c = json_decode(json_encode($result), true);
+
         return $c;
     }
 
@@ -86,13 +92,7 @@ VALUES (:date_book, :cost, :stat)",
     }
 
 
-    public static function GetScheduleTable()
-    {
-        $result = DB::select("SELECT * FROM schedule");
-        $c = json_decode(json_encode($result), true);
 
-        return $c;
-    }
 
 
     public static function updateOrder($data)

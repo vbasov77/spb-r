@@ -43,7 +43,7 @@ Route::post('/add_tourism', 'TourismController@addPushAndPav');
 
 
 Route::get('/front_settings', 'SettingsController@front')->middleware('admin');
-Route::post('/front_edit', 'SettingsController@front')->middleware('admin');
+Route::match(["get", "post"],'/front_edit', 'SettingsController@front')->middleware('admin');
 Route::get('/settings', 'SettingsController@view')->middleware('admin');
 
 Route::post('/q_result', 'QiwiController@result');
@@ -75,6 +75,8 @@ Route::post('/edit_schedule', 'ScheduleController@edit')->middleware('admin');
 Route::post('/add_schedule', 'ScheduleController@schedule')->middleware('admin');
 Route::get('/schedule/add', 'ScheduleController@add')->middleware('admin');
 Route::get('/schedule/edit', 'ScheduleController@viewEdit')->middleware('admin');
+Route::match(['get', 'post'], '/edit_schedule_mass', 'ScheduleController@updateDiaDates')->name('edit_schedule_mass')->middleware('admin');
+
 Route::get('/schedule/csv', 'ScheduleController@viewCsv')->middleware('admin');
 Route::post('/get_csv', 'ScheduleController@getCsv')->middleware('admin');
 Route::post('/update_csv', 'ScheduleController@updateCsv')->middleware('admin');

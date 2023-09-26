@@ -6,23 +6,17 @@
     <title>Квартира посуточно</title>
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
-    <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet"/>
-    <link
-            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-            rel="stylesheet"/>
     <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{{ asset('bootstrap/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
     <link href="{{ asset('css/hotel-datepicker.css') }}" rel="stylesheet">
     <script src="{{ asset('js/fecha.min.js') }}" defer></script>
     <script src="{{ asset('js/hotel-datepicker.min.js') }}" defer></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="{{ asset('jquery/jquery.min.js') }}" defer></script>
+    <script src="{{ asset('bootstrap/popper.min.js') }}" defer></script>
+    <script src="{{ asset('bootstrap/bootstrap.min.js') }}" defer></script>
 </head>
 <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
     <div class="container">
@@ -83,7 +77,8 @@
     </div>
 </nav>
 <body id="page-top">
-<!-- Navigation-->
+
+<script src="{{asset('js/preloader/preloader.js')}}"></script>
 <script>
     var datebook = @json($data ['date_book']);
 </script>
@@ -138,12 +133,14 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-lg-8">
                 <div class="body-front">
-                    <h2>от 900 руб.</h2>
-                    <p> от 30 дней - 900 руб <br>
-                        до 30 дней - 1100 руб<br>
-                        на 1 сутки не сдаётся<br>
+                    @php
+                    $firstMonth = explode(",", $dataSettings[0]);
+                    $secondMonth = explode(",", $dataSettings[1]);
+                    @endphp
 
-                    </p>
+                    {!! $firstMonth[0]   !!}- {!!$firstMonth[1]!!} руб / сут<br>
+                    {!! $secondMonth[0]   !!}- {!!$secondMonth[1]!!} руб / сут<br>
+                    от 4-х суток<br>
                 </div>
             </div>
         </div>
@@ -404,7 +401,7 @@
                             Александро-Невская лавра.
                             <em>Вторая станция</em>. <strong>Маяковская, Площадь Восстания</strong>: ТРЦ Галерея, БКЗ
                             Октябрьский.
-                            <em>Третья станция</em>.  <strong>Гостинный Двор</strong>: Казанский Собор, Спас на Крови,
+                            <em>Третья станция</em>. <strong>Гостинный Двор</strong>: Казанский Собор, Спас на Крови,
                             Гостинный Двор, Эрмитаж.
                         </div>
                         <hr class="d-none d-lg-block mb-0 me-0"/>
@@ -453,7 +450,7 @@
 <br>
 <!-- Footer-->
 <footer class="footer bg-black small text-center text-white-50">
-    <div class="container px-4 px-lg-5">Апартаменты посуточно &copy; 2022</div>
+    <div class="container px-4 px-lg-5">Апартаменты посуточно &copy; {{date('Y')}}</div>
 </footer>
 <script src="{{ asset('js/calendar.js') }}" defer></script>
 </body>

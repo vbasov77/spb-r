@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -54,6 +55,42 @@ class ScheduleController extends Controller
         return view('/schedule')->with(['date_book' => $date_book/*, 'no_in' => $no_in, 'no_out' => $no_out*/]);
     }
 
+    public function updateDiaDates(Request $request)
+    {
+
+        if ($request->isMethod('get')) {
+            // этот код выполнится, если используется метод GET
+            return view('schedule.edit_mass', ['message' => $request->message]);
+        }
+
+        if ($request->isMethod('post')) {
+            // этот код выполнится, если используется метод POST
+            $date = preg_replace("/\s+/", "", $request->date_book);// удалили пробелы
+            $date = explode("-", $date);
+            $arrDate = GetController::getDatesArray($date[0], $date[1]);
+            $str = self::getStrDates($arrDate);
+//            DB::select("update schedule set cost = " . $request->cost . " where date_book in (" . $str . ");");
+            Schedule::whereIn('date_book', $arrDate)->update(['cost' => $request->cost]);
+            return redirect()->action('ScheduleController@updateDiaDates', ['message' =>
+            "Цена (". $request->cost." руб) изменена с " . $date[0] . " по " . $date[1] . ", включительно."
+            ]);
+        }
+
+    }
+
+    public static function getStrDates(array $arrDate)
+    {
+        $count = count($arrDate);
+        $str = "";
+        for ($i = 0; $i < $count; $i++) {
+            if ($i + 1 != $count) {
+                $str = $str . '"' . $arrDate[$i] . '",';
+            } else {
+                $str = $str . '"' . $arrDate[$i] . '"';
+            }
+        }
+        return $str;
+    }
 
     public function schedule()
     {
@@ -215,12 +252,11 @@ class ScheduleController extends Controller
 
     public function viewCsv()
     {
-        if(empty($_GET)){
+        if (empty($_GET)) {
             $_GET ['message'] = false;
         }
-        return view('/schedule/view_csv', ['message'=>$_GET['message']]);
+        return view('/schedule/view_csv', ['message' => $_GET['message']]);
     }
-
 
 
     public function getCsv()
@@ -268,7 +304,7 @@ class ScheduleController extends Controller
                 DB::table('schedule')->where('id', (int)$value[0])->update(['cost' => $value[2]]);
             }
             fclose($res);
-            File::delete(public_path('files/'. $filename));
+            File::delete(public_path('files/' . $filename));
             $message = "Изменения сохранены";
 //            return back()->with(['message'=>$message]);
             return redirect()->action('ScheduleController@viewCsv', ['message' => $message]);

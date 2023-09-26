@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-
+    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
 
     <div class="container">
 
