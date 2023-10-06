@@ -4,11 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Schedule extends Model
+class FrontSetting extends Model
 {
-
-    protected $table = 'schedule';
+    protected $table = 'front_settings';
     public $timestamps = false;
-
-
 }

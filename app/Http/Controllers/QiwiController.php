@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Mail\PayQiwi;
 use App\Mail\SendAmount;
+use App\Services\BookingService;
+use App\Services\PayService;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -15,7 +17,9 @@ class QiwiController extends Controller
         $dat = file_get_contents("php://input");
         $data = json_decode($dat, 1);
         $id = $data ['bill']['comment'];
-        $res = DbController::GetBookingOrderId($id);
+
+        $bookingService = new BookingService();
+        $res = $bookingService->getBookingOrderId($id);
         $bill = $res [0] ['info_pay'];
         $bill_array = explode(';', $bill);
         $billId = $bill_array[1];
@@ -26,13 +30,14 @@ class QiwiController extends Controller
             $info[] = $billId;
             $info[] = $data ['bill']['amount']['value'];
             $info_pay = implode(';', $info);
-            DbController::updateBookInfoPayAndPay($id, $info_pay, $pay);
+            $payService = new PayService();
+            $payService->updateBookInfoPayAndPay($id, $info_pay, $pay);
         }
         $subject = 'Произведена оплата';
         $toEmail = "0120912@mail.ru";
         Mail::to($toEmail)->send(new PayQiwi($subject, $data));
         $subject2 = 'Произведена оплата';
-        $toEmail2 = $res [0] ['email_user'];
+        $toEmail2 = $res [0] ['email'];
         Mail::to($toEmail2)->send(new SendAmount($subject2, $data));
         Route::get('/clear', function () {
             Artisan::call('cache:clear');
@@ -42,9 +47,10 @@ class QiwiController extends Controller
         });
     }
 
-    public function verification($id)
+    public function verification(int $id)
     {
-        $res = DbController::GetBookingOrderId($id);
+        $bookingService = new BookingService();
+        $res = $bookingService->getBookingOrderId($id);
         if (!empty($res)) {
             if (!empty($res [0]['info_pay']) == 0) {
                 $billId = sha1(random_bytes(20));
@@ -52,15 +58,20 @@ class QiwiController extends Controller
                 $pay[] = 0;
                 $pay[] = $billId;
                 $info_pay = implode(';', $pay); //Создали строку из массива
-                DbController::updateBookInfoPay($id, $info_pay);
-                $data = DbController::GetBookingOrderId($id);
-                $c_pay = $data [0]['summ'] * (20 / 100);
+                $payService = new PayService();
+
+                $payService->updateBookInfoPay($id, $info_pay);
+
+                $bookingService = new BookingService();
+                $data = $bookingService->getBookingOrderId($id);
+
+                $c_pay = $data [0]['total'] * (20 / 100);
                 return view('/qiwi/q_pay')->with(['data' => $data, 'c_pay' => $c_pay, 'billId' => $billId]);
             } else {
                 $bill = $res [0] ['info_pay'];
                 $bill_array = explode(';', $bill);
                 $billId = $bill_array [1];
-                $c_pay = $res [0]['summ'] * (20 / 100);
+                $c_pay = $res [0]['total'] * (20 / 100);
                 return view('/qiwi/q_pay')->with(['data' => $res, 'c_pay' => $c_pay, 'billId' => $billId]);
             }
         }

@@ -5,60 +5,55 @@
 
         <h3>Проверкае данных:</h3><br>
 
-        Id: <?= $res [0] ['id'] ?> <br>
-        Даты: <?= $res [0] ['no_in'] . ' - ' . $res [0] ['no_out']?> <br>
-        ФИО: <?= $res [0] ['name_user'] ?> <br>
-        Телефон: <?= $res [0] ['phone_user'] ?> <br>
-        Email: <?= $res [0] ['email_user'] ?> <br>
-        Сумма: <?= $res [0] ['summ'] ?> <br>
-        Статус: <?php if (!empty($res[0]['pay'] == 0)): ?>
-        Не оплачен<br>
-        <? else: ?>
-        Оплачен<br>
-        <?
-        $os = explode(';', $res [0] ['info_pay']);
-        $ost = $res [0]['summ'] - $os[2];
-        ?>
-        Остаток: <?= $ost;?> руб.<br>
-        <?php endif;?>
-        Ночей: <?= $nights?><br>
+        Id: {!!$res->id!!}<br>
+        Даты: {!! $res->no_in . ' - ' . $res->no_out!!} <br>
+        ФИО: {!! $res->user_name !!} <br>
+        Телефон: {!! $res->phone !!} <br>
+        Email: {!! $res->email !!} <br>
+        Сумма: {!! $res->total !!} <br>
+        Статус: @if (!empty($res->pay == 0))
+            Не оплачен<br>
+        @else:
+            Оплачен<br>
+            @php
+                $os = explode(';', $res->info_pay);
+                $ost = $res->total - $os[2];
+            @endphp
+            Остаток: {!! $ost;!!} руб.<br>
+        @endif
+        Ночей: {!! $nights!!}<br>
         <br>
         Гости:<br>
-        <?php foreach ($user_info as $item): ?>
-        <div>
-            <?= $item ?> <br>
-        </div>
-        <?php endforeach; ?>
+        @foreach ($userInfo as $item)
+            <div>
+                {!! $item !!} <br>
+            </div>
+        @endforeach
         <br>
 
-        @if (!empty($res [0] ['more_book']))
-            <?php
-            $info = explode(',', $res [0] ['more_book']);
-            ?>
-
+        @if (!empty(count($info)))
             @foreach($info as $item)
-                <?= $item;?><br>
-
+                {!! $item!!}<br>
             @endforeach
         @endif
         <br>
         <br>
-        @if($res [0]['confirmed'] == 0)<br>
+        @if($res ->confirmed == 0)<br>
         <div>
 
             <a onClick="return confirm('Подтвердите подтверждение!')" style="margin: 5px"
-               href='/order/{{$res [0] ['id']}}/confirm' type='button'
+               href='{{route('order.confirm', ['id'=>$res->id])}}' type='button'
                class="btn btn-outline-success btn-sm">Подтвердить</a>
 
             <a onClick="return confirm('Подтвердите отклонение!')" style="margin: 5px"
-               href='/order/<?= $res [0] ['id'] ?>/reject' type='button'
+               href='{{route('reject', ['id'=>$res->id])}}' type='button'
                class="btn btn-outline-secondary btn-sm">Отклонить</a>
 
         </div>
         @endif
         @if($res [0]['confirmed'] == 1)
             <button class="btn btn-outline-success btn-sm"
-                    onclick="window.location.href = '/order/<?= $res [0] ['id'] ?>/to_pay';">
+                    onclick="window.location.href = '{{route('order.to_pay', ['id'=>$res->id])}}';">
                 Внести
             </button>
         @endif

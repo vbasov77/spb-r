@@ -7,6 +7,6 @@
 Дата: <?= $data ['date_tour']?><br>
 Время: <?= $data ['time_tour']?><br>
 <br>
-Итого: <?= $data ['summ']?> руб<br>
+Итого: <?= $data ['total']?> руб<br>
 <br>
 

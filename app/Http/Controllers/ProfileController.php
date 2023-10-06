@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\BookingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,15 +11,12 @@ class ProfileController extends Controller
     public function view()
     {
         if (Auth::check()) {
-
-            $email_user = Auth::user()->email;
-            $book = DbController::getBookingForEmail($email_user);
-           
+            $userEmail = Auth::user()->email;
+            $bookingService = new BookingService();
+            $book = $bookingService->findByEmail($userEmail);
             $data = [
                 'book' => $book,
             ];
-
-//           var_dump($book);
             return view('profile', ['data'=>$data]);
         } else {
             return redirect()->route('login');

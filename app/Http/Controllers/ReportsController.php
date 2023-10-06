@@ -4,14 +4,20 @@ namespace App\Http\Controllers;
 
 
 
+use App\Services\BookingService;
+use App\Services\ReportService;
+
 class ReportsController extends Controller
 {
     public function view()
     {
-        $date_b = DateController::getBookingDates();
-        $count_night = GetController::getCountNight();
-        $sum = GetController::getSum();
-        return view('reports.reports_obj', ['sum'=> $sum, 'count_night'=> $count_night, 'date_book' => $date_b ['date_book']]);
+        $reportService = new ReportService();
+        $bookingService = new BookingService();
+
+        $dateBook = $bookingService->getBookingDates();
+        $countNight = $reportService->getCountNight();
+        $sum = $reportService->getSum();
+        return view('reports.reports_obj', ['sum'=> $sum, 'count_night'=> $countNight, 'date_book' => $dateBook ['date_book']]);
     }
 
 

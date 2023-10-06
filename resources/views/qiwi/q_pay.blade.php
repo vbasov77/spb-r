@@ -17,8 +17,8 @@
                    class="form-control"   readonly="readonly"/><br>
 
 
-            <label for="summ"><b>Сумма:</b></label><br>
-            <input name="summ" value="<?= $data [0] ['summ'] ?> руб."  class="form-control" readonly="readonly"/><br>
+            <label for="total"><b>Сумма:</b></label><br>
+            <input name="total" value="<?= $data [0] ['total'] ?> руб."  class="form-control" readonly="readonly"/><br>
 
 
             <label for="amount"><b>20% к предоплате:</b></label><br>
