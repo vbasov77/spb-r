@@ -23,7 +23,7 @@ class ScheduleRepository extends Repository
 
     public function findByDatesBook(string $str)
     {
-        return DB::select("select cost from schedule where $str");
+        return DB::select("select id, date_book, cost from schedule where $str");
     }
 
     public function createSchedule(string $datesBook)
@@ -31,6 +31,22 @@ class ScheduleRepository extends Repository
         DB::select("insert into schedule(date_book, cost)
 values $datesBook");
 
+    }
+
+    public function update(array $dates, int $cost)
+    {
+        Schedule::whereIn('date_book', $dates)->update(['cost' => $cost]);
+    }
+
+    public function updateCost(string $str)
+    {
+        DB::select("UPDATE schedule SET cost = CASE
+   $str ELSE cost END");
+    }
+
+    public function deleteByIds($str)
+    {
+        DB::select("DELETE FROM schedule where $str");
     }
 
 }

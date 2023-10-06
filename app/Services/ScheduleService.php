@@ -6,6 +6,8 @@ namespace App\Services;
 
 use App\Models\Schedule;
 use App\Repositories\ScheduleRepository;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\DocBlock\Serializer;
 
 class ScheduleService extends Serializer
@@ -23,9 +25,24 @@ class ScheduleService extends Serializer
         return $scheduleRepo->findByDatesBook($str);
     }
 
-    public function getScheduleStr(){
+    public function updateScheduleCost(string $str)
+    {
         $scheduleRepo = new ScheduleRepository();
-        $schedules =$scheduleRepo->findAll();
+        $scheduleRepo->updateCost($str);
+    }
+
+
+    public function update(array $dates, int $cost)
+    {
+        $scheduleRepo = new ScheduleRepository();
+        $scheduleRepo->update($dates, $cost);
+
+    }
+
+    public function getScheduleStr()
+    {
+        $scheduleRepo = new ScheduleRepository();
+        $schedules = $scheduleRepo->findAll();
 
         if (!empty(count($schedules))) {
             $dateBook = [];
@@ -45,10 +62,21 @@ class ScheduleService extends Serializer
         $str = "";
         $count = count($bookingDatesArray);
         for ($i = 0; $i < $count; $i++) {
-            $i != $count-1 ? $str .= "('$bookingDatesArray[$i]', $cost), "
+            $i != $count - 1 ? $str .= "('$bookingDatesArray[$i]', $cost), "
                 : $str .= "('$bookingDatesArray[$i]', $cost)";
         }
         return $str;
+    }
+
+    public function getStrUpdateSchedules(Request $request)
+    {
+        $str = "";
+        $count = count($request->cost);
+        for ($i = 0; $i < $count; $i++) {
+            $str .= "WHEN id = " . $request->id[$i] . " THEN " . $request->cost[$i] . " ";
+        }
+        return $str;
+
     }
 
     public function createSchedule(string $datesBook)
@@ -63,12 +91,36 @@ class ScheduleService extends Serializer
         return $scheduleRepo->findAll();
     }
 
+    public function updateSchedule(Request $request)
+    {
+        $datesService = new DateService();
+        $scheduleService = new ScheduleService();
+        $scheduleRepo = new ScheduleRepository();
+
+        $q = preg_replace("/\s+/", "", $request->date_book);// Удалили пробелы
+        $dates = explode('-', $q); // Создали массив дат
+
+        $arrayDates = $datesService->getDates($dates[0], $dates[1], 0);
+        $datesStr = $scheduleService->getStrInDb($arrayDates);
+
+        return $scheduleRepo->findByDatesBook($datesStr);
+
+
+    }
+
     public function findAllById(string $str)
     {
         $scheduleRepo = new ScheduleRepository();
         return $scheduleRepo->findAllById($str);
     }
 
+    /**
+     *
+     * Получение строки для запроса в БД
+     * Вид :
+     * @param array $dates
+     * @return string
+     */
     public function getStrInDb(array $dates)
     {
         $str = "date_book = '$dates[0]'";
@@ -86,19 +138,31 @@ class ScheduleService extends Serializer
     }
 
 
-    // Задание. Поработать над методом, чтобы удалялось за один запрос....
     public function delSchedule()
     {
+        $scheduleRepo = new ScheduleRepository();
+
         $date = date('d.m.Y');
-        $schedules = Schedule::all();
+        $schedules = $scheduleRepo->findAll();
         $count = 0;
+        $str = "";
+
         foreach ($schedules as $schedule) {
             if (strtotime($schedule->date_book) < strtotime($date)) {
-                Schedule::where('id', $schedule->id)->delete();
-                $count += 1;
+                if ($count == 0) {
+                    $str .= "id = $schedule->id ";
+                    $count += 1;
+                } else {
+                    $str .= " or id = $schedule->id ";
+                    $count += 1;
+                }
             }
         }
-        return view('messages.del_schedule', ['count' => $count]);
+
+        $count > 0 ? $scheduleRepo->deleteByIds($str) : false;
+
+        return $count;
+
     }
 
 

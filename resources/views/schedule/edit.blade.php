@@ -1,26 +1,19 @@
 @extends('layouts.app')
 @section('content')
 
-
-{{--    <script>--}}
-{{--        var datebook = @json($date_book);--}}
-
-{{--    </script>--}}
-
     <section class="about-section text-center" id="about">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8">
                     <h2>Редактировать</h2>
-                    <form action="/edit_schedule" method="post">
+                    <h3> Изменить расписание </h3>
+                    <form action="{{route('schedule.edit')}}" method="post">
                         @csrf
-
-                        <h3> Изменить расписание </h3>
                         <br>
                         <h3> Выбор дат </h3><br>
                         <div class="size">
                             <label for="date_book"><b>Выберете даты, которые нужно изменить:</b></label>
-                            <input  id="input-id" name="date_book" type="text" class="form-control"
+                            <input id="input-id" name="date_book" type="text" class="form-control"
                                    placeholder="Нажмите для выбора даты" autocomplete="off" required>
                         </div>
 

@@ -26,6 +26,19 @@ class DateService extends Serializer
         return $days;
     }
 
+    public function getStrDates(array $arrDate)
+    {
+        $count = count($arrDate);
+        $str = "";
+        for ($i = 0; $i < $count; $i++) {
+            if ($i + 1 != $count) {
+                $str = $str . '"' . $arrDate[$i] . '",';
+            } else {
+                $str = $str . '"' . $arrDate[$i] . '"';
+            }
+        }
+        return $str;
+    }
 
     public function getCountNight(string $startTimeStamp, string $endTimeStamp)
     {

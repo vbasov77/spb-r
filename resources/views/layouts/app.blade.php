@@ -19,7 +19,7 @@
     <!-- Font Awesome icons (free version)-->
 {{--    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>--}}
 
-    <!-- Fonts -->
+<!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <!-- Font Awesome icons (free version)-->
@@ -54,7 +54,6 @@
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">
                 MIETEN.RU
-                {{--                    {{ config('app.name', 'Laravel') }}--}}
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -88,20 +87,18 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{route('settings')}}">Настройки</a>
                                 @if(Auth::user()->isAdmin())
-                                    <a class="dropdown-item" href="/orders">Заказы</a>
+                                    <a class="dropdown-item" href="{{route('orders')}}">Заказы</a>
                                     <a class="dropdown-item" href="{{route('reports')}}">Отчёты</a>
-                                    <a class="dropdown-item" href="/schedule">Расписание</a>
-                                    <a class="dropdown-item" href="/settings">Настройки</a>
                                     <a class="dropdown-item" href="{{route('del.schedule')}}">Очистить базу</a>
                                 @endif
-                                <a class="dropdown-item" href="/profile">Профиль</a>
+                                <a class="dropdown-item" href="{{route('profile')}}">Профиль</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
-
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>
@@ -112,29 +109,32 @@
             </div>
         </div>
     </nav>
-    <?php if (!empty($error)): ?>
-    <div style="background-color: red; color:#ffffff; padding: 5px;margin: 15px">
-        <center> <?= $error ?></center>
-    </div>
-    <?php endif; ?>
-    <?php if (!empty($message)): ?>
-    <div style="background-color: #43b143; color:#ffffff; padding: 5px;margin: 15px">
-        <center> <?= $message ?></center>
-    </div>
-    <?php endif; ?>
+
+    @if (!empty($error))
+        <div style="background-color: red; color:#ffffff; padding: 5px;margin: 15px">
+            <center> {{$error}}</center>
+        </div>
+    @endif
+
+    @if (!empty($message))
+        <div style="background-color: #43b143; color:#ffffff; padding: 5px;margin: 15px">
+            <center> {{$message}}</center>
+        </div>
+    @endif
 
     <center>
         <main class="py-4">
-
-
             @yield('content')
         </main>
     </center>
 </div>
+
 @stack('scripts')
+
 <!-- Footer-->
 <footer class="footer bg-black small text-center text-white-50">
     <div class="container px-4 px-lg-5">Апартаменты посуточно &copy; {{date('Y')}}</div>
 </footer>
+
 </body>
 </html>

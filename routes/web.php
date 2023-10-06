@@ -28,7 +28,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/error_book', 'CalendarController@comeErrorBlade')->name('error.book');
 
 Route::get('/reports', 'ReportsController@view')->name('reports')->middleware('admin');
-Route::get('/del_schedule', 'ScheduleService@delSchedule')->name('del.schedule')->middleware('admin');
+Route::get('/del_schedule', 'ScheduleController@delSchedule')->name('del.schedule')->middleware('admin');
 
 Route::get('/push&pav', 'TourismController@PushAndPav');
 Route::post('/book_tourism', 'TourismController@PushAndPavBook');
@@ -37,7 +37,7 @@ Route::post('/add_tourism', 'TourismController@addPushAndPav');
 
 Route::get('/front_settings', 'SettingsController@front')->middleware('admin');
 Route::match(["get", "post"],'/front_edit', 'SettingsController@front')->middleware('admin');
-Route::get('/settings', 'SettingsController@view')->middleware('admin');
+Route::get('/settings', 'SettingsController@view')->name('settings')->middleware('admin');
 
 Route::post('/q_result', 'QiwiController@result');
 Route::post('/q_pay', 'QiwiController@pay');
@@ -45,7 +45,7 @@ Route::get('/q_success', 'QiwiController@success');
 Route::get('/q_pay/{id}/pay', 'QiwiController@verification');
 
 
-Route::get('/profile', 'ProfileController@view');
+Route::get('/profile', 'ProfileController@view')->name('profile');
 Route::post('/verification', 'ScheduleController@verification');
 Route::post('/add_booking', 'CalendarController@addBooking')->name("add.booking");
 
@@ -63,10 +63,9 @@ Route::get('/ord/{id}/delete', 'OrderController@deleteProf');
 Route::get('/order/{id}/to_pay', 'OrderController@toPayView')->name('order.to_pay')->middleware('admin');
 Route::post('/to_pay', 'OrderController@toPay')->middleware('admin');
 
-Route::post('/edit_table', 'ScheduleController@editTable')->middleware('admin');
-Route::post('/edit_schedule', 'ScheduleController@edit')->middleware('admin');
+Route::post('/edit_table', 'ScheduleController@editScheduleCost')->name('edit.table')->middleware('admin');
+Route::match(['get', 'post'],'/schedule_edit', 'ScheduleController@edit')->name('schedule.edit')->middleware('admin');
 Route::match(['get', 'post'],'/schedule_add', 'ScheduleController@add')->name('schedule.add')->middleware('admin');
-Route::get('/schedule/edit', 'ScheduleController@viewEdit')->name('schedule.edit')->middleware('admin');
 Route::match(['get', 'post'], '/edit_schedule_mass', 'ScheduleController@updateDiaDates')->name('edit_schedule_mass')->middleware('admin');
 
 Route::get('/schedule/csv', 'ScheduleController@viewCsv')->middleware('admin');

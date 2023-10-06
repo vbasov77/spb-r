@@ -54,13 +54,13 @@
                             {{ Auth::user()->name }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/settings">Настройки</a>
+                            <a class="dropdown-item" href="{{route('settings')}}">Настройки</a>
                             @if(Auth::user()->isAdmin())
-                                <a class="dropdown-item" href="/orders">Заказы</a>
-                                <a class="dropdown-item" href="/schedule">Расписание</a>
+                                <a class="dropdown-item" href="{{route('orders')}}">Заказы</a>
                                 <a class="dropdown-item" href="{{route('reports')}}">Отчёты</a>
+                                <a class="dropdown-item" href="{{route('del.schedule')}}">Очистить базу</a>
                             @endif
-                            <a class="dropdown-item" href="/profile">Профиль</a>
+                            <a class="dropdown-item" href="{{route('profile')}}">Профиль</a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -78,20 +78,17 @@
 </nav>
 <body id="page-top">
 
-<script src="{{asset('js/preloader/preloader.js')}}"></script>
-<script>
-    var datebook = @json($data ['date_book']);
-</script>
-<?php if (!empty($error)): ?>
-<div style="background-color: red; color:#ffffff; padding: 5px;margin: 15px">
-    <center> <?= $error ?></center>
-</div>
-<?php endif; ?>
-<?php if (!empty($message)): ?>
-<div style="background-color: #43b143; color:#ffffff; padding: 5px;margin: 15px">
-    <center> <?= $message ?></center>
-</div>
-<?php endif; ?>
+@if (!empty($error))
+    <div style="background-color: red; color:#ffffff; padding: 5px;margin: 15px">
+        <center> {{$error}}</center>
+    </div>
+@endif
+
+@if (!empty($message))
+    <div style="background-color: #43b143; color:#ffffff; padding: 5px;margin: 15px">
+        <center> {{$message}}</center>
+    </div>
+@endif
 
 <style>
     /* Make the image fully responsive */
@@ -134,8 +131,8 @@
             <div class="col-lg-8">
                 <div class="body-front">
                     @php
-                    $firstMonth = explode(",", $dataSettings[0]);
-                    $secondMonth = explode(",", $dataSettings[1]);
+                        $firstMonth = explode(",", $dataSettings[0]);
+                        $secondMonth = explode(",", $dataSettings[1]);
                     @endphp
 
                     {!! $firstMonth[0]   !!}- {!!$firstMonth[1]!!} руб / сут<br>
@@ -453,6 +450,11 @@
 <footer class="footer bg-black small text-center text-white-50">
     <div class="container px-4 px-lg-5">Апартаменты посуточно &copy; {{date('Y')}}</div>
 </footer>
+
+<script src="{{asset('js/preloader/preloader.js')}}"></script>
+<script>
+    var datebook = @json($data ['date_book']);
+</script>
 <script src="{{ asset('js/buttons/close_button.js') }}" defer></script>
 <script src="{{ asset('js/close/close.js') }}" defer></script>
 <script src="{{ asset('js/calendar.js') }}" defer></script>
