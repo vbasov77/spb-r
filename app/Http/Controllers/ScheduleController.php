@@ -63,48 +63,41 @@ class ScheduleController extends Controller
 
     public function schedule(Request $request)
     {
+
+
+    }
+
+    public function add(Request $request)
+    {
         $dateService = new DateService();
         $scheduleService = new ScheduleService();
 
+        if ($request->isMethod('get')) {
 
-        $booking = $dateService->getDatesBook($request->date_book);
+            $dateBook = $scheduleService->getScheduleStr();
 
-        // Получим промежуточные даты
-        $bookingDatesArray = $dateService->getDates($booking['startDate'], $booking['endDate'], 0);
-        $cost = $request->cost;
-
-        //Получим строку для массового добавления  расписания в БД за один раз
-        $str = $scheduleService->getStrInsertschedule($bookingDatesArray, $cost);
-
-        // Запись расписания
-        $scheduleService->createSchedule($str);
-
-        return redirect()->action('ScheduleController@view');
-
-    }
-
-    public function add()
-    {
-        $sh = DB::table('schedule')->get();
-        if (!empty($sh)) {
-            $result = json_decode(json_encode($sh), true);
-
-            $date_b = [];
-            foreach ($result as $res) {
-                $date_b[] = $res['date_book'];
-            }
-            $dis = [];
-            foreach ($date_b as $item) {
-                $dis[] = date("Y-m-d", strtotime($item));
-            }
-            $date_book = implode(',', $dis);
-//            var_dump($date_book);
-//            return;
-        } else {
-            $date_book = "";
+            return view('schedule.schedule')->with(['dateBook' => $dateBook]);
         }
-        return view('schedule/schedule')->with(['date_book' => $date_book]);
+        if ($request->isMethod('post')) {
+            // этот код выполнится, если используется метод POST
+
+
+            $booking = $dateService->getDatesBook($request->date_book);
+
+            // Получим промежуточные даты
+            $bookingDatesArray = $dateService->getDates($booking['startDate'], $booking['endDate'], 0);
+            $cost = $request->cost;
+
+            //Получим строку для массового добавления  расписания в БД за один раз
+            $str = $scheduleService->getStrInsertschedule($bookingDatesArray, $cost);
+
+            // Запись расписания
+            $scheduleService->createSchedule($str);
+
+            return redirect()->action('ScheduleController@view');
+        }
     }
+
 
     public function viewEdit()
     {
@@ -174,66 +167,4 @@ class ScheduleController extends Controller
         return redirect()->action('SettingsController@view', ['message' => $message]);
     }
 
-
-    public function viewCsv()
-    {
-        if (empty($_GET)) {
-            $_GET ['message'] = false;
-        }
-        return view('/schedule/view_csv', ['message' => $_GET['message']]);
-    }
-
-
-    public function getCsv()
-    {
-        $res = DB::table('schedule')->get();
-        $result = json_decode(json_encode($res), true);
-        $d = $_POST ['date_book'];
-        $d = preg_replace("/\s+/", "", $d);// удалили пробелы
-        $dd = explode("-", $d);// Преобразовали в массив
-        $startTime = $dd[0];
-        $endTime = $dd[1];
-        $date_b = DateController::getDates($startTime, $endTime, 1);// Получили промежуточные даты
-        $arr_book = [];
-        $arr_book [] = $startTime;
-        foreach ($date_b as $b) {
-            $arr_book [] = $b;
-        }
-        $arr_book [] = $endTime;
-        $data = [];
-        foreach ($result as $item) {
-            if (!empty(in_array($item['date_book'], $arr_book))) {
-                $data[] = $item;
-            }
-        }
-        $srcFile = date("Y-m-d-H-i-s"); //Получили для имени нового файла
-        $srcFileNameCsv = $srcFile . ".csv"; //Добавили расширение для нового файла
-        $fpl = fopen(__DIR__ . "/../../../public/files/" . $srcFileNameCsv, "w"); //Открыли новый файл для записи
-        if (!empty($data)) {
-            foreach ($data as $value) {
-                fwrite($fpl, $value['id'] . ";" . $value['date_book'] . ";" . $value['cost'] . PHP_EOL);
-            }
-        }
-        fclose($fpl);
-        return response()->download(public_path('files/' . $srcFileNameCsv));
-    }
-
-    public function updateCSV(Request $request)
-    {
-        if ($request->isMethod('post') && $request->file('file')) {
-            $file = $request->file('file');
-            $filename = date("Y-m-d-H-i-s") . ".csv";
-            $file->move(public_path('files'), $filename);
-            $res = fopen(__DIR__ . '/../../../public/files/' . $filename, 'r');
-            while (($value = fgetcsv($res, 0, ';')) !== false) {
-                DB::table('schedule')->where('id', (int)$value[0])->update(['cost' => $value[2]]);
-            }
-            fclose($res);
-            File::delete(public_path('files/' . $filename));
-            $message = "Изменения сохранены";
-//            return back()->with(['message'=>$message]);
-            return redirect()->action('ScheduleController@viewCsv', ['message' => $message]);
-
-        }
-    }
 }

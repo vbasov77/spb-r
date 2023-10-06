@@ -65,9 +65,8 @@ Route::post('/to_pay', 'OrderController@toPay')->middleware('admin');
 
 Route::post('/edit_table', 'ScheduleController@editTable')->middleware('admin');
 Route::post('/edit_schedule', 'ScheduleController@edit')->middleware('admin');
-Route::post('/add_schedule', 'ScheduleController@schedule')->name("add.schedule")->middleware('admin');
-Route::get('/schedule/add', 'ScheduleController@add')->middleware('admin');
-Route::get('/schedule/edit', 'ScheduleController@viewEdit')->middleware('admin');
+Route::match(['get', 'post'],'/schedule_add', 'ScheduleController@add')->name('schedule.add')->middleware('admin');
+Route::get('/schedule/edit', 'ScheduleController@viewEdit')->name('schedule.edit')->middleware('admin');
 Route::match(['get', 'post'], '/edit_schedule_mass', 'ScheduleController@updateDiaDates')->name('edit_schedule_mass')->middleware('admin');
 
 Route::get('/schedule/csv', 'ScheduleController@viewCsv')->middleware('admin');

@@ -23,6 +23,23 @@ class ScheduleService extends Serializer
         return $scheduleRepo->findByDatesBook($str);
     }
 
+    public function getScheduleStr(){
+        $scheduleRepo = new ScheduleRepository();
+        $schedules =$scheduleRepo->findAll();
+
+        if (!empty(count($schedules))) {
+            $dateBook = [];
+            foreach ($schedules as $schedule) {
+                $dateBook[] = date("Y-m-d", strtotime($schedule->date_book));
+            }
+
+            $dateBook = implode(',', $dateBook);
+        } else {
+            $dateBook = "";
+        }
+        return $dateBook;
+    }
+
     public function getStrInsertSchedule(array $bookingDatesArray, int $cost)
     {
         $str = "";

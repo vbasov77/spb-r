@@ -14,20 +14,16 @@
                             <h5 class="card-title">Редактировать расписание календаря</h5>
                             <div class="card-footer">
                                 <button class="btn btn-success btn-sm" style="color: white; margin-top: 25px"
-                                        onclick="window.location.href = '/schedule/add';">
+                                        onclick="window.location.href = '{{route('schedule.add')}}';">
                                     Добавить
                                 </button>
                                 <button class="btn btn-info btn-sm" style="color: white; margin-top: 25px"
-                                        onclick="window.location.href = '/schedule/edit';">
+                                        onclick="window.location.href = '{{route('schedule.edit')}}';">
                                     Изменить единично
                                 </button>
                                 <button class="btn btn-info btn-sm" style="color: white; margin-top: 25px"
                                         onclick="window.location.href =  '{{ route('edit_schedule_mass')}}';">
                                     Изменить массово
-                                </button>
-                                <button class="btn btn-success btn-sm" style="color: white; margin-top: 25px"
-                                        onclick="window.location.href = '/schedule/csv';">
-                                    .CSV
                                 </button>
                             </div>
                         </div>
