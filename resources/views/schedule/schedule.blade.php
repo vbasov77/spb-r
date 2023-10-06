@@ -2,7 +2,7 @@
 @section('content')
 
     <div class="container mt-5 mb-5">
-        <form action="/add_schedule" method="post">
+        <form action="{{route('schedule.add')}}" method="post">
             @csrf
             <h3> Создать расписание </h3>
             <br>
