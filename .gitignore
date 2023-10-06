@@ -1,5 +1,6 @@
 /node_modules
-/public
+/public/images
+/public/img
 /storage
 /vendor
 app.zip
