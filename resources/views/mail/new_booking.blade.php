@@ -3,7 +3,7 @@ mieten.ru<br>
 <br>
 Даты: {{$data['in'] . ' - ' . $data ['out']}}<br>
 <br>
-Забронировал: {{$data['name_user']}}<br>
+Забронировал: {{$data['user_name']}}<br>
 <br>
 <a href="{{$data['url']}}/order/{{$data['id']}}/verification">Перейти</a>
 

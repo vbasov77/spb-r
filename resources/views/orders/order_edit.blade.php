@@ -37,28 +37,28 @@
                         </div>
 
                         <div class="border_none">
-                            <label for="name_user"><b>ФИО:</b></label><br>
+                            <label for="user_name"><b>ФИО:</b></label><br>
 
-                            <input class="form-control" value="<?= $order[0]['name_user'] ?>" type="text"
-                                   name="name_user"
+                            <input class="form-control" value="<?= $order[0]['user_name'] ?>" type="text"
+                                   name="user_name"
                                    method="post"><br>
 
                         </div>
 
                         <div class="border_none">
-                            <label for="phone_user"><b>Телефон:</b></label><br>
+                            <label for="phone"><b>Телефон:</b></label><br>
 
-                            <input class="tel" value="<?= $order[0]['phone_user'] ?>" type="text"
-                                   name="phone_user"
+                            <input class="tel" value="<?= $order[0]['phone'] ?>" type="text"
+                                   name="phone"
                                    method="post"><br>
 
                         </div>
 
                         <div class="border_none">
-                            <label for="email_user"><b>Email:</b></label><br>
+                            <label for="email"><b>Email:</b></label><br>
 
-                            <input class="form-control" value="<?= $order[0]['email_user'] ?>" type="text"
-                                   name="email_user"
+                            <input class="form-control" value="<?= $order[0]['email'] ?>" type="text"
+                                   name="email"
                                    method="post"><br>
 
                         </div>
@@ -75,10 +75,10 @@
 
 
                         <div class="border_none">
-                            <label for="summ"><b>Сумма:</b></label><br>
+                            <label for="total"><b>Сумма:</b></label><br>
 
-                            <input class="form-control" value="<?= $order[0]['summ'] ?>" type="text"
-                                   name="summ"
+                            <input class="form-control" value="<?= $order[0]['total'] ?>" type="text"
+                                   name="total"
                                    method="post"><br>
 
                         </div>

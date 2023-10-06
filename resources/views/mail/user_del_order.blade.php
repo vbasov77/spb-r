@@ -1,17 +1,17 @@
-Здравствуйте, <b>{{$data['name_user']}}</b>!<br><br>
+Здравствуйте, <b>{{$data['user_name']}}</b>!<br><br>
 
 Нам очень жаль, что вы удалили бронирование :((<br>
 Если вы вносили задаток, к сожалению, он не возвращается...<br>
 <br>
 
 <b>Данные бронирования:</b><br>
-Номер заказа: {{ $data['name_user']}}<br>
+Номер заказа: {{ $data['user_name']}}<br>
 {{$data['id_book']}}<br>
-{{$data['phone_user']}}<br>
-{{$data['email_user']}}<br>
+{{$data['phone']}}<br>
+{{$data['email']}}<br>
 {{$data['no_in']}} - {{$data['no_out']}}<br>
 {{$data['user_info']}}<br>
-{{$data['summ']}} руб.<br>
+{{$data['total']}} руб.<br>
 
 <br>
 <br>

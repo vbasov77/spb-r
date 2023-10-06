@@ -25,16 +25,16 @@ class TourismController extends Controller
 
         if (Auth::check()) {
             $data = [
-                'email_user' => Auth::user()->email,
-                'name_user' => Auth::user()->name,
+                'email' => Auth::user()->email,
+                'user_name' => Auth::user()->name,
                 'date_tour' => $_POST['el'],
-                'phone_user' => Auth::user()->phone_user,
-                'summ' => 2500,
+                'phone' => Auth::user()->phone,
+                'total' => 2500,
             ];
         } else {
             $data = [
                 'date_tour' => $_POST['el'],
-                'summ' => 2500,
+                'total' => 2500,
             ];
         }
         return view('tourism/add_info', ['data' => $data]);
@@ -43,14 +43,14 @@ class TourismController extends Controller
     public function addPushAndPav()
     {
         DB::table('tour')->insert([
-            'name_user' => $_POST['name_user'],
-            'phone_user' => $_POST['phone_user'],
-            'email_user' => $_POST['email_user'],
+            'user_name' => $_POST['user_name'],
+            'phone' => $_POST['phone'],
+            'email' => $_POST['email'],
             'name_tour' => $_POST['name_tour'],
             'date_tour' => $_POST['date_tour'],
             'time_tour' => $_POST['time_tour'],
             'guests' => $_POST['guests'],
-            'summ' => $_POST['summ'],
+            'total' => $_POST['total'],
 
         ]);
         $users = DB::table('users')->get();
@@ -59,23 +59,23 @@ class TourismController extends Controller
         foreach ($u as $value) {
             $users_email [] = $value ['email'];
         }
-        $email = $_POST['email_user'];
+        $email = $_POST['email'];
         if (empty(in_array($email, $users_email))) {
             $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
             $password = substr(str_shuffle($permitted_chars), 0, 16);
             DB::table('users')->insert([
-                'name' => $_POST['name_user'],
-                'email' => $_POST ['email_user'],
-                'phone_user' => $_POST ['phone_user'],
+                'name' => $_POST['user_name'],
+                'email' => $_POST ['email'],
+                'phone' => $_POST ['phone'],
                 'password' => Hash::make($password),
             ]);
             $params = [
-                'name_user' => $_POST['name_user'],
-                'email_user' => $_POST ['email_user'],
+                'user_name' => $_POST['user_name'],
+                'email' => $_POST ['email'],
                 'password' => $password,
             ];
             $subject2 = 'Регистрация на сайте';
-            $toEmail2 = $_POST['email_user'];
+            $toEmail2 = $_POST['email'];
             Mail::to($toEmail2)->send(new SendRegister($subject2, $params));
         }
 
@@ -83,12 +83,12 @@ class TourismController extends Controller
             'name_tour' => $_POST ['name_tour'],
             'date_tour' => $_POST['date_tour'],
             'time_tour' => $_POST['time_tour'],
-            'name_user' => $_POST['name_user'],
-            'summ' => $_POST['summ'],
+            'user_name' => $_POST['user_name'],
+            'total' => $_POST['total'],
         ];
 
         $subject = 'Бронирование тура';
-        $toEmail = $_POST['email_user'];
+        $toEmail = $_POST['email'];
         Mail::to($toEmail)->send(new SendTour($subject, $data));
 
         $subject2 = 'Бронирование нового тура';

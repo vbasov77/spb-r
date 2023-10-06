@@ -33,22 +33,22 @@
 
                         <br>
                         <div>
-                            <label for="phone_user"><b>Телефон:</b></label><br>
-                            <input class="tel form-control" value="<?= $data['phone_user'] ?? ''?>" type="text"
-                                   name="phone_user" required
+                            <label for="phone"><b>Телефон:</b></label><br>
+                            <input class="tel form-control" value="<?= $data['phone'] ?? ''?>" type="text"
+                                   name="phone" required
                                    method="post"><br>
                         </div>
                         <input type="hidden" name="name_tour" value="Пушкин&Павловск">
                         <div>
-                            <label for="name_user"><b>Имя:</b></label><br>
-                            <input class="form-control" value="<?= $data ['name_user'] ?? '' ?>" type="text"
-                                   name="name_user" required
+                            <label for="user_name"><b>Имя:</b></label><br>
+                            <input class="form-control" value="<?= $data ['user_name'] ?? '' ?>" type="text"
+                                   name="user_name" required
                                    method="post"><br>
 
                         </div>
-                        <label for="email_user"><b>Email:</b></label><br>
-                        <input id="foo" class="form-control" value="<?= $data ['email_user'] ?? '' ?>" type="email"
-                               name="email_user" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" required
+                        <label for="email"><b>Email:</b></label><br>
+                        <input id="foo" class="form-control" value="<?= $data ['email'] ?? '' ?>" type="email"
+                               name="email" onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;" required
                                method="post"><br>
                         <div>
                             <br>
@@ -60,9 +60,9 @@
                         </div>
                         <br>
                         <div>
-                            <label for="summ"><b>Сумма:</b></label><br>
-                            <input class="form-control" value="<?= $data ['summ'] ?>" type="text"
-                                   name="summ" readonly
+                            <label for="total"><b>Сумма:</b></label><br>
+                            <input class="form-control" value="<?= $data ['total'] ?>" type="text"
+                                   name="total" readonly
                                    method="post"><br>
                         </div>
                         <div>

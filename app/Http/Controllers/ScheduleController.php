@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Schedule;
+use App\Services\DateService;
+use App\Services\ScheduleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -11,48 +13,15 @@ class ScheduleController extends Controller
 {
     public function view()
     {
-        $res = DbController::GetScheduleTable();
+        $scheduleService = new ScheduleService();
 
-        if (!empty($res)) {
-            // Переформатирование date_book
-            $dis_s = [];
-            $dis_a = [];
-            for ($i = 0; $i < count($res); $i++) {
-                if ($res[$i]['stat'] == 0) {
-                    $dis = explode(',', $res [$i]['date_book']);
-                    foreach ($dis as $item) {
-                        $dis_s [] = date("Y-m-d", strtotime($item));
-                    }
-                    $dis_a[] = implode(',', $dis_s);
-                } elseif ($res[$i]['stat'] == 1) {
+        $dateService = new DateService();        //Получим всё расписание
+        $schedules = $scheduleService->findAll();
 
-                    $dis_ii = explode(',', $res [$i]['date_book']);
-                    foreach ($dis_ii as $item) {
-                        $dis_io [] = date("Y-m-d", strtotime($item));
-                    }
-                    $dis_in[] = implode(',', $dis_io);
-                } else {
-                    $dis_o = explode(',', $res [$i]['date_book']);
-                    foreach ($dis_o as $item) {
-                        $dis_ou [] = date("Y-m-d", strtotime($item));
-                    }
-                    $dis_out[] = implode(',', $dis_ou);
+        // Получим строку дат для передачи в JS файл календаря
+        $dateBookStr = $dateService->getDateBookStr($schedules);
 
-                }
-
-            }
-//            dd($dis_io);
-            $date_book = implode(',', $dis_s);
-//            $no_in = implode(',', $dis_io);
-//            $no_out = implode(',', $dis_ou);
-
-
-        } else {
-            $date_book = "";
-//            $no_in = "";
-//            $no_out = "";
-        }
-        return view('/schedule')->with(['date_book' => $date_book/*, 'no_in' => $no_in, 'no_out' => $no_out*/]);
+        return view('schedule.schedule')->with(['dateBook' => $dateBookStr]);
     }
 
     public function updateDiaDates(Request $request)
@@ -72,7 +41,7 @@ class ScheduleController extends Controller
 //            DB::select("update schedule set cost = " . $request->cost . " where date_book in (" . $str . ");");
             Schedule::whereIn('date_book', $arrDate)->update(['cost' => $request->cost]);
             return redirect()->action('ScheduleController@updateDiaDates', ['message' =>
-            "Цена (". $request->cost." руб) изменена с " . $date[0] . " по " . $date[1] . ", включительно."
+                "Цена (" . $request->cost . " руб) изменена с " . $date[0] . " по " . $date[1] . ", включительно."
             ]);
         }
 
@@ -92,69 +61,25 @@ class ScheduleController extends Controller
         return $str;
     }
 
-    public function schedule()
+    public function schedule(Request $request)
     {
-
-        $d = $_POST ['date_book'];
-        $d = preg_replace("/\s+/", "", $d);// удалили пробелы
-        $dd = explode("-", $d);// реобразовали в массив
-        $startTime = $dd[0];
-        $endTime = $dd[1];
-        $date_b = DateController::getDates($startTime, $endTime);// Получили промежуточные даты
-        $cost = $_POST['cost'];
-        $stat = 0;
-        $stat_in = 0;
-        $stat_out = 2;
-
-        DbController::createTableSchedule($startTime, $cost, $stat_in);
-        foreach ($date_b as $item) {
-            DbController::createTableSchedule($item, $cost, $stat);
-        }
-        DbController::createTableSchedule($endTime, $cost, $stat_out);
-
-        $res = DbController::GetScheduleTable();
-        if (!empty($res)) {
-            // Переформатирование date_book
-            $dis_s = [];
-            $dis_a = [];
-            for ($i = 0; $i < count($res); $i++) {
-                if ($res[$i]['stat'] == 0) {
-                    $dis = explode(',', $res [$i]['date_book']);
-                    foreach ($dis as $item) {
-                        $dis_s [] = date("Y-m-d", strtotime($item));
-                    }
-                    $dis_a[] = implode(',', $dis_s);
-                } elseif ($res[$i]['stat'] == 1) {
-                    $dis_ii = explode(',', $res [$i]['date_book']);
-                    foreach ($dis_ii as $item) {
-                        $dis_io [] = date("Y-m-d", strtotime($item));
-                    }
-                    $dis_in[] = implode(',', $dis_io);
+        $dateService = new DateService();
+        $scheduleService = new ScheduleService();
 
 
-                } else {
-                    $dis_o = explode(',', $res [$i]['date_book']);
-                    foreach ($dis_o as $item) {
-                        $dis_ou [] = date("Y-m-d", strtotime($item));
-                    }
-                    $dis_out[] = implode(',', $dis_ou);
+        $booking = $dateService->getDatesBook($request->date_book);
 
-                }
+        // Получим промежуточные даты
+        $bookingDatesArray = $dateService->getDates($booking['startDate'], $booking['endDate'], 0);
+        $cost = $request->cost;
 
-            }
-            $date_book = implode(',', $dis_s);
-            $no_in = implode(',', $dis_io);
-            $no_out = implode(',', $dis_ou);
+        //Получим строку для массового добавления  расписания в БД за один раз
+        $str = $scheduleService->getStrInsertschedule($bookingDatesArray, $cost);
 
+        // Запись расписания
+        $scheduleService->createSchedule($str);
 
-        } else {
-            $date_book = "";
-            $no_in = "";
-            $no_out = "";
-        }
-
-
-        return view('/schedule')->with(['date_book' => $date_book, 'no_in' => $no_in, 'no_out' => $no_out]);
+        return redirect()->action('ScheduleController@view');
 
     }
 
@@ -207,7 +132,7 @@ class ScheduleController extends Controller
 
         $q = preg_replace("/\s+/", "", $_POST['date_book']);
         $dates = explode('-', $q);
-        $arr_date = DateController::getDates($dates[0], $dates[1]);
+        $arr_date = DateController::getDates($dates[0], $dates[1], 1);
         $arr = [];
         $arr[] = $dates[0];
         foreach ($arr_date as $value) {
@@ -268,7 +193,7 @@ class ScheduleController extends Controller
         $dd = explode("-", $d);// Преобразовали в массив
         $startTime = $dd[0];
         $endTime = $dd[1];
-        $date_b = DateController::getDates($startTime, $endTime);// Получили промежуточные даты
+        $date_b = DateController::getDates($startTime, $endTime, 1);// Получили промежуточные даты
         $arr_book = [];
         $arr_book [] = $startTime;
         foreach ($date_b as $b) {

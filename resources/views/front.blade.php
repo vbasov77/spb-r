@@ -224,7 +224,7 @@
         <br>
         <br>
         <!-- Project One Row-->
-        <form action="/add_calendar" method="post">
+        <form action="{{route("add.calendar")}}" method="post">
             @csrf
             <center><h4>Забронировать квартиру</h4></center>
             <br>
@@ -234,6 +234,7 @@
             <br>
             <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
                 <div class="col-lg-6">
+                    <div id="info"></div>
                     <div>
                         <label for="date_book"><b>Выберете дату:</b></label>
                         <input id="input-id" style="display:inline" name="date_book" type="text"
@@ -249,7 +250,7 @@
                     <br>
                     <br>
                     <div>
-                        <input class="btn btn-outline-primary" type="submit" value="Продолжить">
+                        <input class="btn btn-outline-primary" id="calendar" type="submit" value="Продолжить">
                     </div>
                 </div>
 
@@ -452,6 +453,8 @@
 <footer class="footer bg-black small text-center text-white-50">
     <div class="container px-4 px-lg-5">Апартаменты посуточно &copy; {{date('Y')}}</div>
 </footer>
+<script src="{{ asset('js/buttons/close_button.js') }}" defer></script>
+<script src="{{ asset('js/close/close.js') }}" defer></script>
 <script src="{{ asset('js/calendar.js') }}" defer></script>
 </body>
 </html>

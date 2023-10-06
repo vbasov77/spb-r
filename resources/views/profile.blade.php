@@ -25,10 +25,10 @@
 
                             <div class="card-body">
                                 №: <?= $value['id'] ?> <br>
-                                ФИО: <?= $value ['name_user'] ?> <br>
-                                Телефон: <?= $value['phone_user'] ?> <br>
-                                Email: <?= $value['email_user'] ?> <br>
-                                Сумма: <?= $value ['summ'] ?> <br><br>
+                                ФИО: <?= $value ['user_name'] ?> <br>
+                                Телефон: <?= $value['phone'] ?> <br>
+                                Email: <?= $value['email'] ?> <br>
+                                Сумма: <?= $value ['total'] ?> <br><br>
                             </div>
 
                             <div class="card-footer text-muted">
@@ -46,7 +46,7 @@
                                 </button>
                                 <? else: ?>
                                 <?php $ost = explode(';', $value['info_pay']);
-                                $ostatok = $value ['summ'] - $ost [2];
+                                $ostatok = $value ['total'] - $ost [2];
                                 ?>
                                 Внесена <br>
                                 Остаток: <?= $ostatok ?> Руб.

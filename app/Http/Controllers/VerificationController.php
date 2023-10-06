@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\BookingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,12 +15,18 @@ class VerificationController extends Controller
 
     public function verificationUserBook($id)
     {
-        $res = DbController::GetBookingOrderId($id);
+        $bookingService = new BookingService();
+        $res = $bookingService->getBookingOrderId($id);
         if (!empty($res)) {
-            $user_info = explode(';', $res [0] ['user_info']);
-            $more_book = explode(',', $res [0]['more_book']);
-            $sum_night = count($more_book) - 1;
-            return view('/verifications/book_user')->with(['res' => $res, 'nights' => $sum_night, 'user_info' => $user_info]);
+            $userInfo = explode('&', $res->user_info);
+            $info = explode(',', $res->more_book);
+            $sumNight = count($info) - 1;
+            return view('/verifications.book_user')->with([
+                'res' => $res,
+                'nights' => $sumNight,
+                'userInfo' => $userInfo,
+                'info' => $info
+            ]);
         }
     }
 

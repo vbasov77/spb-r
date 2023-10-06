@@ -18,24 +18,17 @@ use Illuminate\Support\Facades\Artisan;
 //});
 
 Auth::routes();
-Route::get('/front', 'CalendarController@viewCalendarController@view');
 Route::get('/danke', 'DankeController@view');
-Route::get('/', 'CalendarController@view');
-Route::post('/add_calendar', 'CalendarController@addInfo');
-Route::post('/order_info', 'CalendarController@verification');
+Route::get('/', 'FrontController@front')->name("front");
+Route::post('/add_calendar', 'CalendarController@addInfo')->name("add.calendar");
+Route::post('/order_info', 'CalendarController@verification')->name("order.info");
 Route::get('/test', 'CalendarController@view');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/error_book', 'CalendarController@comeErrorBlade')->name('error.book');
 
 Route::get('/reports', 'ReportsController@view')->name('reports')->middleware('admin');
-Route::get('/del_schedule', 'DateController@delSchedule')->name('del.schedule')->middleware('admin');
-
-//
-//Route::any('/web_money_result', 'WebMoneyController@view');
-//Route::get('/web_money_success', 'WebMoneyController@success');
-//Route::get('/web_money_fail', 'WebMoneyController@fail');
-
+Route::get('/del_schedule', 'ScheduleService@delSchedule')->name('del.schedule')->middleware('admin');
 
 Route::get('/push&pav', 'TourismController@PushAndPav');
 Route::post('/book_tourism', 'TourismController@PushAndPavBook');
@@ -54,25 +47,25 @@ Route::get('/q_pay/{id}/pay', 'QiwiController@verification');
 
 Route::get('/profile', 'ProfileController@view');
 Route::post('/verification', 'ScheduleController@verification');
-Route::post('/add_booking', 'CalendarController@addBooking');
+Route::post('/add_booking', 'CalendarController@addBooking')->name("add.booking");
 
-Route::get('/orders', 'OrdersController@view')->middleware('admin');
-Route::post('/in_arhiv', 'ArhivController@inArhiv')->middleware('admin');
-Route::get('/view/{id}/arhiv', 'ArhivController@oneView')->middleware('admin');
-Route::post('/order_edit', 'OrdersController@edit')->middleware('admin');
+Route::get('/orders', 'OrderController@view')->name("orders")->middleware('admin');
+Route::post('/in_archive', 'ArchiveController@entryArchive')->middleware('admin');
+Route::get('/view/{id}/arhiv', 'ArchiveController@viewById')->middleware('admin');
+Route::post('/order_edit', 'OrderController@edit')->middleware('admin');
 Route::get('/order/{id}/verification', 'VerificationController@verificationUserBook')->middleware('admin');
-Route::get('/order/{id}/edit', 'OrdersController@viewForEdit')->middleware('admin');
-Route::get('/order/{id}/reject', 'OrdersController@reject')->middleware('admin');
-Route::get('/order/{id}/confirm', 'OrdersController@confirm')->middleware('admin');
-Route::get('/order/{id}/delete', 'OrdersController@delete')->middleware('admin');
-Route::get('/schedule', 'ScheduleController@view')->middleware('admin');
-Route::get('/ord/{id}/delete', 'OrdersController@deleteProf');
-Route::get('/order/{id}/to_pay', 'OrdersController@toPayView')->middleware('admin');
-Route::post('/to_pay', 'OrdersController@toPay')->middleware('admin');
+Route::get('/order/{id}/edit', 'OrderController@viewForEdit')->middleware('admin');
+Route::get('/order/{id}/reject', 'OrderController@reject')->name('reject')->middleware('admin');
+Route::get('/order/{id}/confirm', 'OrderController@confirm')->name('order.confirm')->middleware('admin');
+Route::get('/order/{id}/delete', 'OrderController@delete')->middleware('admin');
+Route::get('/schedule', 'ScheduleController@view')->name("schedule")->middleware('admin');
+Route::get('/ord/{id}/delete', 'OrderController@deleteProf');
+Route::get('/order/{id}/to_pay', 'OrderController@toPayView')->name('order.to_pay')->middleware('admin');
+Route::post('/to_pay', 'OrderController@toPay')->middleware('admin');
 
 Route::post('/edit_table', 'ScheduleController@editTable')->middleware('admin');
 Route::post('/edit_schedule', 'ScheduleController@edit')->middleware('admin');
-Route::post('/add_schedule', 'ScheduleController@schedule')->middleware('admin');
+Route::post('/add_schedule', 'ScheduleController@schedule')->name("add.schedule")->middleware('admin');
 Route::get('/schedule/add', 'ScheduleController@add')->middleware('admin');
 Route::get('/schedule/edit', 'ScheduleController@viewEdit')->middleware('admin');
 Route::match(['get', 'post'], '/edit_schedule_mass', 'ScheduleController@updateDiaDates')->name('edit_schedule_mass')->middleware('admin');

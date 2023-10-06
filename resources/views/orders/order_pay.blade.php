@@ -18,8 +18,8 @@
                         @csrf
                         <input type="hidden" name="id" value="{{$id}}">
                         <div class="border_none">
-                            <label for="summ"><b>Сумма</b></label><br>
-                            <input class="form-control" name="summ" value="" type="number" required><br>
+                            <label for="total"><b>Сумма</b></label><br>
+                            <input class="form-control" name="total" value="" type="number" required><br>
                         </div>
 
                         <div>
