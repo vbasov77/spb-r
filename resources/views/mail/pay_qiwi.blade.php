@@ -1,6 +1,6 @@
 
-Оплата по номеру заказа <?= $data ['bill'] ['comment']?> произведена. <br>
-Сумма оплаты: <?= $data ['bill'] ['amount']['value']?>
+Оплата по номеру заказа {{$data ['bill'] ['comment']}} произведена. <br>
+Сумма оплаты: {{$data ['bill'] ['amount']['value']}}
 
 
 <br><br>

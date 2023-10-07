@@ -5,7 +5,6 @@ namespace App\Services;
 
 
 use App\Repositories\UserRepository;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use phpDocumentor\Reflection\DocBlock\Serializer;
 
@@ -18,7 +17,8 @@ class UserService extends Serializer
         return $userRepo->findByEmail($email) ? true : false;
     }
 
-    public function addUser(string $nameUser, string $email, string $password){
+    public function addUser(string $nameUser, string $email, string $password)
+    {
         $userRepo = new UserRepository();
         $date = [
             'name' => $nameUser,

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Services\BookingService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class VerificationController extends Controller
 {

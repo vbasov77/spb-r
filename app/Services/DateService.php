@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Http\Controllers\GetController;
 use App\Models\Reports;
-use App\Models\Schedule;
 use phpDocumentor\Reflection\DocBlock\Serializer;
 
 class DateService extends Serializer

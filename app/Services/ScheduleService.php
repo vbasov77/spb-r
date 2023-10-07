@@ -4,10 +4,8 @@
 namespace App\Services;
 
 
-use App\Models\Schedule;
 use App\Repositories\ScheduleRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\DocBlock\Serializer;
 
 class ScheduleService extends Serializer
@@ -114,12 +112,11 @@ class ScheduleService extends Serializer
         return $scheduleRepo->findAllById($str);
     }
 
+
     /**
      *
      * Получение строки для запроса в БД
      * Вид :
-     * @param array $dates
-     * @return string
      */
     public function getStrInDb(array $dates)
     {

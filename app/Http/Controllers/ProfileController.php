@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Services\BookingService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
@@ -14,10 +13,8 @@ class ProfileController extends Controller
             $userEmail = Auth::user()->email;
             $bookingService = new BookingService();
             $book = $bookingService->findByEmail($userEmail);
-            $data = [
-                'book' => $book,
-            ];
-            return view('profile', ['data'=>$data]);
+
+            return view('profile', ['data' => $book]);
         } else {
             return redirect()->route('login');
         }

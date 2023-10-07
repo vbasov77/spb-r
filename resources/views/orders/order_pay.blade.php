@@ -13,8 +13,7 @@
                 <div class="col-lg-8">
                     <h3>Редактировать заказ</h3>
 
-                    <form action="/to_pay" method="post">
-
+                    <form action="{{route('to.pay')}}" method="post">
                         @csrf
                         <input type="hidden" name="id" value="{{$id}}">
                         <div class="border_none">

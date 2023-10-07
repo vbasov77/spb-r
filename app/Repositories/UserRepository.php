@@ -3,10 +3,8 @@
 
 namespace App\Repositories;
 
-
 use App\User;
 use Illuminate\Config\Repository;
-use Illuminate\Support\Facades\DB;
 
 class UserRepository extends Repository
 {

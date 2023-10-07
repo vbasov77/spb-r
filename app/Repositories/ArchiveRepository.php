@@ -1,12 +1,9 @@
 <?php
 
-
 namespace App\Repositories;
-
 
 use App\Models\Archive;
 use Illuminate\Config\Repository;
-use Illuminate\Support\Facades\DB;
 
 class ArchiveRepository extends Repository
 {

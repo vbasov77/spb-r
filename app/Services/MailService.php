@@ -28,8 +28,9 @@ class MailService extends Serializer
         Mail::to($toEmail)->send(new SendRegister($subject, $params));
     }
 
-    public function RejectOrder(object $data){
-        $data = [
+    public function RejectOrder(object $data)
+    {
+        $params = [
             'user_name' => $data->user_name,
             'in' => $data->no_in,
             'out' => $data->no_out,
@@ -37,7 +38,7 @@ class MailService extends Serializer
         ];
         $subject = 'Бронирование не подтверждено';
         $toEmail = preg_replace("/\s+/", "", $data->email);
-        Mail::to($toEmail)->send(new RejectOrder($subject, $data));
+        Mail::to($toEmail)->send(new RejectOrder($subject, $params));
     }
 
     public function NewBooking(array $params, string $userName, string $email)
@@ -63,7 +64,8 @@ class MailService extends Serializer
         return $message;
     }
 
-    public function DeleteOrderUser(array $data){
+    public function DeleteOrderUser(array $data)
+    {
         $subject = 'Удаление бронирования';
         $toEmail = '0120912@mail.ru';
         $user_email = $data['email'];

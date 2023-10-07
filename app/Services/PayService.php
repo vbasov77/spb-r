@@ -4,7 +4,6 @@
 namespace App\Services;
 
 
-use App\Models\Booking;
 use App\Repositories\PayRepository;
 use phpDocumentor\Reflection\DocBlock\Serializer;
 

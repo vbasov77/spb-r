@@ -56,7 +56,6 @@ class Archive extends Model
     }
 
 
-
     /**
      * @return mixed
      */
@@ -218,11 +217,6 @@ class Archive extends Model
     {
         $this->confirmed = $confirmed;
     }
-
-
-
-
-
 
 
 }

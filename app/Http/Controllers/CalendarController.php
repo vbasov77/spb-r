@@ -85,6 +85,7 @@ class CalendarController extends Controller
                 return redirect()->action('FrontController@front', ['error' => $e->getMessage()]);
             }
         }
+
         $dates = preg_replace("/\s+/", "", $request->date_book);// удалили пробелы
         $dates = explode("-", $dates);// разбили строку на массив
 

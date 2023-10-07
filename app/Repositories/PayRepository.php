@@ -6,7 +6,6 @@ namespace App\Repositories;
 
 use App\Models\Booking;
 use Illuminate\Config\Repository;
-use Illuminate\Support\Facades\DB;
 
 class PayRepository extends Repository
 {

@@ -40,7 +40,7 @@ class BookingService extends Serializer
     public function findByEmail(string $email)
     {
         $bookingRepo = new BookingRepository();
-        $bookingRepo->findByEmail($email);
+        return $bookingRepo->findByEmail($email);
     }
 
     public function delete(int $id)
@@ -62,7 +62,11 @@ class BookingService extends Serializer
         return $bookingRepo->getBookingOrderId($id);
     }
 
-
+    public function updateInfoPay(int $id, string $infoPay)
+    {
+        $bookingRepo = new BookingRepository();
+        $bookingRepo->updateInfoPay($id, $infoPay);
+    }
 
     public function checkingForEmployment($dateView)
     {

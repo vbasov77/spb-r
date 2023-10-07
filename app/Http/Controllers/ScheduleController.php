@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Schedule;
 use App\Services\DateService;
 use App\Services\ScheduleService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ScheduleController extends Controller
 {

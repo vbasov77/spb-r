@@ -50,8 +50,10 @@ Route::post('/verification', 'ScheduleController@verification');
 Route::post('/add_booking', 'CalendarController@addBooking')->name("add.booking");
 
 Route::get('/orders', 'OrderController@view')->name("orders")->middleware('admin');
-Route::post('/in_archive', 'ArchiveController@entryArchive')->middleware('admin');
-Route::get('/view/{id}/arhiv', 'ArchiveController@viewById')->middleware('admin');
+
+Route::post('/in_archive', 'ArchiveController@entryArchive')->name('in.archive')->middleware('admin');
+Route::get('/view/{id}/archive', 'ArchiveController@viewById')->name('view.archive')->middleware('admin');
+
 Route::post('/order_edit', 'OrderController@edit')->middleware('admin');
 Route::get('/order/{id}/verification', 'VerificationController@verificationUserBook')->middleware('admin');
 Route::get('/order/{id}/edit', 'OrderController@viewForEdit')->middleware('admin');
@@ -61,18 +63,13 @@ Route::get('/order/{id}/delete', 'OrderController@delete')->middleware('admin');
 Route::get('/schedule', 'ScheduleController@view')->name("schedule")->middleware('admin');
 Route::get('/ord/{id}/delete', 'OrderController@deleteProf');
 Route::get('/order/{id}/to_pay', 'OrderController@toPayView')->name('order.to_pay')->middleware('admin');
-Route::post('/to_pay', 'OrderController@toPay')->middleware('admin');
+Route::post('/to_pay', 'OrderController@toPay')->name('to.pay')->middleware('admin');
 
 Route::post('/edit_table', 'ScheduleController@editScheduleCost')->name('edit.table')->middleware('admin');
 Route::match(['get', 'post'],'/schedule_edit', 'ScheduleController@edit')->name('schedule.edit')->middleware('admin');
 Route::match(['get', 'post'],'/schedule_add', 'ScheduleController@add')->name('schedule.add')->middleware('admin');
 Route::match(['get', 'post'], '/edit_schedule_mass', 'ScheduleController@updateDiaDates')->name('edit_schedule_mass')->middleware('admin');
 
-Route::get('/schedule/csv', 'ScheduleController@viewCsv')->middleware('admin');
-Route::post('/get_csv', 'ScheduleController@getCsv')->middleware('admin');
-Route::post('/update_csv', 'ScheduleController@updateCsv')->middleware('admin');
-
-Route::get('/testy', 'TestController@test');
 
 Route::get('/clear', function() {
     Artisan::call('cache:clear');

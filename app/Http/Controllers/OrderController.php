@@ -9,7 +9,7 @@ use App\Services\BookingService;
 use App\Services\DateService;
 use App\Services\MailService;
 use App\Services\OrderService;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
@@ -22,7 +22,7 @@ class OrderController extends Controller
 
         $datesInOrder = $service->inOrder(); //Формируем даты по порядку
 
-        $bookingDates = !empty($datesInOrder) ? $datesInOrder[0] : null;
+        $bookingDates = !empty($datesInOrder) ? $datesInOrder : null;
 
         return view('orders.orders')->with(['data' => $bookingDates, 'data2' => $data]);
     }
@@ -69,21 +69,23 @@ class OrderController extends Controller
         $bookingService = new BookingService();
 
         $booking = $bookingService->findById($id);
+        if (!empty($booking)) {
 
-        $date[] = $booking->no_in;
-        $date[] = $booking->no_out;
-        $condition = 2;
+            $date[] = $booking->no_in;
+            $date[] = $booking->no_out;
+            $condition = 2;
 
-        $dateService->setCountNightObj($date, $booking->total, $condition);
-        $data = $orderService->deleteOrder($id);
-        $mailService->DeleteOrderUser($data);
+            $dateService->setCountNightObj($date, $booking->total, $condition);
+            $data = $orderService->deleteOrder($id);
+            $mailService->DeleteOrderUser($data);
+        }
 
         return redirect()->action('ProfileController@view');
     }
 
     public function confirm(int $id)
     {
-        $bookingService= new BookingService();
+        $bookingService = new BookingService();
         $bookingService->confirmOrder($id);
 
         $bookingService = new BookingService();
@@ -135,13 +137,16 @@ class OrderController extends Controller
         return view('orders/order_pay', ['id' => $id]);
     }
 
-    public function toPay()
+
+    public function toPay(Request $request)
     {
+        $bookingService = new BookingService();
+
         $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $code = substr(str_shuffle($permitted_chars), 0, 16);
-        $info_pay = 1 . ";" . $code . ";" . $_POST['total'];
-        DB::table('booking')->where('id', $_POST['id'])->update(['pay' => 1, 'info_pay' => $info_pay]);
-        return redirect()->action('VerificationController@verificationUserBook', ['id' => $_POST['id']]);
+        $infoPay = 1 . ";" . $code . ";" . $request->total;
+        $bookingService->updateInfoPay($request->id, $infoPay);
+        return redirect()->action('VerificationController@verificationUserBook', ['id' => $request->id]);
     }
 
 

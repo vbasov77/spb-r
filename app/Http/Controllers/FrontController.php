@@ -3,7 +3,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Services\BookingService;
 use App\Services\SettingsService;
 use Illuminate\Support\Facades\Request;
@@ -11,7 +10,7 @@ use Illuminate\Support\Facades\Request;
 
 class FrontController extends Controller
 {
-   
+
     public function front(Request $request)
     {
         $service = new BookingService();

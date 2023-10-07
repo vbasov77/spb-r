@@ -18,7 +18,7 @@ class BookingRepository extends Repository
 
     public function findByEmail(string $email)
     {
-        return Booking::where("email", $email)->first();
+        return Booking::where("email", $email)->get();
     }
 
     public function findAll()
@@ -74,6 +74,11 @@ from booking b where b.no_in = " . '"' . $noIn . '"');
             'payment_term' => date('d.m.Y', strtotime("+2 days")),
         ];
         Booking::where('id', $id)->update($data);
+    }
+
+    public function updateInfoPay(int $id, string $infoPay)
+    {
+        DB::table('booking')->where('id', $id)->update(['pay' => 1, 'info_pay' => $infoPay]);
     }
 
 }

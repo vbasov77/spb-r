@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Mail\PayQiwi;
 use App\Mail\SendAmount;
 use App\Services\BookingService;
+use App\Services\KeyService;
 use App\Services\PayService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
 
 class QiwiController extends Controller
 {
@@ -80,12 +82,13 @@ class QiwiController extends Controller
     }
 
 
-    public function pay()
+    public function pay(Request $request)
     {
-        $publicKey = KeyController::keyPublicQiwi();
-        $billId = $_POST ['billId'];
-        $amount = $_POST ['amount'];
-        $id = $_POST ['id'];;
+        $keyService = new KeyService();
+        $publicKey = $keyService->keyPublicQiwi();
+        $billId = $request->billId;
+        $amount = $request->amount;
+        $id = $request->id;
         $url = "https://oplata.qiwi.com/create?publicKey=" . $publicKey . "&amount=" . $amount . "&billId=" . $billId . "&comment=" . $id . "&customFields[themeCode]=Vytalyi-BRODDK2q2-&successUrl=https://mieten.ru/q_success";
         echo '<meta http-equiv="refresh" content="0; URL=' . $url . '">';
 

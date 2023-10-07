@@ -12,9 +12,10 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8">
                     <h3>Заполните форму</h3>
-                    <form action="{{route("order.info")}}" method="post">
+                    <form id="form" action="{{route("order.info")}}" method="post">
                         @csrf
                         <input type="hidden" value="{{implode(",", $date_view) }}" name="date_view">
+
                         <input type="hidden" name="sum" value="{{$sum}}">
                         <div class="border_none">
                             <label for="date_book"><b>Выбранные даты:</b></label><br>
@@ -32,21 +33,23 @@
 
                         </div>
                         <br>
+                        <div id="info"></div>
+                        <br>
                         <div>
                             <label for="phone"><b>Телефон:</b></label><br>
-                            <input name="phone" type="text" class="tel form-control"
+                            <input name="phone" type="text" class="tel form-control" id="phone"
                                    value="{{$_POST['phone'] ?? ''}}" placeholder="+7(000) 000-0000" required>
                         </div>
                         <br>
 
                         <div>
                             <label for="email"><b>Email:</b></label>
-                            <input name="email" type="email" class="form-control"
-                                   onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"
+                            <input name="email" type="email" class="form-control" id="email"
+                                   {{--  onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"--}}
                                    value="{{$_POST['email'] ?? ''}}" placeholder="Email" required>
                         </div>
-                        <br>
 
+                        <br>
 
                         @for ($i = 1; $i <= $data['guests']; $i++)
                             <h3> {!! $i !!} гость</h3>
@@ -62,28 +65,36 @@
                                 <input name="age[]" type="text" class="form-control"
                                        value="{{$_POST['age'] ?? '' }}" placeholder="Полных лет" required>
                             </div>
+
                             <div>
                                 <label for="nationality"><b>Район:</b></label>
                                 <input name="nationality[]" type="text" class="form-control"
                                        placeholder="Город, область жительства" required>
                             </div>
+
                             <br>
                         @endfor
 
-
                         <br>
                         <div>
-                            <input class="btn btn-outline-primary" name="butto" type="submit" value="Продолжить">
+                            <input class="btn btn-outline-primary" id="submit" type="submit" value="Продолжить">
                         </div>
                         <br>
                         <br>
-
                     </form>
                 </div>
             </div>
 
         </div>
     </section>
-    <script src="{{ asset('js/mask.js') }}" defer></script>
-    <script src="{{ asset('js/email.js') }}" defer></script>
+
+    @push("scripts")
+
+                <script src="{{ asset('js/mask.js') }}" defer></script>
+
+                <script src="{{ asset('js/checks/check_add_calendar.js') }}" defer></script>
+
+                <script src="{{ asset('js/close/close.js') }}" defer></script>
+
+    @endpush
 @endsection

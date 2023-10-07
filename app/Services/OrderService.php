@@ -50,11 +50,12 @@ class OrderService extends Serializer
             'user_info' => $booking->user_info,
             'total' => $booking->total,
             'pay' => $booking->pay,
+            'otz' => "Удалено пользователем",
             'info_pay' => $booking->info_pay
         ];
-        $otz = "далено пользователем";
 
-        $archiveService->save($booking, $otz);
+
+        $archiveService->save($booking, $data['otz']);
         $bookingService->delete($id);
 
         return $data;

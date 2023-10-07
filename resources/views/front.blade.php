@@ -12,8 +12,10 @@
     <link href="{{ asset('bootstrap/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
     <link href="{{ asset('css/hotel-datepicker.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/checkbox/radio.css') }}" rel="stylesheet">
+
     <script src="{{ asset('js/fecha.min.js') }}" defer></script>
-    <script src="{{ asset('js/hotel-datepicker.min.js') }}" defer></script>
+    <script src="{{ asset('js/hotel-datepicker/hotel-datepicker.min.js') }}" defer></script>
     <script src="{{ asset('jquery/jquery.min.js') }}" defer></script>
     <script src="{{ asset('bootstrap/popper.min.js') }}" defer></script>
     <script src="{{ asset('bootstrap/bootstrap.min.js') }}" defer></script>
@@ -241,9 +243,15 @@
                 </div>
                 <div class="col-lg-6">
                     <br>
-                    <label for="guests"><b>Количество гостей:</b></label><br>
-                    <label><input type="radio" name="guests" value="1" required> 1 гость</label><br>
-                    <label><input type="radio" name="guests" value="2" required> 2 гостя</label>
+                    <b>Количество гостей:</b><br>
+                    <div class='form_radio_btn2 my_mobile' style="text-align: center;">
+                        <input type='radio' id="initial1" name="guests" value="1" required
+                        ><label for='initial1'>1 гость</label></div>
+
+                    <div class='form_radio_btn2 my_mobile' style="text-align: center;">
+                        <input type='radio' id="initial2" name="guests" value="2" required
+                        ><label for='initial2'>2 гостя</label></div>
+
                     <br>
                     <br>
                     <div>
@@ -455,6 +463,7 @@
 <script>
     var datebook = @json($data ['date_book']);
 </script>
+
 <script src="{{ asset('js/buttons/close_button.js') }}" defer></script>
 <script src="{{ asset('js/close/close.js') }}" defer></script>
 <script src="{{ asset('js/calendar.js') }}" defer></script>
