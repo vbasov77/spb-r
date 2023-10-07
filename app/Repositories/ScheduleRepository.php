@@ -26,11 +26,9 @@ class ScheduleRepository extends Repository
         return DB::select("select id, date_book, cost from schedule where $str");
     }
 
-    public function createSchedule(string $datesBook)
+    public function createSchedule(array $datesBook)
     {
-        DB::select("insert into schedule(date_book, cost)
-values $datesBook");
-
+        Schedule::insert($datesBook);
     }
 
     public function update(array $dates, int $cost)

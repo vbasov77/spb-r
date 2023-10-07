@@ -73,11 +73,10 @@ class ScheduleController extends Controller
             $bookingDatesArray = $dateService->getDates($booking['startDate'], $booking['endDate'], 0);
             $cost = $request->cost;
 
-            //Получим строку для массового добавления  расписания в БД за один раз
-            $str = $scheduleService->getStrInsertschedule($bookingDatesArray, $cost);
-
+            //Получим массив для массового добавления  расписания в БД за один раз
+            $array = $scheduleService->getArrayInsertSchedule($bookingDatesArray, $cost);
             // Запись расписания
-            $scheduleService->createSchedule($str);
+            $scheduleService->createSchedule($array);
             return redirect()->action('ScheduleController@view');
         }
     }

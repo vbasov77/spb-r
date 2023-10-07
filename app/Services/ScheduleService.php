@@ -54,18 +54,16 @@ class ScheduleService extends Serializer
         }
         return $dateBook;
     }
-
-    public function getStrInsertSchedule(array $bookingDatesArray, int $cost)
+    
+    public function getArrayInsertSchedule(array $bookingDatesArray, int $cost)
     {
-        $str = "";
+        $array = [];
         $count = count($bookingDatesArray);
         for ($i = 0; $i < $count; $i++) {
-            $i != $count - 1 ? $str .= "('$bookingDatesArray[$i]', $cost), "
-                : $str .= "('$bookingDatesArray[$i]', $cost)";
+            $array[] = ["date_book" => $bookingDatesArray[$i], "cost"=>$cost];
         }
-        return $str;
+        return $array;
     }
-
     public function getStrUpdateSchedules(Request $request)
     {
         $str = "";
@@ -77,7 +75,7 @@ class ScheduleService extends Serializer
 
     }
 
-    public function createSchedule(string $datesBook)
+    public function createSchedule(array $datesBook)
     {
         $scheduleRepo = new ScheduleRepository();
         $scheduleRepo->createSchedule($datesBook);
