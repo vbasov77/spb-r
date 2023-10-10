@@ -1,12 +1,6 @@
 @extends('layouts.app')
 @section('content')
 
-
-{{--    <script>--}}
-{{--        var datebook = @json($date_book);--}}
-
-{{--    </script>--}}
-
     <section class="about-section text-center" id="about">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -14,7 +8,6 @@
                     <h2>Редактировать</h2>
                     <form action="/edit_schedule_mass" method="post">
                         @csrf
-
                         <h3> Изменить расписание </h3>
                         <br>
                         <h3> Выбор дат </h3><br>

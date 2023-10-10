@@ -36,7 +36,7 @@ Route::post('/add_tourism', 'TourismController@addPushAndPav');
 
 
 Route::get('/front_settings', 'SettingsController@front')->middleware('admin');
-Route::match(["get", "post"],'/front_edit', 'SettingsController@front')->middleware('admin');
+Route::match(["get", "post"],'/front_edit', 'SettingsController@front')->name("front.edit")->middleware('admin');
 Route::get('/settings', 'SettingsController@view')->name('settings')->middleware('admin');
 
 Route::post('/q_result', 'QiwiController@result');
@@ -54,9 +54,8 @@ Route::get('/orders', 'OrderController@view')->name("orders")->middleware('admin
 Route::post('/in_archive', 'ArchiveController@entryArchive')->name('in.archive')->middleware('admin');
 Route::get('/view/{id}/archive', 'ArchiveController@viewById')->name('view.archive')->middleware('admin');
 
-Route::post('/order_edit', 'OrderController@edit')->middleware('admin');
 Route::get('/order/{id}/verification', 'VerificationController@verificationUserBook')->middleware('admin');
-Route::get('/order/{id}/edit', 'OrderController@viewForEdit')->middleware('admin');
+Route::match(['get', 'post'],'/order/{id}/edit', 'OrderController@edit')->name('order.edit')->middleware('admin');
 Route::get('/order/{id}/reject', 'OrderController@reject')->name('reject')->middleware('admin');
 Route::get('/order/{id}/confirm', 'OrderController@confirm')->name('order.confirm')->middleware('admin');
 Route::get('/order/{id}/delete', 'OrderController@delete')->middleware('admin');

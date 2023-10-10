@@ -6,14 +6,12 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8">
                     <h3>Бронь</h3>
-
                     <div>
                         <input id="input-id" name="date_book" type="text"
                                class="form-control"
                                placeholder="Нажмите для выбора даты" autocomplete="off" readonly="readonly">
                     </div>
                     <br>
-
                     @if (!empty($data))
                         @for($i = 0; $i < count($data); $i++)
 
@@ -110,7 +108,6 @@
             let datebook = @json($data2 ['date_book']);
         </script>
         <script src="{{ asset('js/calendar.js') }}" defer></script>
-
         <script src="{{ asset('js/otz.js') }}" defer></script>
     @endpush
 @endsection

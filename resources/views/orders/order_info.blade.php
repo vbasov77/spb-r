@@ -90,11 +90,9 @@
 
     @push("scripts")
 
-                <script src="{{ asset('js/mask.js') }}" defer></script>
-
-                <script src="{{ asset('js/checks/check_add_calendar.js') }}" defer></script>
-
-                <script src="{{ asset('js/close/close.js') }}" defer></script>
+        <script src="{{ asset('js/mask.js') }}" defer></script>
+        <script src="{{ asset('js/checks/check_add_calendar.js') }}" defer></script>
+        <script src="{{ asset('js/close/close.js') }}" defer></script>
 
     @endpush
 @endsection

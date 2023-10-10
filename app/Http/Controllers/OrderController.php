@@ -27,20 +27,23 @@ class OrderController extends Controller
         return view('orders.orders')->with(['data' => $bookingDates, 'data2' => $data]);
     }
 
-    public function viewForEdit(int $id)
+
+    public function edit(Request $request)
     {
-        $bookingService = new BookingService();
-        $order = $bookingService->getBookingOrderId($id);
-        return view('/orders/order_edit')->with(['order' => $order]);
+        if ($request->isMethod('get')) {
+            // этот код выполнится, если используется метод GET
+            $bookingService = new BookingService();
+            $order = $bookingService->getBookingOrderId($request->id);
 
+            return view('/orders.order_edit')->with(['order' => $order]);
+        }
+        if ($request->isMethod('post')) {
+            // этот код выполнится, если используется метод POST
+            $orderService = new OrderService();
+            $orderService->updateOrder($request);
+            return redirect()->action('OrderController@view');
+        }
 
-    }
-
-    public function edit()
-    {
-        $orderService = new OrderService();
-        $orderService->updateOrder($_POST);
-        return redirect()->action('OrderController@view');
 
     }
 

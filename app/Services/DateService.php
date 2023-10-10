@@ -117,9 +117,10 @@ class DateService extends Serializer
             }
             self::setReportInTable($data, $countNight, $sum, $month, $condition);
         } else {
+            $dateService = new DateService();
             // Если даты захватывают два месяца, то разбиваем диапазон дат на два массива по каждому месяцу,
             $endDatesFirstArray = date('t', strtotime($date[0])) . "." . date('m.Y', strtotime($date[0]));// Получаем последнюю дату месяца 31.02.2022
-            $firstDatesArray = GetController::getDatesArray($date[0], $endDatesFirstArray);// Получаем массив дат первого массива
+            $firstDatesArray = $dateService->getDates($date[0], $endDatesFirstArray, 0);// Получаем массив дат первого массива
 
             unset($firstDatesArray[0]);
             $scheduleService = new ScheduleService();
@@ -152,7 +153,7 @@ class DateService extends Serializer
 
             // Получаем сумму второго массива
             $firstDatesSecondArray = "01." . date('m.Y', strtotime($date[1]));// Получаем первую  дату месяца 01.02.2022
-            $secondArray = GetController::getDatesArray($firstDatesSecondArray, $date[1]);// Получаем массив дат
+            $secondArray = $dateService->getDates($firstDatesSecondArray, $date[1], 0);// Получаем массив дат
 
 
             if (count($secondArray)) {

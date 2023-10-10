@@ -5,11 +5,12 @@ namespace App\Services;
 
 
 use App\Repositories\BookingRepository;
+use Illuminate\Http\Request;
 use phpDocumentor\Reflection\DocBlock\Serializer;
 
 class OrderService extends Serializer
 {
-    public function updateOrder(array $data)
+    public function updateOrder(Request $data)
     {
         $bookingRepo = new BookingRepository();
         $bookingRepo->updateOrder($data);

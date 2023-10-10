@@ -19,7 +19,6 @@
                         Гости: {!!$data ['user_info']!!} <br>
                         Отзыв: {!!$data ['otz']!!} <br>
                     </div>
-
                 </div>
 
             </div>

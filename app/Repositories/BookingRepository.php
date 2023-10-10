@@ -6,7 +6,9 @@ namespace App\Repositories;
 
 use App\Models\Booking;
 use Illuminate\Config\Repository;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+
 
 class BookingRepository extends Repository
 {
@@ -58,12 +60,13 @@ from booking b where b.no_in = " . '"' . $noIn . '"');
         return $booking;
     }
 
-    public function updateOrder(array $data)
+    public function updateOrder(Request $data)
     {
-        DB::update("update booking set user_name = :user_name, phone = :phone, 
-                   email = :email,  total = :total WHERE id = :id", [
-            'user_name' => $data['user_name'], 'phone' => $data['phone'], 'email' => $data['email'],
-            'total' => $data['total'], 'id' => $data['id'],
+        Booking::where("id", $data->id)->update([
+            'user_name' => $data->user_name,
+            'phone' => $data->phone,
+            'email' => $data->email,
+            'total' => $data->total
         ]);
     }
 

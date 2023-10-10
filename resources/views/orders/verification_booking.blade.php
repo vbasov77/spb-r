@@ -14,7 +14,6 @@
                         <input class="form-control" value="{{$_POST['date_book'] }}" readonly="readonly" type="text"
                                name="date_book"
                                method="post"><br>
-
                     </div>
 
                     @foreach ($date_view as $value)

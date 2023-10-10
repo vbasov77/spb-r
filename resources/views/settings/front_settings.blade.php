@@ -6,15 +6,14 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8">
                     <h3>Редактировать главную страницу</h3>
-                    <form action="/front_edit" onsubmit="return Validate(this);" enctype="multipart/form-data" method="post">
+                    <form action="{{route("front.edit")}}" onsubmit="return Validate(this);"
+                          enctype="multipart/form-data" method="post">
                         @csrf
-
-
                         <div>
                             <label><b>Первый месяц</b><i>Через запятую</i></label><br>
                             <input class="form-control" value="{{$data[0]}}" type="text"
                                    name="data[]"
-                                  required><br>
+                                   required><br>
                         </div>
 
                         <div>
@@ -31,8 +30,9 @@
                 </div>
             </div>
         </div>
-
-        <script src="{{ asset('js/checks/check_file.js') }}" defer></script>
     </section>
 
+    @push("scripts")
+        <script src="{{ asset('js/checks/check_file.js') }}" defer></script>
+    @endpush
 @endsection
