@@ -1,16 +1,14 @@
 
 var input = document.getElementById('input-id');
-var arr_datebook = datebook.split(',');
-// var arr_noin = noin.split(',');
-// var arr_noout = noout.split(',');
+var arrDatebook = datebook.split(',');
+
 var datepicker = new HotelDatepicker(input,{
     format: 'DD.MM.YYYY',
     startOfWeek: 'monday',
     // selectForward: true,
-    disabledDates: arr_datebook,
     minNights: 2,
-    // noCheckInDates: arr_noin,
-    // noCheckOutDates: arr_noout,
+    disabledDates: arrDatebook,
+
     i18n: {
         selected: 'Ваше пребывание:',
         night: 'Нч',

@@ -45,6 +45,12 @@ Route::get('/q_success', 'QiwiController@success');
 Route::get('/q_pay/{id}/pay', 'QiwiController@verification');
 
 
+Route::match(["get", "post"],'/to_queue', 'QueueController@toQueue')->name('to.queue')->middleware('admin');
+Route::match(["get", "post"],'/queue/{id}/update', 'QueueController@update')->name('update.queue')->middleware('admin');
+Route::get('/view_queue', 'QueueController@view')->name('view.queue')->middleware('admin');
+Route::get('/queue/{id}/delete', 'QueueController@delete')->name('delete.queue')->middleware('admin');
+
+
 Route::get('/profile', 'ProfileController@view')->name('profile');
 Route::post('/verification', 'ScheduleController@verification');
 Route::post('/add_booking', 'CalendarController@addBooking')->name("add.booking");
