@@ -104,51 +104,21 @@ class BookingService extends Serializer
         if (!empty($booking)) {
             // Переформатирование date_book
             $arrayDatesFormat = [];
-            $dis_a = [];
             for ($i = 0; $i < count($booking); $i++) {
-                $dis = explode(',', $booking[$i]->date_book);
-                foreach ($dis as $item) {
-                    $arrayDatesFormat[] = date("Y-m-d", strtotime($item));
+                $dateBook = explode(',', $booking[$i]->date_book);
+                $countDateBook = count($dateBook);
+                for ($j = 0; $j < $countDateBook - 1; $j++) {
+                    $arrayDatesFormat[] = date("Y-m-d", strtotime($dateBook[$j]));
                 }
-                $dis_a[] = implode(',', $arrayDatesFormat);// ????????????????????
             }
             $date_book = implode(',', $arrayDatesFormat);
 
-            // Переформатирование no_in
-            $dis_n = [];
-            $dis_i = [];
-            for ($j = 0; $j < count($booking); $j++) {
-                $diss = explode(',', $booking[$j]->no_in);
-                foreach ($diss as $val) {
-                    $dis_n[] = date("Y-m-d", strtotime($val));
-                }
-                $dis_i[] = implode(',', $dis_n);
-            }
-            $no_in = implode(',', $dis_n);
-
-            // Переформатирование no_out;
-            $dis_o = [];
-            $dis_t = [];
-            for ($li = 0; $li < count($booking); $li++) {
-                $disss = explode(',', $booking [$li]->no_out);
-
-                foreach ($disss as $v) {
-                    $dis_o[] = date("Y-m-d", strtotime($v));
-                }
-                $dis_t[] = implode(',', $dis_o);
-            }
-            $no_out = implode(',', $dis_o);
         } else {
             $date_book = "";
-            $no_in = "";
-            $no_out = "";
         }
 
         $data = [
             'date_book' => $date_book,
-            'no_in' => $no_in,
-            'no_out' => $no_out,
-
         ];
 
         return $data;

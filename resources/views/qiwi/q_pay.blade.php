@@ -10,15 +10,15 @@
         <form id="oplata" action="/q_pay" method="POST">
             @csrf
             <label for="id"><b>Номер бронирования:</b></label><br>
-            <input name="id" value="{!!$data[0]['id']!!}" class="form-control" readonly="readonly"/><br>
+            <input name="id" value="{!!$data->id!!}" class="form-control" readonly="readonly"/><br>
 
             <label for="date_book"><b>Даты:</b></label><br>
-            <input name="date_book" value="{!!$data[0] ['no_in'] !!} - {!!$data[0]['no_out']!!}"
+            <input name="date_book" value="{!!$data->no_in !!} - {!!$data->no_out!!}"
                    class="form-control" readonly="readonly"/><br>
 
 
             <label for="total"><b>Сумма:</b></label><br>
-            <input name="total" value="{!!$data[0]['total']!!} руб." class="form-control" readonly="readonly"/><br>
+            <input name="total" value="{!!$data->total!!} руб." class="form-control" readonly="readonly"/><br>
 
 
             <label for="amount"><b>20% к предоплате:</b></label><br>

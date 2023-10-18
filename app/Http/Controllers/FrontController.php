@@ -13,8 +13,8 @@ class FrontController extends Controller
 
     public function front(Request $request)
     {
-        $service = new BookingService();
-        $data = $service->getBookingDates();
+        $bookingService = new BookingService();
+        $data = $bookingService->getBookingDates();
         $settings = new SettingsService();
         $frontSettings = $settings->findSettingsFrontPage();
         $dataSettings = explode("&", $frontSettings->settings);
