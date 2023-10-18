@@ -12,6 +12,7 @@ class ArchiveController extends Controller
     {
         $archive = new ArchiveService();
         $data = $archive->findById($request->id);
+
         return view('archive.one_view', ['data' => $data]);
     }
 

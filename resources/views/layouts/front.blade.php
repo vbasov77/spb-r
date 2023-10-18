@@ -11,6 +11,7 @@
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{{ asset('bootstrap/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/front.css') }}" rel="stylesheet">
     <link href="{{ asset('css/hotel-datepicker.css') }}" rel="stylesheet">
     <link href="{{ asset('css/checkbox/radio.css') }}" rel="stylesheet">
 

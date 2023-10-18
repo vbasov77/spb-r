@@ -2,11 +2,7 @@
 @section('content')
 
     <style>
-        /* Make the image fully responsive */
-        .carousel-inner img {
-            width: 100%;
-            height: 100%;
-        }
+
     </style>
     <!-- Masthead-->
     <header class="masthead">
@@ -352,6 +348,77 @@
                             title="YouTube video player" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen></iframe>
+                </div>
+            </div>
+            <br>
+
+        </div>
+    </section>
+    <section class="about-section" id="about">
+        <div class="container">
+            <br>
+            <div class="row gx-0 justify-content-center">
+                <div class="col-lg-8 one">
+                    {{--                <div class="bg-black text-center h-100 project">--}}
+                    <div class="d-flex h-100">
+
+                        <div class="body-front i_am">
+                            Приветствую!<br>
+                            Я НЕ агент, я собственник данных апартаментов.<br> Давайте знакомиться! Меня зовут Виталий))<br>
+                            Мой аккаунт в <i class="fab fa-vk"></i>(
+                            <a href="https://vk.com/id642803932" target="_blank">Здесь</a>).
+                            <br>Подтверждение недвижимости на сторонних сервисах:
+                            <br>Авито(Ссылка
+                            <a target="_blank" style="text-decoration: none"
+                               href=
+                               "https://www.avito.ru/sankt-peterburg/kvartiry/kvartira-studiya_18m_13et._2542165635">
+                                Здесь</a>),
+                            <br>Суточно ру(Ссылка <a target="_blank" style="text-decoration: none"
+                                                     href="https://www.avito.ru/sankt-peterburg/kvartiry/kvartira-studiya_18m_13et._2542165635">Здесь</a>)
+                            <br>Циан(Ссылка <a style="text-decoration: none"
+                                               href="https://spb.cian.ru/rent/flat/268434305/" target="_blank">
+                                Здесь</a>)<br>
+
+                        </div>
+                    </div>
+                    {{--                </div>--}}
+                </div>
+
+                <div class="col-lg-3 two">
+                    <div class="i_am">
+                        <img src="{{ asset('img/ljbqpfwXe0A.png')}}">
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center text-center" style="margin-top: 50px;
+                    background-color: gainsboro;">
+                <div class="col-lg-8 ">
+                    <center>
+                        <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade" data-ride="carousel">
+                            <!-- Indicators -->
+                            <ul class="carousel-indicators">
+                                <li data-target="#carouselExampleDark" data-slide-to="0" class="active"></li>
+                                <li data-target="#carouselExampleDark" data-slide-to="1"></li>
+
+                            </ul>
+                            <!-- The slideshow -->
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="{{ asset('img/slider/avito.jpg')}}" alt="">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{{ asset('img/slider/Cian.jpg')}}" alt="">
+                                </div>
+
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleDark" data-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleDark" data-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </a>
+                        </div>
+                    </center>
                 </div>
             </div>
             <br>
