@@ -19,6 +19,11 @@ class BookingService extends Serializer
         return $bookingRepo->findById($id);
     }
 
+    public function create(array $book){
+        $bookingRepo = new BookingRepository();
+        $bookingRepo->addBooking($book);
+    }
+
     public function getBookingNoInTable()
     {
         $bookingRepo = new BookingRepository();

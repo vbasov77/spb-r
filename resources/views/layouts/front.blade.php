@@ -63,6 +63,7 @@
                                 <a class="dropdown-item" href="{{route('to.queue')}}">В очередь</a>
                                 <a class="dropdown-item" href="{{route('view.queue')}}">Очереди</a>
                                 <a class="dropdown-item" href="{{route('reports')}}">Отчёты</a>
+                                <a class="dropdown-item" href="{{route('archive')}}">Архив</a>
                                 <a class="dropdown-item" href="{{route('del.schedule')}}">Очистить базу</a>
                             @endif
                             <a class="dropdown-item" href="{{route('profile')}}">Профиль</a>
