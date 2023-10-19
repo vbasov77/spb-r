@@ -1,9 +1,7 @@
 @extends('layouts.app')
 @section('content')
 
-    <style>
 
-    </style>
     {{--    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>--}}
     <div class="container-fluid">
         <div class="row justify-content-center ">
@@ -31,8 +29,8 @@
                                     <th scope="col">Действия</th>
                                 </tr>
                                 </thead>
-                                <tbody>
 
+                                <tbody>
                                 @foreach($data['queue'] as $queue)
                                     <tr>
                                         <th scope="row"> {!! date('d.m.Y', $queue->date_in) !!}</th>

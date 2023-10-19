@@ -12,8 +12,18 @@ class ArchiveRepository extends Repository
         return Archive::find($id);
     }
 
+    public function findAll()
+    {
+        return Archive::all();
+    }
+
     public function save(array $archive)
     {
         Archive::insert($archive);
+    }
+
+    function delete($id)
+    {
+        Archive::where("id", $id)->delete();
     }
 }

@@ -59,6 +59,9 @@ Route::get('/orders', 'OrderController@view')->name("orders")->middleware('admin
 
 Route::post('/in_archive', 'ArchiveController@entryArchive')->name('in.archive')->middleware('admin');
 Route::get('/view/{id}/archive', 'ArchiveController@viewById')->name('view.archive')->middleware('admin');
+Route::get('/archive', 'ArchiveController@viewAll')->name('archive')->middleware('admin');
+Route::get('/archive/{id}/delete', 'ArchiveController@delete')->name('delete.archive')->middleware('admin');
+Route::get('/archive/{id}/back', 'ArchiveController@back')->name('archive.back')->middleware('admin');
 
 Route::get('/order/{id}/verification', 'VerificationController@verificationUserBook')->middleware('admin');
 Route::match(['get', 'post'],'/order/{id}/edit', 'OrderController@edit')->name('order.edit')->middleware('admin');
