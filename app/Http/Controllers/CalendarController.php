@@ -13,6 +13,18 @@ class CalendarController extends Controller
 {
 
 
+    private $bookingService;
+
+    private $dateService;
+
+
+    public function __construct()
+    {
+        $this->bookingService = new BookingService();
+        $this->dateService = new DateService();
+    }
+
+
     public function addBooking(Request $request)
     {
         $bookingService = new BookingService();
@@ -89,10 +101,9 @@ class CalendarController extends Controller
         $dates = preg_replace("/\s+/", "", $request->date_book);// удалили пробелы
         $dates = explode("-", $dates);// разбили строку на массив
 
-        $dateService = new DateService();
-        $countNight = (integer)$dateService->getCountNight($dates[0], $dates[1]);//Количество ночей
+        $countNight = (integer)$this->dateService->getCountNight($dates[0], $dates[1]);//Количество ночей
 
-        $infoBook = (array)$dateService->getInfo($dates[0], $dates[1], $countNight);
+        $infoBook = (array)$this->dateService->getInfo($dates[0], $dates[1], $countNight);
         if ($infoBook != null) {
             return view('orders.order_info', ['data' => $_POST, 'date_view' => $infoBook['dateView'],
                 'sum' => $infoBook['total'], 'sum_night' => $countNight]);
