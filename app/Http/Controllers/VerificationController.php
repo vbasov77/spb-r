@@ -11,9 +11,8 @@ class VerificationController extends Controller
         return view('/');
     }
 
-    public function verificationUserBook($id)
+    public function verificationUserBook(int $id, BookingService $bookingService)
     {
-        $bookingService = new BookingService();
         $res = $bookingService->getBookingOrderId($id);
         if (!empty($res)) {
             $userInfo = explode('&', $res->user_info);

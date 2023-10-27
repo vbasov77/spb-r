@@ -9,14 +9,6 @@ use Illuminate\View\View;
 
 class ArchiveController extends Controller
 {
-
-    private $bookingService;
-
-    public function __construct()
-    {
-        $this->bookingService = new BookingService();
-    }
-
     public
     function viewById(ArchiveService $archiveService, Request $request): View
     {
@@ -32,12 +24,14 @@ class ArchiveController extends Controller
     }
 
     public
-    function entryArchive(ArchiveService $archiveService, Request $request)
+    function entryArchive(ArchiveService $archiveService,
+                          BookingService $bookingService,
+                          Request $request)
     {
         $id = $request->id;
-        $data = $this->bookingService->findById($id);// Получаем данные бронирования по id из БД booking
+        $data = $bookingService->findById($id);// Получаем данные бронирования по id из БД booking
         $archiveService->save($data, $request->otz);// Добавляем новый архив
-        $this->bookingService->delete($id); // Удалили запись из БД
+        $bookingService->delete($id); // Удалили запись из БД
 
         return redirect()->action([OrderController::class, 'view']);
     }

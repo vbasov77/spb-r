@@ -7,11 +7,8 @@ use App\Services\ReportService;
 
 class ReportsController extends Controller
 {
-    public function view()
+    public function view(ReportService $reportService, BookingService $bookingService)
     {
-        $reportService = new ReportService();
-        $bookingService = new BookingService();
-
         $dateBook = $bookingService->getBookingDates();
         $countNight = $reportService->getCountNight();
         $sum = $reportService->getSum();

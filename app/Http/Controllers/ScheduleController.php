@@ -8,11 +8,9 @@ use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
-    public function view()
+    public function view(ScheduleService $scheduleService, DateService $dateService)
     {
-        $scheduleService = new ScheduleService();
 
-        $dateService = new DateService();        //Получим всё расписание
         $schedules = $scheduleService->findAll();
 
         // Получим строку дат для передачи в JS файл календаря
@@ -21,7 +19,9 @@ class ScheduleController extends Controller
         return view('schedule.schedule')->with(['dateBook' => $dateBookStr]);
     }
 
-    public function updateDiaDates(Request $request)
+    public function updateDiaDates(Request $request,
+                                   DateService $dateService,
+                                   ScheduleService $scheduleService)
     {
 
         if ($request->isMethod('get')) {
@@ -31,8 +31,7 @@ class ScheduleController extends Controller
 
         if ($request->isMethod('post')) {
             // этот код выполнится, если используется метод POST
-            $dateService = new DateService();
-            $scheduleService = new ScheduleService();
+
 
             $date = preg_replace("/\s+/", "", $request->date_book);// удалили пробелы
             $date = explode("-", $date);
@@ -48,20 +47,15 @@ class ScheduleController extends Controller
 
     }
 
-    public function delSchedule()
+    public function delSchedule(ScheduleService $scheduleService)
     {
-        $scheduleService = new ScheduleService();
         $count = $scheduleService->delSchedule();
-
         return view('messages.del_schedule', ['count' => $count]);
     }
 
 
-    public function add(Request $request)
+    public function add(Request $request, DateService $dateService, ScheduleService $scheduleService)
     {
-        $dateService = new DateService();
-        $scheduleService = new ScheduleService();
-
         if ($request->isMethod('get')) {
             $dateBook = $scheduleService->getScheduleStr();
             return view('schedule.schedule')->with(['dateBook' => $dateBook]);
@@ -82,10 +76,8 @@ class ScheduleController extends Controller
     }
 
 
-    public function edit(Request $request)
+    public function edit(Request $request, ScheduleService $scheduleService)
     {
-        $scheduleService = new ScheduleService();
-
         if ($request->isMethod('get')) {
             // этот код выполнится, если используется метод GET
             $dateBook = $scheduleService->getScheduleStr();
@@ -99,9 +91,8 @@ class ScheduleController extends Controller
     }
 
 
-    public function editScheduleCost(Request $request)
+    public function editScheduleCost(Request $request, ScheduleService $scheduleService)
     {
-        $scheduleService = new ScheduleService();
         $str = $scheduleService->getStrUpdateSchedules($request);
         $scheduleService->updateScheduleCost($str);
 

@@ -5,26 +5,29 @@ namespace App\Services;
 
 
 use App\Repositories\SettingsRepository;
-use phpDocumentor\Reflection\DocBlock\Serializer;
 
 
-class SettingsService extends Serializer
+class SettingsService extends Service
 {
+
+    private $settingsRepository;
+
+
+    public function __construct()
+    {
+        $this->settingsRepository = new SettingsRepository();
+    }
+
     public function findSettingsFrontPage()
     {
-        $frontSettings = new SettingsRepository();
-        return $frontSettings->findSettingsFrontPage();
+        return $this->settingsRepository->findSettingsFrontPage();
     }
 
-    public function updateFrontSettings(string $inDb)
+    public function updateFrontSettings(string $inDb): void
     {
-        $frontSettings = new SettingsRepository();
-        $frontSettings->updateFrontSettings($inDb);
+        $this->settingsRepository->updateFrontSettings($inDb);
     }
 
-    public function findFrontSettings()
-    {
 
-    }
 
 }

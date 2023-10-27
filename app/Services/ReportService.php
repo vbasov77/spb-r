@@ -5,9 +5,8 @@ namespace App\Services;
 
 
 use App\Repositories\ReportRepository;
-use phpDocumentor\Reflection\DocBlock\Serializer;
 
-class ReportService extends Serializer
+class ReportService extends Service
 {
     public function findByMonth(string $month)
     {

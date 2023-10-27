@@ -6,9 +6,8 @@ namespace App\Services;
 
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
-use phpDocumentor\Reflection\DocBlock\Serializer;
 
-class UserService extends Serializer
+class UserService extends Service
 {
 
     public function checkEmail(string $email)

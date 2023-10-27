@@ -6,88 +6,86 @@ namespace App\Services;
 
 use App\Repositories\BookingRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 
 class BookingService extends Service
 {
 
-    private $bookingRepo;
+    private $bookingRepository;
 
     public function __construct()
     {
-        $this->bookingRepo = new BookingRepository;
+        $this->bookingRepository = new BookingRepository;
     }
 
-
-    public function findById(int $id)
+    public function findById(int $id): object
     {
-
-        return $this->bookingRepo->findById($id);
+        return $this->bookingRepository->findById($id);
     }
 
-    public function create(array $book){
-        $this->bookingRepo->addBooking($book);
-    }
-
-    public function getBookingNoInTable()
+    public function create(array $book): void
     {
-        return $this->bookingRepo->getBookingNoInTable();
+        $this->bookingRepository->addBooking($book);
     }
 
-    public function findAll()
+    public function getBookingNoInTable(): object
     {
-        return $this->bookingRepo->findAll();
+        return $this->bookingRepository->getBookingNoInTable();
     }
 
-    public function getBookingNoIn(string $noIn)
+    public function findAll(): object
     {
-        return $this->bookingRepo->getBookingNoIn($noIn);
+        return $this->bookingRepository->findAll();
     }
 
-    public function findByEmail(string $email)
+    public function getBookingNoIn(string $noIn): array
     {
-        return $this->bookingRepo->findByEmail($email);
+        return $this->bookingRepository->getBookingNoIn($noIn);
     }
 
-    public function delete(int $id)
+    public function findByEmail(string $email): object
     {
-        $this->bookingRepo->delete($id);
+        return $this->bookingRepository->findByEmail($email);
     }
 
-    public function confirmOrder(int $id)
+    public function delete(int $id): void
     {
-        $this->bookingRepo->confirmOrder($id);
+        $this->bookingRepository->delete($id);
     }
 
-
-    public function getBookingOrderId(int $id)
+    public function confirmOrder(int $id): void
     {
-        return $this->bookingRepo->getBookingOrderId($id);
+        $this->bookingRepository->confirmOrder($id);
     }
 
-    public function updateInfoPay(int $id, string $infoPay)
+
+    public function getBookingOrderId(int $id): object
     {
-        $this->bookingRepo->updateInfoPay($id, $infoPay);
+        return $this->bookingRepository->getBookingOrderId($id);
     }
 
-    public function checkingForEmployment($dateView)
+    public function updateInfoPay(int $id, string $infoPay): void
+    {
+        $this->bookingRepository->updateInfoPay($id, $infoPay);
+    }
+
+    public function checkingForEmployment(string $dateView): bool
     {
         $check = explode(',', $dateView);
         for ($i = 0; $i < count($check) - 1; $i++) {
             $it = explode('/', $check[$i]);
-            $array_dates[] = $it[0];
+            $arrayDates[] = $it[0];
         }
-        $all_dates = DB::table('booking')->get('date_book');
-        if (!empty(count($all_dates))) {
-            foreach ($all_dates as $da) {
-                $array_table[] = $da->date_book;
+        $allDates = $this->bookingRepository->getDateBooks();
+        if (!empty(count($allDates))) {
+            foreach ($allDates as $date) {
+                $arrayTable[] = $date->date_book;
             }
-            if (!empty(count($array_dates))) {
-                foreach ($array_dates as $ar) {
-                    foreach ($array_table as $table) {
+            if (!empty(count($arrayDates))) {
+                foreach ($arrayDates as $value) {
+                    foreach ($arrayTable as $table) {
                         $tab = explode(',', $table);
-                        if (in_array($ar, $tab)) {
+                        if (in_array($value, $tab)) {
                             return false;
                         }
                     }
@@ -99,11 +97,9 @@ class BookingService extends Service
     }
 
 
-    public function getBookingDates()
+    public function getBookingDates(): array
     {
-        $bookingRepo = new BookingRepository();
-        $booking = $bookingRepo->findAll();
-
+        $booking = $this->bookingRepository->findAll();
         if (!empty($booking)) {
             // Переформатирование date_book
             $arrayDatesFormat = [];
@@ -128,9 +124,8 @@ class BookingService extends Service
     }
 
 
-    public function addBooking(Request $request, string $userName)
+    public function addBooking(Request $request, string $userName): array
     {
-
         $dateService = new DateService();
 
         $email = $request->email;
@@ -163,7 +158,7 @@ class BookingService extends Service
             'user_info' => $info,
             'total' => $total,
         ];
-        $id = $this->bookingRepo->addBooking($data);
+        $id = $this->bookingRepository->addBooking($data);
         $params = [
             'startDate' => $startDate,
             'endDate' => $endDate,

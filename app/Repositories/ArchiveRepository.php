@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\Archive;
 
 
-class ArchiveRepository
+class ArchiveRepository extends Repository
 {
     public function findById(int $id)
     {

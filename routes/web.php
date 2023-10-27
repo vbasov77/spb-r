@@ -53,7 +53,7 @@ Route::get('/reports', [ReportsController::class, 'view'])->name('reports')->mid
 
 
 Route::match(["get", "post"], '/front_edit', [SettingsController::class, 'front'])->name("front.edit")->middleware('admin');
-Route::get('/settings', [SettingsController::class, 'view'])->name('settings')->middleware('admin');
+Route::get('/settings', [SettingsController::class, 'index'])->name('settings')->middleware('admin');
 
 Route::post('/q_result', [QiwiController::class, 'result']);
 Route::post('/q_pay', [QiwiController::class, 'pay']);

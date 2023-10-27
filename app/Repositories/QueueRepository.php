@@ -5,8 +5,6 @@ namespace App\Repositories;
 
 
 use App\Models\Queue;
-use Illuminate\Config\Repository;
-use Illuminate\Support\Facades\DB;
 
 class QueueRepository extends Repository
 {

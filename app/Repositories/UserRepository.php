@@ -4,7 +4,6 @@
 namespace App\Repositories;
 
 use App\User;
-use Illuminate\Config\Repository;
 
 class UserRepository extends Repository
 {

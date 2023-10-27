@@ -6,9 +6,9 @@ namespace App\Services;
 
 use App\Repositories\ScheduleRepository;
 use Illuminate\Http\Request;
-use phpDocumentor\Reflection\DocBlock\Serializer;
+use phpDocumentor\Reflection\Types\Mixed_;
 
-class ScheduleService extends Serializer
+class ScheduleService extends Service
 
 {
     public static function GetScheduleTable()

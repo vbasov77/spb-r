@@ -11,28 +11,12 @@ use Illuminate\Http\Request;
 
 class CalendarController extends Controller
 {
-    private $bookingService;
-
-    private $dateService;
-
-    private $userService;
-
-    private $mailService;
 
 
-    public function __construct()
+    public function addBooking(Request $request,
+                               BookingService $bookingService,
+                               UserService $userService, MailService $mailService)
     {
-        $this->bookingService = new BookingService();
-        $this->dateService = new DateService();
-        $this->userService = new UserService();
-        $this->mailService = new MailService();
-    }
-
-
-    public function addBooking(Request $request)
-    {
-        $bookingService = new BookingService();
-
         //Проверка на занятость дат
         $checkBooking = $bookingService->checkingForEmployment($request->date_view);
 
@@ -43,23 +27,23 @@ class CalendarController extends Controller
             $email = $request->email;
 
             // Проверка есть ли email в БД
-            $checkEmail = $this->userService->checkEmail($email);
+            $checkEmail = $userService->checkEmail($email);
 
             // Если email нет в БД, то создаём учётную запись и уведомляем пользователя
             if ($checkEmail == false) {
                 $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 $password = substr(str_shuffle($permitted_chars), 0, 16);
 
-                $this->userService->addUser($userName, $email, $password); //Добавили юзера
+                $userService->addUser($userName, $email, $password); //Добавили юзера
 
-                $this->mailService->SendRegister($userName, $email, $password);// Отправили юзеру письмо о регистрации
+                $mailService->SendRegister($userName, $email, $password);// Отправили юзеру письмо о регистрации
 
             }
             //Добавляем бронирование в БД, возвращаем данные для mail
             $params = $bookingService->addBooking($request, $userName);
 
             // Отправляем сообщение
-            $message = $this->mailService->NewBooking($params, $userName, $email);
+            $message = $mailService->NewBooking($params, $userName, $email);
 
             return redirect()->action('DankeController@view', ['mess' => $message]);
         } else {
@@ -84,14 +68,13 @@ class CalendarController extends Controller
     }
 
 
-    /**
-     *  Метод формирует информацию для бронирования - количество ночей,
-     *  цену по каждому дню.
-     *
-     */
-
-    public function addInfo(Request $request)
+    public function addInfo(Request $request, DateService $dateService)
     {
+        /**
+         *  Метод формирует информацию для бронирования - количество ночей,
+         *  цену по каждому дню.
+         *
+         */
         if (empty($request->date_book)) {
             try {
                 throw new InvalidArgumentException("Вы не выбрали даты!");
@@ -103,9 +86,9 @@ class CalendarController extends Controller
         $dates = preg_replace("/\s+/", "", $request->date_book);// удалили пробелы
         $dates = explode("-", $dates);// разбили строку на массив
 
-        $countNight = (integer)$this->dateService->getCountNight($dates[0], $dates[1]);//Количество ночей
+        $countNight = (integer)$dateService->getCountNight($dates[0], $dates[1]);//Количество ночей
 
-        $infoBook = (array)$this->dateService->getInfo($dates[0], $dates[1], $countNight);
+        $infoBook = (array)$dateService->getInfo($dates[0], $dates[1], $countNight);
         if ($infoBook != null) {
             return view('orders.order_info', ['data' => $_POST, 'date_view' => $infoBook['dateView'],
                 'sum' => $infoBook['total'], 'sum_night' => $countNight]);

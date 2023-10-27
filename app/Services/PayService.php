@@ -5,9 +5,8 @@ namespace App\Services;
 
 
 use App\Repositories\PayRepository;
-use phpDocumentor\Reflection\DocBlock\Serializer;
 
-class PayService extends Serializer
+class PayService extends Service
 {
     public function updateBookInfoPayAndPay(int $id, string $info_pay, int $pay)
     {
