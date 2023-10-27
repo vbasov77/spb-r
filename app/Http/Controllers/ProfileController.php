@@ -16,6 +16,7 @@ class ProfileController extends Controller
 
             return view('profile', ['data' => $book]);
         } else {
+
             return redirect()->route('login');
         }
 

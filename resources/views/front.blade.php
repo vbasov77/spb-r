@@ -448,7 +448,6 @@
     <script src="{{asset('js/preloader/preloader.js')}}"></script>
     <script>
         var datebook = @json($data['date_book']);
-
     </script>
 
     <script src="{{ asset('js/buttons/close_button.js') }}" defer></script>

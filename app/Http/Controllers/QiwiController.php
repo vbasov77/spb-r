@@ -11,10 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\View\View;
 
 class QiwiController extends Controller
 {
-    public function result()
+    public function result(): void
     {
         $dat = file_get_contents("php://input");
         $data = json_decode($dat, 1);
@@ -49,7 +50,7 @@ class QiwiController extends Controller
         });
     }
 
-    public function verification(Request $request)
+    public function verification(Request $request): View
     {
 
         $bookingService = new BookingService();

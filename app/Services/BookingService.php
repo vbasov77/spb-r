@@ -7,70 +7,68 @@ namespace App\Services;
 use App\Repositories\BookingRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use phpDocumentor\Reflection\DocBlock\Serializer;
 
 
-class BookingService extends Serializer
+class BookingService extends Service
 {
+
+    private $bookingRepo;
+
+    public function __construct()
+    {
+        $this->bookingRepo = new BookingRepository;
+    }
+
 
     public function findById(int $id)
     {
-        $bookingRepo = new BookingRepository();
-        return $bookingRepo->findById($id);
+
+        return $this->bookingRepo->findById($id);
     }
 
     public function create(array $book){
-        $bookingRepo = new BookingRepository();
-        $bookingRepo->addBooking($book);
+        $this->bookingRepo->addBooking($book);
     }
 
     public function getBookingNoInTable()
     {
-        $bookingRepo = new BookingRepository();
-        return $bookingRepo->getBookingNoInTable();
+        return $this->bookingRepo->getBookingNoInTable();
     }
 
     public function findAll()
     {
-        $bookingRepo = new BookingRepository();
-        return $bookingRepo->findAll();
+        return $this->bookingRepo->findAll();
     }
 
     public function getBookingNoIn(string $noIn)
     {
-        $bookingRepo = new BookingRepository();
-        return $bookingRepo->getBookingNoIn($noIn);
+        return $this->bookingRepo->getBookingNoIn($noIn);
     }
 
     public function findByEmail(string $email)
     {
-        $bookingRepo = new BookingRepository();
-        return $bookingRepo->findByEmail($email);
+        return $this->bookingRepo->findByEmail($email);
     }
 
     public function delete(int $id)
     {
-        $bookingRepo = new BookingRepository();
-        $bookingRepo->delete($id);
+        $this->bookingRepo->delete($id);
     }
 
     public function confirmOrder(int $id)
     {
-        $bookingRepo = new BookingRepository();
-        $bookingRepo->confirmOrder($id);
+        $this->bookingRepo->confirmOrder($id);
     }
 
 
     public function getBookingOrderId(int $id)
     {
-        $bookingRepo = new BookingRepository();
-        return $bookingRepo->getBookingOrderId($id);
+        return $this->bookingRepo->getBookingOrderId($id);
     }
 
     public function updateInfoPay(int $id, string $infoPay)
     {
-        $bookingRepo = new BookingRepository();
-        $bookingRepo->updateInfoPay($id, $infoPay);
+        $this->bookingRepo->updateInfoPay($id, $infoPay);
     }
 
     public function checkingForEmployment($dateView)
@@ -132,7 +130,7 @@ class BookingService extends Serializer
 
     public function addBooking(Request $request, string $userName)
     {
-        $bookingRepo = new BookingRepository();
+
         $dateService = new DateService();
 
         $email = $request->email;
@@ -165,7 +163,7 @@ class BookingService extends Serializer
             'user_info' => $info,
             'total' => $total,
         ];
-        $id = $bookingRepo->addBooking($data);
+        $id = $this->bookingRepo->addBooking($data);
         $params = [
             'startDate' => $startDate,
             'endDate' => $endDate,

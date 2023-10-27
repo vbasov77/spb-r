@@ -21,6 +21,9 @@ class QueueController extends Controller
     }
 
 
+    /**
+     * Метод для добавления пользователя в очередь.
+     */
     public function toQueue(Request $request)
     {
         if ($request->isMethod('get')) {
@@ -29,6 +32,7 @@ class QueueController extends Controller
             $data = $service->getBookingDates();
             return view('queue.add', ['data' => $data]);
         }
+
         if ($request->isMethod('post')) {
             // этот код выполнится, если используется метод POST
             $queueService = new QueueService();
@@ -51,6 +55,8 @@ class QueueController extends Controller
             return redirect()->action("QueueController@view");
         }
     }
+
+
 
     public function update(Request $request)
     {

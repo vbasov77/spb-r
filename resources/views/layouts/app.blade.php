@@ -90,7 +90,7 @@
                                 <a class="dropdown-item" href="{{route('settings')}}">Настройки</a>
                                 @if(Auth::user()->isAdmin())
                                     <a class="dropdown-item" href="{{route('orders')}}">Заказы</a>
-                                    <a class="dropdown-item" href="{{route('to.queue')}}">В очередь</a>
+                                    <a class="dropdown-item" href="{{route('admin.to.queue')}}">В очередь</a>
                                     <a class="dropdown-item" href="{{route('view.queue')}}">Очереди</a>
                                     <a class="dropdown-item" href="{{route('reports')}}">Отчёты</a>
                                     <a class="dropdown-item" href="{{route('archive')}}">Архив</a>

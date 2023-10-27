@@ -11,25 +11,27 @@ use Illuminate\Http\Request;
 
 class CalendarController extends Controller
 {
-
-
     private $bookingService;
 
     private $dateService;
+
+    private $userService;
+
+    private $mailService;
 
 
     public function __construct()
     {
         $this->bookingService = new BookingService();
         $this->dateService = new DateService();
+        $this->userService = new UserService();
+        $this->mailService = new MailService();
     }
 
 
     public function addBooking(Request $request)
     {
         $bookingService = new BookingService();
-        $userService = new UserService();
-        $mailService = new MailService();
 
         //Проверка на занятость дат
         $checkBooking = $bookingService->checkingForEmployment($request->date_view);
@@ -41,23 +43,23 @@ class CalendarController extends Controller
             $email = $request->email;
 
             // Проверка есть ли email в БД
-            $checkEmail = $userService->checkEmail($email);
+            $checkEmail = $this->userService->checkEmail($email);
 
             // Если email нет в БД, то создаём учётную запись и уведомляем пользователя
             if ($checkEmail == false) {
                 $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 $password = substr(str_shuffle($permitted_chars), 0, 16);
 
-                $userService->addUser($userName, $email, $password); //Добавили юзера
+                $this->userService->addUser($userName, $email, $password); //Добавили юзера
 
-                $mailService->SendRegister($userName, $email, $password);// Отправили юзеру письмо о регистрации
+                $this->mailService->SendRegister($userName, $email, $password);// Отправили юзеру письмо о регистрации
 
             }
             //Добавляем бронирование в БД, возвращаем данные для mail
             $params = $bookingService->addBooking($request, $userName);
 
             // Отправляем сообщение
-            $message = $mailService->NewBooking($params, $userName, $email);
+            $message = $this->mailService->NewBooking($params, $userName, $email);
 
             return redirect()->action('DankeController@view', ['mess' => $message]);
         } else {

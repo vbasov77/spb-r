@@ -5,10 +5,10 @@ namespace App\Services;
 
 
 use App\Repositories\ArchiveRepository;
-use phpDocumentor\Reflection\DocBlock\Serializer;
 
 
-class ArchiveService extends Serializer
+
+class ArchiveService extends Service
 {
     public function findById(int $id)
     {
