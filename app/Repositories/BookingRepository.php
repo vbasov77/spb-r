@@ -5,7 +5,6 @@ namespace App\Repositories;
 
 
 use App\Models\Booking;
-use Illuminate\Config\Repository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -81,7 +80,12 @@ from booking b where b.no_in = " . '"' . $noIn . '"');
 
     public function updateInfoPay(int $id, string $infoPay)
     {
-        DB::table('booking')->where('id', $id)->update(['pay' => 1, 'info_pay' => $infoPay]);
+        Booking::where('id', $id)->update(['pay' => 1, 'info_pay' => $infoPay]);
+    }
+
+    public function getDateBooks(): object
+    {
+        return Booking::get('date_book');
     }
 
 }

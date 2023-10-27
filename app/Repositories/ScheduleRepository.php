@@ -5,7 +5,6 @@ namespace App\Repositories;
 
 
 use App\Models\Schedule;
-use Illuminate\Config\Repository;
 use Illuminate\Support\Facades\DB;
 
 class ScheduleRepository extends Repository

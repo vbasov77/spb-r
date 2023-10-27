@@ -5,9 +5,8 @@ namespace App\Services;
 
 
 use App\Repositories\QueueRepository;
-use phpDocumentor\Reflection\DocBlock\Serializer;
 
-class QueueService extends Serializer
+class QueueService extends Service
 {
     public function create(array $data)
     {

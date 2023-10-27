@@ -50,10 +50,9 @@ class QiwiController extends Controller
         });
     }
 
-    public function verification(Request $request): View
+    public function verification(Request $request, BookingService $bookingService, PayService $payService): View
     {
 
-        $bookingService = new BookingService();
         $res = $bookingService->getBookingOrderId($request->id);
         $id = $request->id;
 
@@ -64,7 +63,7 @@ class QiwiController extends Controller
                 $pay[] = 0;
                 $pay[] = $billId;
                 $info_pay = implode(';', $pay); //Создали строку из массива
-                $payService = new PayService();
+
                 $payService->updateBookInfoPay($id, $info_pay);
                 $bookingService = new BookingService();
                 $data = $bookingService->getBookingOrderId($id);
@@ -85,9 +84,8 @@ class QiwiController extends Controller
     }
 
 
-    public function pay(Request $request)
+    public function pay(Request $request, KeyService $keyService)
     {
-        $keyService = new KeyService();
         $publicKey = $keyService->keyPublicQiwi();
         $billId = $request->billId;
         $amount = $request->amount;

@@ -12,32 +12,27 @@ use Illuminate\Http\Request;
 class QueueController extends Controller
 {
 
-    public function view()
+    public function view(QueueService $queueService)
     {
-        $queueService = new QueueService();
-
         $data = $queueService->getDataQueues();
         return view('queue.view', ['data' => $data]);
     }
 
 
-    /**
-     * Метод для добавления пользователя в очередь.
-     */
-    public function toQueue(Request $request)
+    public function toQueue(Request $request, BookingService $bookingService,
+                            QueueService $queueService, DateService $dateService)
     {
+        /**
+         * Метод для добавления пользователя в очередь.
+         */
         if ($request->isMethod('get')) {
             // этот код выполнится, если используется метод GET
-            $service = new BookingService();
-            $data = $service->getBookingDates();
+            $data = $bookingService->getBookingDates();
             return view('queue.add', ['data' => $data]);
         }
 
         if ($request->isMethod('post')) {
             // этот код выполнится, если используется метод POST
-            $queueService = new QueueService();
-            $dateService = new DateService();
-
             $booking = explode("-", preg_replace("/\s+/", "", $request->date_book));
 
             $countNight = $dateService->getCountNight($booking[0], $booking[1]);
@@ -57,14 +52,12 @@ class QueueController extends Controller
     }
 
 
-
-    public function update(Request $request)
+    public function update(Request $request, BookingService $bookingService, DateService $dateService)
     {
         $queueService = new QueueService();
         if ($request->isMethod('get')) {
             // этот код выполнится, если используется метод GET
 
-            $bookingService = new BookingService();
             $datesBook = $bookingService->getBookingDates();
             $data = $queueService->findById($request->id);
 
@@ -72,7 +65,6 @@ class QueueController extends Controller
         }
         if ($request->isMethod('post')) {
             // этот код выполнится, если используется метод POST
-            $dateService = new DateService();
 
             $booking = explode("-", preg_replace("/\s+/", "", $request->date_book));
 
@@ -91,13 +83,10 @@ class QueueController extends Controller
         }
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, QueueService $queueService)
     {
-        $queueService = new QueueService();
         $queueService->deleteById($request->id);
-
         return redirect()->action("QueueController@view");
-
     }
 
 }

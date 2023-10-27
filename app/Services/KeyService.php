@@ -4,9 +4,7 @@
 namespace App\Services;
 
 
-use phpDocumentor\Reflection\DocBlock\Serializer;
-
-class KeyService extends Serializer
+class KeyService extends Service
 {
     public function keyPublicQiwi()
     {

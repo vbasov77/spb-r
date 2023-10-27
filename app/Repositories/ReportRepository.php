@@ -5,7 +5,6 @@ namespace App\Repositories;
 
 
 use App\Models\Reports;
-use Illuminate\Config\Repository;
 
 class ReportRepository extends Repository
 {

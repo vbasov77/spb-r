@@ -10,15 +10,13 @@ use App\Repositories\ArchiveRepository;
 
 class ArchiveService extends Service
 {
-    public function findById(int $id)
+    public function findById(int $id, ArchiveRepository $archiveRepository)
     {
-        $archiveRepo = new ArchiveRepository();
-        return $archiveRepo->findById($id);
+        return $archiveRepository->findById($id);
     }
 
-    public function save(object $data, string $otz)
+    public function save(object $data, string $otz, ArchiveRepository $archiveRepository)
     {
-        $archiveRepo = new ArchiveRepository();
         $archive = [
             'user_name' => $data->user_name,
             'phone' => $data->phone,
@@ -35,28 +33,23 @@ class ArchiveService extends Service
             'otz' => $otz,
             'created_at' => $data->created_at
         ];
-        $archiveRepo->save($archive);
+        $archiveRepository->save($archive);
     }
 
-    public function findAll()
+    public function findAll(ArchiveRepository $archiveRepository)
     {
-        $archiveRepo = new ArchiveRepository();
-        return $archiveRepo->findAll();
+        return $archiveRepository->findAll();
     }
 
-    public function delete(int $id)
+    public function delete(int $id, ArchiveRepository $archiveRepository)
     {
-        $archiveRepo = new ArchiveRepository();
-        $archiveRepo->delete($id);
+        $archiveRepository->delete($id);
     }
 
-    public function back(int $id)
+    public function back(int $id, ArchiveRepository $archiveRepository,
+                         DateService $dateService, BookingService $bookingService)
     {
-        $archiveRepo = new ArchiveRepository();
-        $dateService = new DateService();
-        $bookingService = new BookingService();
-
-        $archive = $archiveRepo->findById($id);
+        $archive = $archiveRepository->findById($id);
         $datesBook = $dateService->getDates($archive->no_in, $archive->no_out, 1);
         $booking = [
             'user_name' => $archive->user_name,
@@ -75,7 +68,7 @@ class ArchiveService extends Service
             'created_at' => $archive->created_at
         ];
         $bookingService->create($booking);
-        $archiveRepo->delete($archive->id);
+        $archiveRepository->delete($archive->id);
     }
 
 

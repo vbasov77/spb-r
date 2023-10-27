@@ -6,9 +6,8 @@ namespace App\Services;
 
 use App\Repositories\BookingRepository;
 use Illuminate\Http\Request;
-use phpDocumentor\Reflection\DocBlock\Serializer;
 
-class OrderService extends Serializer
+class OrderService extends Service
 {
     public function updateOrder(Request $data)
     {

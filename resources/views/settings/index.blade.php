@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
 
-
     <section class="about-section text-center" id="about">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -26,21 +25,6 @@
                                     Изменить массово
                                 </button>
                             </div>
-                        </div>
-                    </div>
-                    <div class="card" style="margin: 20px">
-                        <div class="card-header">
-                            Правила
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Настройка правил календаря</h5>
-                            <p class="card-text">День начала брони, Мин количество дней, Макс. количество дней... </p>
-                            <div class="card-footer">
-                                <button class="btn btn-outline-success"
-                                        onclick="window.location.href = '/rules_settings';">Редактировать
-                                </button>
-                            </div>
-
                         </div>
                     </div>
 

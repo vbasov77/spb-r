@@ -11,9 +11,8 @@ use App\Mail\SendBooking;
 use App\Mail\SendRegister;
 use App\Mail\SendUserDeleteOrder;
 use Illuminate\Support\Facades\Mail;
-use phpDocumentor\Reflection\DocBlock\Serializer;
 
-class MailService extends Serializer
+class MailService extends Service
 {
 
     public function SendRegister(string $nameUser, string $email, string $password)

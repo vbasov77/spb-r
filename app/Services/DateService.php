@@ -8,7 +8,7 @@ use App\Http\Controllers\GetController;
 use App\Models\Reports;
 use phpDocumentor\Reflection\DocBlock\Serializer;
 
-class DateService extends Serializer
+class DateService extends Service
 {
     public function getDates(string $startTime, string $endTime, int $firstDay)
     {
