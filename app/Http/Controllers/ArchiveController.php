@@ -5,50 +5,55 @@ namespace App\Http\Controllers;
 use App\Services\ArchiveService;
 use App\Services\BookingService;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ArchiveController extends Controller
 {
-    public function viewById(Request $request)
-    {
-        $archive = new ArchiveService();
-        $data = $archive->findById($request->id);
 
+    private $bookingService;
+
+    public function __construct()
+    {
+        $this->bookingService = new BookingService();
+    }
+
+    public
+    function viewById(ArchiveService $archiveService, Request $request): View
+    {
+        $data = $archiveService->findById($request->id);
         return view('archive.one_view', ['data' => $data]);
     }
 
-    public function viewAll()
+    public
+    function viewAll(ArchiveService $archiveService): View
     {
-        $archive = new ArchiveService();
-        $data = $archive->findAll();
+        $data = $archiveService->findAll();
         return view('archive.all', ['data' => $data]);
     }
 
-
-    public function entryArchive(Request $request)
+    public
+    function entryArchive(ArchiveService $archiveService, Request $request)
     {
         $id = $request->id;
-        $bookingService = new BookingService();
-        $data = $bookingService->findById($id);// Получаем данные бронирования по id из БД booking
-        $archiveService = new ArchiveService();
+        $data = $this->bookingService->findById($id);// Получаем данные бронирования по id из БД booking
         $archiveService->save($data, $request->otz);// Добавляем новый архив
-        $bookingService->delete($id); // Удалили запись из БД
+        $this->bookingService->delete($id); // Удалили запись из БД
 
-        return redirect()->action('OrderController@view');
+        return redirect()->action([OrderController::class, 'view']);
     }
 
-    public function delete(Request $request)
+    public
+    function delete(ArchiveService $archiveService, Request $request)
     {
-        $archiveService = new ArchiveService();
         $archiveService->delete($request->id);
-        return redirect()->action("ArchiveController@viewAll");
+        return redirect()->action([ArchiveController::class, 'viewAll']);
     }
 
-    public function back(Request $request)
+    public
+    function back(ArchiveService $archiveService, Request $request)
     {
-        $archiveService = new ArchiveService();
         $archiveService->back($request->id);
         return redirect()->route("orders");
-
     }
 
 

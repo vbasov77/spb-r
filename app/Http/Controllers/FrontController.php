@@ -10,11 +10,18 @@ use Illuminate\Support\Facades\Request;
 
 class FrontController extends Controller
 {
+    private $bookingService;
+
+
+    public function __construct()
+    {
+        $this->bookingService = new BookingService();
+    }
+
 
     public function front(Request $request)
     {
-        $bookingService = new BookingService();
-        $data = $bookingService->getBookingDates();
+        $data = $this->bookingService->getBookingDates();
         $settings = new SettingsService();
         $frontSettings = $settings->findSettingsFrontPage();
         $dataSettings = explode("&", $frontSettings->settings);

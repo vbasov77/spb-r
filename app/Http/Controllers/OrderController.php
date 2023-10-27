@@ -11,17 +11,32 @@ use App\Services\MailService;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\VerificationController;
 
 class OrderController extends Controller
 {
+    private $bookingService;
+
+    private $orderService;
+
+    private $dateService;
+
+    private $mailService;
+
+
+    public function __construct()
+    {
+        $this->bookingService = new BookingService();
+        $this->orderService = new OrderService();
+        $this->dateService = new DateService();
+        $this->mailService = new MailService();
+    }
+
+
     public function view()
     {
-        $booking = new BookingService();
-        $service = new OrderService();
-        $data = $booking->getBookingDates();
-
-        $datesInOrder = $service->inOrder(); //Формируем даты по порядку
-
+        $data = $this->bookingService->getBookingDates();
+        $datesInOrder = $this->orderService->inOrder(); //Формируем даты по порядку
         $bookingDates = !empty($datesInOrder) ? $datesInOrder : null;
 
         return view('orders.orders')->with(['data' => $bookingDates, 'data2' => $data]);
@@ -32,15 +47,13 @@ class OrderController extends Controller
     {
         if ($request->isMethod('get')) {
             // этот код выполнится, если используется метод GET
-            $bookingService = new BookingService();
-            $order = $bookingService->getBookingOrderId($request->id);
+            $order = $this->bookingService->getBookingOrderId($request->id);
 
             return view('/orders.order_edit')->with(['order' => $order]);
         }
         if ($request->isMethod('post')) {
             // этот код выполнится, если используется метод POST
-            $orderService = new OrderService();
-            $orderService->updateOrder($request);
+            $this->orderService->updateOrder($request);
             return redirect()->action('OrderController@view');
         }
 
@@ -49,38 +62,29 @@ class OrderController extends Controller
 
     public function delete(int $id)
     {
-        $orderService = new OrderService();
-        $dateService = new DateService();
-        $bookingService = new BookingService();
-
-        $result = $bookingService->findById($id);
+        $result = $this->bookingService->findById($id);
 
         $date[] = $result->no_in;
         $date[] = $result->no_out;
         $condition = 2;
 
-        $dateService->setCountNightObj($date, $result->total, $condition);
-        $orderService->deleteOrder($id);
+        $this->dateService->setCountNightObj($date, $result->total, $condition);
+        $this->orderService->deleteOrder($id);
         return redirect()->action('OrderController@view');
     }
 
     public function deleteProf(int $id)
     {
-        $mailService = new MailService();
-        $orderService = new OrderService();
-        $dateService = new DateService();
-        $bookingService = new BookingService();
-
-        $booking = $bookingService->findById($id);
+        $booking = $this->bookingService->findById($id);
         if (!empty($booking)) {
 
             $date[] = $booking->no_in;
             $date[] = $booking->no_out;
             $condition = 2;
 
-            $dateService->setCountNightObj($date, $booking->total, $condition);
-            $data = $orderService->deleteOrder($id);
-            $mailService->DeleteOrderUser($data);
+            $this->dateService->setCountNightObj($date, $booking->total, $condition);
+            $data = $this->orderService->deleteOrder($id);
+            $this->mailService->DeleteOrderUser($data);
         }
 
         return redirect()->action('ProfileController@view');
@@ -88,11 +92,8 @@ class OrderController extends Controller
 
     public function confirm(int $id)
     {
-        $bookingService = new BookingService();
-        $bookingService->confirmOrder($id);
-
-        $bookingService = new BookingService();
-        $result = $bookingService->getBookingOrderId($id);
+        $this->bookingService->confirmOrder($id);
+        $result = $this->bookingService->getBookingOrderId($id);
 
         $data = [
             'user_name' => $result->user_name,
@@ -109,28 +110,22 @@ class OrderController extends Controller
 
     public function reject(int $id)
     {
-
-        $dateService = new DateService();
-        $bookingService = new BookingService();
         $archiveService = new ArchiveService();
-        $orderService = new OrderService();
-        $mailService = new MailService();
-
         $res = Booking::where('id', $id)->get();
         $date[] = $res[0]->no_in;
         $date[] = $res[0]->no_out;
         $condition = 2;
 
-        $dateService->setCountNightObj($date, $res[0]->total, $condition);
+        $this->dateService->setCountNightObj($date, $res[0]->total, $condition);
 
-        $result = $bookingService->getBookingOrderId($id);
+        $result = $this->bookingService->getBookingOrderId($id);
 
-        $mailService->RejectOrder($result);
+        $this->mailService->RejectOrder($result);
 
         $otz = "Отклонено администратором";
         $archiveService->save($result, $otz);
 
-        $orderService->deleteOrder($id);
+        $this->orderService->deleteOrder($id);
 
         return redirect()->action('OrderController@view');
     }
@@ -143,13 +138,11 @@ class OrderController extends Controller
 
     public function toPay(Request $request)
     {
-        $bookingService = new BookingService();
-
         $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $code = substr(str_shuffle($permitted_chars), 0, 16);
         $infoPay = 1 . ";" . $code . ";" . $request->total;
-        $bookingService->updateInfoPay($request->id, $infoPay);
-        return redirect()->action('VerificationController@verificationUserBook', ['id' => $request->id]);
+        $this->bookingService->updateInfoPay($request->id, $infoPay);
+        return redirect()->action([VerificationController::class, 'verificationUserBook'], ['id' => $request->id]);
     }
 
 

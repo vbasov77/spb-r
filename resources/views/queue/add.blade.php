@@ -9,7 +9,7 @@
                     <div class="card-header">Предварительное бронирование</div>
                     <div class="card-body">
                         <div id="info"></div>
-                        <form id="form" action="{{route('to.queue')}}" method="post">
+                        <form id="form" action="{{route('admin.to.queue')}}" method="post">
                             @csrf
                             <div>
                                 <label for="date_book"><b>Выберете дату:</b></label>
@@ -22,7 +22,7 @@
                             <div>
                                 <label for="Имя"><b>Имя:</b></label>
                                 <input name="name" id="name" type="text" class="form-control"
-                                       value="{{$_POST['user_name'] ?? ''}}" placeholder="ФИО" required>
+                                       value="{{old('user_name')}}" placeholder="ФИО" required>
                             </div>
                             <br>
                             <div>

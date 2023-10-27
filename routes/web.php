@@ -29,6 +29,13 @@ use App\Http\Controllers\HomeController;
 
 Auth::routes();
 
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function(){
+
+    Route::match(["get", "post"], '/to_queue', [QueueController::class, 'toQueue'])->name('to.queue')->middleware('admin');
+
+
+});
+
 Route::get('/', [FrontController::class, 'front'])->name("front");
 
 Route::post('/add_calendar', [CalendarController::class, 'addInfo'])->name("add.calendar");
@@ -39,6 +46,8 @@ Route::post('/add_booking', [CalendarController::class, 'addBooking'])->name("ad
 
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+
 
 Route::get('/reports', [ReportsController::class, 'view'])->name('reports')->middleware('admin');
 
@@ -52,18 +61,12 @@ Route::get('/q_success', [QiwiController::class, 'success']);
 Route::get('/q_pay/{id}/pay', [QiwiController::class, 'verification']);
 
 
-Route::match(["get", "post"], '/to_queue', [QueueController::class, 'toQueue'])->name('to.queue')->middleware('admin');
 Route::match(["get", "post"], '/queue/{id}/update', [QueueController::class, 'update'])->name('update.queue')->middleware('admin');
 Route::get('/view_queue', [QueueController::class, 'view'])->name('view.queue')->middleware('admin');
 Route::get('/queue/{id}/delete', [QueueController::class, 'delete'])->name('delete.queue')->middleware('admin');
 
 
 Route::get('/profile', [ProfileController::class, 'view'])->name('profile');
-
-Route::get('/del_schedule', [ScheduleController::class, 'delSchedule'])->name('del.schedule')->middleware('admin');
-Route::post('/verification', [ScheduleController::class, 'verification']);
-
-Route::get('/orders', [OrderController::class, 'view'])->name("orders")->middleware('admin');
 
 Route::post('/in_archive', [ArchiveController::class, 'entryArchive'])->name('in.archive')->middleware('admin');
 Route::get('/view/{id}/archive', [ArchiveController::class, 'viewById'])->name('view.archive')->middleware('admin');
@@ -72,7 +75,9 @@ Route::get('/archive/{id}/delete', [ArchiveController::class, 'delete'])->name('
 Route::get('/archive/{id}/back', [ArchiveController::class, 'back'])->name('archive.back')->middleware('admin');
 
 Route::get('/order/{id}/verification', [VerificationController::class, 'verificationUserBook'])->middleware('admin');
+
 Route::match(['get', 'post'], '/order/{id}/edit', [OrderController::class, 'edit'])->name('order.edit')->middleware('admin');
+Route::get('/orders', [OrderController::class, 'view'])->name("orders")->middleware('admin');
 Route::get('/order/{id}/reject', [OrderController::class, 'reject'])->name('reject')->middleware('admin');
 Route::get('/order/{id}/confirm', [OrderController::class, 'confirm'])->name('order.confirm')->middleware('admin');
 Route::get('/order/{id}/delete', [OrderController::class, 'delete'])->middleware('admin');
@@ -82,6 +87,8 @@ Route::post('/to_pay', [OrderController::class, 'toPay'])->name('to.pay')->middl
 
 Route::get('/danke', [DankeController::class, 'view'])->name('danke');
 
+Route::get('/del_schedule', [ScheduleController::class, 'delSchedule'])->name('del.schedule')->middleware('admin');
+Route::post('/verification', [ScheduleController::class, 'verification']);
 Route::get('/schedule', [ScheduleController::class, 'view'])->name("schedule")->middleware('admin');
 Route::post('/edit_table', [ScheduleController::class, 'editScheduleCost'])->name('edit.table')->middleware('admin');
 Route::match(['get', 'post'], '/schedule_edit', [ScheduleController::class, 'edit'])->name('schedule.edit')->middleware('admin');

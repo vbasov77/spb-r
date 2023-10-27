@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Services\SettingsService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class SettingsController extends Controller
 {
-    public function view(Request $request)
+    public function view(Request $request): View
     {
         if (empty($request->message)) {
             $request->message = null;
