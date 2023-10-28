@@ -9,7 +9,7 @@
                     <div class="card-header">Предварительное бронирование</div>
                     <div class="card-body">
                         <div id="info"></div>
-                        <form id="form" action="{{route('admin.to.queue')}}" method="post">
+                        <form id="form" action="{{route('admin.in.queue')}}" method="post">
                             @csrf
                             <div>
                                 <label for="date_book"><b>Выберете дату:</b></label>

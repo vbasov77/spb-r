@@ -31,9 +31,8 @@ Auth::routes();
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function(){
 
-    Route::match(["get", "post"], '/to_queue', [QueueController::class, 'toQueue'])
-        ->name('to.queue')->middleware('admin');
-
+    Route::match( ['get', 'post'],'/queues', [QueueController::class, 'toQueue'])
+        ->name('in.queue')->middleware('admin');
 
 });
 

@@ -9,12 +9,11 @@ use App\Repositories\QueueRepository;
 class QueueService extends Service
 {
     private $queueRepository;
-    private $queueService;
+
 
     public function __construct()
     {
         $this->queueRepository = new QueueRepository();
-        $this->queueService = new QueueService();
     }
 
 
@@ -30,7 +29,8 @@ class QueueService extends Service
 
     public function getDataQueues(): array
     {
-        $queues = $this->queueService->findAll();
+        $queueService = new QueueService();
+        $queues = $queueService->findAll();
 
         $dateBooks = [];
         $count = count($queues);
