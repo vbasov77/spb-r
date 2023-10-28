@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\InvalidArgumentException;
 use App\Services\BookingService;
 use App\Services\DateService;
 use App\Services\MailService;
