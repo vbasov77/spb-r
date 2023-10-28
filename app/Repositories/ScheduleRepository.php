@@ -14,36 +14,35 @@ class ScheduleRepository extends Repository
         return Schedule::all();
     }
 
-    public function findAllById(string $str)
+    public function findAllById(string $str): array
     {
-        $result = DB::select("select * from schedule where $str");
-        return $result;
+        return DB::select("select * from schedule where $str");
     }
 
-    public function findByDatesBook(string $str)
+    public function findByDatesBook(string $str): array
     {
         return DB::select("select id, date_book, cost from schedule where $str");
     }
 
-    public function createSchedule(array $datesBook)
+    public function createSchedule(array $datesBook): void
     {
         Schedule::insert($datesBook);
     }
 
-    public function update(array $dates, int $cost)
+    public function update(array $dates, int $cost): void
     {
         Schedule::whereIn('date_book', $dates)->update(['cost' => $cost]);
     }
 
-    public function updateCost(string $str)
+    public function updateCost(string $str): void
     {
         DB::select("UPDATE schedule SET cost = CASE
    $str ELSE cost END");
     }
 
-    public function deleteByIds($str)
+    public function deleteByIds($str): void
     {
-        DB::select("DELETE FROM schedule where $str");
+        DB::select("delete from schedule where " . $str);
     }
 
 }

@@ -10,12 +10,20 @@ use App\Repositories\ArchiveRepository;
 
 class ArchiveService extends Service
 {
-    public function findById(int $id, ArchiveRepository $archiveRepository)
+    private $archiveRepository;
+
+    public function __construct()
     {
-        return $archiveRepository->findById($id);
+        $this->archiveRepository = new ArchiveRepository();
     }
 
-    public function save(object $data, string $otz, ArchiveRepository $archiveRepository)
+
+    public function findById(int $id): object
+    {
+        return $this->archiveRepository->findById($id);
+    }
+
+    public function save(object $data, string $otz): void
     {
         $archive = [
             'user_name' => $data->user_name,
@@ -33,23 +41,24 @@ class ArchiveService extends Service
             'otz' => $otz,
             'created_at' => $data->created_at
         ];
-        $archiveRepository->save($archive);
+        $this->archiveRepository->save($archive);
     }
 
-    public function findAll(ArchiveRepository $archiveRepository)
+    public function findAll(): object
     {
-        return $archiveRepository->findAll();
+        return $this->archiveRepository->findAll();
     }
 
-    public function delete(int $id, ArchiveRepository $archiveRepository)
+    public function delete(int $id): void
     {
-        $archiveRepository->delete($id);
+        $this->archiveRepository->delete($id);
     }
 
-    public function back(int $id, ArchiveRepository $archiveRepository,
-                         DateService $dateService, BookingService $bookingService)
+    public function back(int $id,
+                         DateService $dateService): void
     {
-        $archive = $archiveRepository->findById($id);
+        $bookingService  = new BookingService();
+        $archive = $this->archiveRepository->findById($id);
         $datesBook = $dateService->getDates($archive->no_in, $archive->no_out, 1);
         $booking = [
             'user_name' => $archive->user_name,
@@ -68,7 +77,7 @@ class ArchiveService extends Service
             'created_at' => $archive->created_at
         ];
         $bookingService->create($booking);
-        $archiveRepository->delete($archive->id);
+        $this->archiveRepository->delete($archive->id);
     }
 
 

@@ -8,7 +8,7 @@ use App\Models\Booking;
 
 class PayRepository extends Repository
 {
-    public function updateBookInfoPayAndPay(int $id, string $info_pay, int $pay)
+    public function updateBookInfoPayAndPay(int $id, string $info_pay, int $pay): void
     {
         $data = [
             'info_pay' => $info_pay,
@@ -18,7 +18,7 @@ class PayRepository extends Repository
         Booking::where('id', $id)->update($data);
     }
 
-    public function updateBookInfoPay(int $id, string $info_pay)
+    public function updateBookInfoPay(int $id, string $info_pay): void
     {
         Booking::where("id", $id)->update(["info_pay" => $info_pay]);
     }

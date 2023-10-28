@@ -10,7 +10,7 @@ use Illuminate\View\View;
 class ArchiveController extends Controller
 {
     public
-    function viewById(ArchiveService $archiveService, Request $request): View
+    function index(ArchiveService $archiveService, Request $request): View
     {
         $data = $archiveService->findById($request->id);
         return view('archive.one_view', ['data' => $data]);

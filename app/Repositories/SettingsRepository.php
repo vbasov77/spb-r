@@ -8,18 +8,16 @@ use Illuminate\Support\Facades\DB;
 
 class SettingsRepository extends Repository
 {
-    public function findSettingsFrontPage()
+    public function findSettingsFrontPage(): object
     {
         return FrontSetting::where("id", 1)->first();
     }
 
-    public function updateFrontSettings(string $inDb){
+    public function updateFrontSettings(string $inDb): void
+    {
         DB::table('front_settings')->where("id", 1)->update(["settings" => $inDb]);
     }
 
-    public function findFrontSettings(){
-        return FrontSetting::first();
-    }
 
 
 }

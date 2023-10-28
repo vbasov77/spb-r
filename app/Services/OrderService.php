@@ -9,17 +9,27 @@ use Illuminate\Http\Request;
 
 class OrderService extends Service
 {
-    public function updateOrder(Request $data)
+    private $bookingRepository;
+    private $bookingService;
+    private $archiveService;
+
+    public function __construct()
     {
-        $bookingRepo = new BookingRepository();
-        $bookingRepo->updateOrder($data);
+        $this->bookingRepository = new BookingRepository();
+        $this->bookingService = new BookingService();
+        $this->archiveService = new ArchiveService();
     }
 
-    public function inOrder()
+
+    public function updateOrder(Request $data): void
     {
-        $booking = new BookingService();
-        $result = $booking->getBookingNoInTable();
-        $bookingNoIn = "";
+        $this->bookingRepository->updateOrder($data);
+    }
+
+    public function inOrder(): array
+    {
+        $result = $this->bookingService->getBookingNoInTable();
+        $bookingNoIn = [];
         if (!empty(count($result))) {
             for ($i = 0; $i < count($result); $i++) {
                 $array[] = strtotime($result[$i]);
@@ -29,17 +39,15 @@ class OrderService extends Service
             $bookingNoIn = [];
             foreach ($array as $item) {
                 $date = date('d.m.Y', $item);
-                $bookingNoIn[] = $booking->getBookingNoIn($date);
+                $bookingNoIn[] = $this->bookingService->getBookingNoIn($date);
             }
         }
         return $bookingNoIn;
     }
 
-    public function deleteOrder(int $id)
+    public function deleteOrder(int $id): array
     {
-        $bookingService = new BookingService();
-        $archiveService = new ArchiveService();
-        $booking = $bookingService->findById($id);
+        $booking = $this->bookingService->findById($id);
         $data = [
             'id_book' => $booking->id,
             'user_name' => $booking->user_name,
@@ -47,14 +55,15 @@ class OrderService extends Service
             'email' => $booking->email,
             'no_in' => $booking->no_in,
             'no_out' => $booking->no_out,
+            'payment_term' => $booking->payment_term,
             'user_info' => $booking->user_info,
             'total' => $booking->total,
             'pay' => $booking->pay,
             'otz' => "Удалено пользователем",
             'info_pay' => $booking->info_pay
         ];
-        $archiveService->save($booking, $data['otz']);
-        $bookingService->delete($id);
+        $this->archiveService->save($booking, $data['otz']);
+        $this->bookingService->delete($id);
 
         return $data;
     }

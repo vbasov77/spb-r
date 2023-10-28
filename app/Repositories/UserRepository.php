@@ -12,7 +12,7 @@ class UserRepository extends Repository
         return User::where("email", $email)->first();
     }
 
-    public function addUser(array $data)
+    public function addUser(array $data): void
     {
         User::insert([$data]);
     }

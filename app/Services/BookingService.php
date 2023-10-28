@@ -110,14 +110,14 @@ class BookingService extends Service
                     $arrayDatesFormat[] = date("Y-m-d", strtotime($dateBook[$j]));
                 }
             }
-            $date_book = implode(',', $arrayDatesFormat);
+            $dateBook = implode(',', $arrayDatesFormat);
 
         } else {
-            $date_book = "";
+            $dateBook = "";
         }
 
         $data = [
-            'date_book' => $date_book,
+            'date_book' => $dateBook,
         ];
 
         return $data;
@@ -127,7 +127,6 @@ class BookingService extends Service
     public function addBooking(Request $request, string $userName): array
     {
         $dateService = new DateService();
-
         $email = $request->email;
         $info = implode("&", $request->more_book);
         $dateBook = $request->date_book;

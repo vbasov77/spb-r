@@ -8,22 +8,29 @@ use App\Repositories\QueueRepository;
 
 class QueueService extends Service
 {
-    public function create(array $data)
+    private $queueRepository;
+    private $queueService;
+
+    public function __construct()
     {
-        $queueRepo = new QueueRepository();
-        $queueRepo->create($data);
+        $this->queueRepository = new QueueRepository();
+        $this->queueService = new QueueService();
     }
 
-    public function findAll()
+
+    public function create(array $data): void
     {
-        $queueRepo = new QueueRepository();
-        return $queueRepo->findAll();
+        $this->queueRepository->create($data);
     }
 
-    public function getDataQueues()
+    public function findAll(): object
     {
-        $queueService = new QueueService();
-        $queues = $queueService->findAll();
+        return $this->queueRepository->findAll();
+    }
+
+    public function getDataQueues(): array
+    {
+        $queues = $this->queueService->findAll();
 
         $dateBooks = [];
         $count = count($queues);
@@ -39,21 +46,18 @@ class QueueService extends Service
 
     }
 
-    public function deleteById(int $id)
+    public function deleteById(int $id): void
     {
-        $queueRepo = new QueueRepository();
-        $queueRepo->deleteById($id);
+        $this->queueRepository->deleteById($id);
     }
 
-    public function findById(int $id)
+    public function findById(int $id): object
     {
-        $queueRepo = new QueueRepository();
-        return $queueRepo->findById($id);
+        return $this->queueRepository->findById($id);
     }
 
-    public function update(array $data, int $id)
+    public function update(array $data, int $id): void
     {
-        $queueRepo = new QueueRepository();
-        $queueRepo->update($data, $id);
+        $this->queueRepository->update($data, $id);
     }
 }

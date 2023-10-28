@@ -8,22 +8,25 @@ use App\Repositories\ReportRepository;
 
 class ReportService extends Service
 {
-    public function findByMonth(string $month)
+
+    private $reportRepository;
+
+
+    public function __construct()
     {
-        $reportRepo = new  ReportRepository();
-        return $reportRepo->findByMonth($month);
+        $this->reportRepository = new ReportRepository();
     }
 
-    public static function getTotal()
+
+    public function findByMonth(string $month): object
     {
-        $reportRepo = new  ReportRepository();
-        return $reportRepo->getTotal();
+        return $this->reportRepository->findByMonth($month);
     }
 
-    public function getSum()
+
+    public function getSum(): int
     {
-        $reportRepo = new  ReportRepository();
-        $result = $reportRepo->getTotal();
+        $result = $this->reportRepository->getTotal();
 
         if (empty(count($result))) {
             $sum = 0;
@@ -33,10 +36,9 @@ class ReportService extends Service
         return $sum;
     }
 
-    public function getCountNight()
+    public function getCountNight(): int
     {
-        $reportRepo = new  ReportRepository();
-        $count = $reportRepo->getTotal();
+        $count = $this->reportRepository->getTotal();
         if (empty(count($count))) {
             $countNight = 0;
         } else {

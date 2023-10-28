@@ -12,45 +12,45 @@ use Illuminate\Support\Facades\DB;
 class BookingRepository extends Repository
 {
 
-    public function findById(int $id)
+    public function findById(int $id): object
     {
         return Booking::find($id);
     }
 
-    public function findByEmail(string $email)
+    public function findByEmail(string $email): object
     {
         return Booking::where("email", $email)->get();
     }
 
-    public function findAll()
+    public function findAll(): object
     {
         return Booking::all();
     }
 
 
-    public function getBookingNoInTable()
+    public function getBookingNoInTable(): object
     {
         return Booking::pluck('no_in');
     }
 
-    public function delete(int $id)
+    public function delete(int $id): void
     {
         Booking::where("id", $id)->delete();
     }
 
-    public function getBookingOrderId(int $id)
+    public function getBookingOrderId(int $id): object
     {
         return Booking::where("id", $id)->first();
     }
 
 
-    public function addBooking(array $data)
+    public function addBooking(array $data): int
     {
         return Booking::insertGetId($data);
     }
 
 
-    public function getBookingNoIn(string $noIn)
+    public function getBookingNoIn(string $noIn): array
     {
         $booking = DB::select("select b.*, 
        (select a.otz from archive a where a.phone = b.phone limit 1)archive
@@ -59,7 +59,7 @@ from booking b where b.no_in = " . '"' . $noIn . '"');
         return $booking;
     }
 
-    public function updateOrder(Request $data)
+    public function updateOrder(Request $data): void
     {
         Booking::where("id", $data->id)->update([
             'user_name' => $data->user_name,
@@ -69,7 +69,7 @@ from booking b where b.no_in = " . '"' . $noIn . '"');
         ]);
     }
 
-    public function confirmOrder(int $id)
+    public function confirmOrder(int $id): void
     {
         $data = [
             'confirmed' => 1,
@@ -78,7 +78,7 @@ from booking b where b.no_in = " . '"' . $noIn . '"');
         Booking::where('id', $id)->update($data);
     }
 
-    public function updateInfoPay(int $id, string $infoPay)
+    public function updateInfoPay(int $id, string $infoPay): void
     {
         Booking::where('id', $id)->update(['pay' => 1, 'info_pay' => $infoPay]);
     }

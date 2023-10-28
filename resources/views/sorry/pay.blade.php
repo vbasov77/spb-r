@@ -1,18 +1,16 @@
 @extends('layouts.app')
 @section('content')
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <div class="container">
         <center>
             <div style="font-size: 150px; opacity: .8; color: #2fa360">
-                <i class="fa fa-frown-o" aria-hidden="true"></i>
+                <img src="{{asset("/images/icons/sad.ico")}}">
             </div>
             <div style="margin-top: 40px">
             <h3>Извините, онлайн оплата временно отключена. <br>
                 </h3>
     </div>
         </center>
-        <font color='#99b1c6'><i class="fas fa-cat fa-5x"></i></font>
         <br>
         <br>
 
