@@ -8,6 +8,7 @@ use App\Services\DateService;
 use App\Services\MailService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class CalendarController extends Controller
 {
@@ -75,13 +76,6 @@ class CalendarController extends Controller
          *  цену по каждому дню.
          *
          */
-        if (empty($request->date_book)) {
-            try {
-                throw new InvalidArgumentException("Вы не выбрали даты!");
-            } catch (InvalidArgumentException $e) {
-                return redirect()->action('FrontController@front', ['error' => $e->getMessage()]);
-            }
-        }
 
         $dates = preg_replace("/\s+/", "", $request->date_book);// удалили пробелы
         $dates = explode("-", $dates);// разбили строку на массив

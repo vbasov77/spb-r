@@ -6,11 +6,21 @@ namespace App\Services;
 
 use App\Http\Controllers\GetController;
 use App\Models\Reports;
-use phpDocumentor\Reflection\DocBlock\Serializer;
 
 class DateService extends Service
 {
-    public function getDates(string $startTime, string $endTime, int $firstDay)
+
+    private $scheduleService;
+    private $reportService;
+
+    public function __construct()
+    {
+        $this->scheduleService = new  ScheduleService();
+        $this->reportService = new ReportService();
+    }
+
+
+    public function getDates(string $startTime, string $endTime, int $firstDay): array
     {
         $day = 86400;
         $format = 'd.m.Y';
@@ -25,7 +35,7 @@ class DateService extends Service
         return $days;
     }
 
-    public function getStrDates(array $arrDate)
+    public function getStrDates(array $arrDate): string
     {
         $count = count($arrDate);
         $str = "";
@@ -39,13 +49,13 @@ class DateService extends Service
         return $str;
     }
 
-    public function getCountNight(string $startTimeStamp, string $endTimeStamp)
+    public function getCountNight(string $startTimeStamp, string $endTimeStamp): int
     {
         return date_diff(date_create($endTimeStamp), date_create($startTimeStamp))->format('%a%');
 
     }
 
-    public function getDatesBook(string $booking)
+    public function getDatesBook(string $booking): array
     {
         $booking = preg_replace("/\s+/", "", $booking);// удалили пробелы
         $dateBook = explode("-", $booking);// реобразовали в массив
@@ -55,7 +65,7 @@ class DateService extends Service
         ];
     }
 
-    public function getDateBookStr(object $schedules)
+    public function getDateBookStr(object $schedules): string
     {
         if (!empty(count($schedules))) {
             foreach ($schedules as $schedule) {
@@ -68,7 +78,7 @@ class DateService extends Service
 
     }
 
-    public function getInfo(string $to, string $end, string $countNight)
+    public function getInfo(string $to, string $end, string $countNight): array
     {
         $dateService = new DateService();
         $arrayDates = $dateService->getDates($to, $end, 1); // Получили даты из диапазона. Формат: 29.09.2023
@@ -101,7 +111,7 @@ class DateService extends Service
         }
     }
 
-    public function setCountNightObj(array $date, int $sum, $condition)
+    public function setCountNightObj(array $date, int $sum, $condition): void
     {
         $in = date("m.Y", strtotime($date[0]));
         $out = date("m.Y", strtotime($date[1]));
@@ -123,10 +133,10 @@ class DateService extends Service
             $firstDatesArray = $dateService->getDates($date[0], $endDatesFirstArray, 0);// Получаем массив дат первого массива
 
             unset($firstDatesArray[0]);
-            $scheduleService = new ScheduleService();
+
             if (count($firstDatesArray)) {
-                $firstStr = $scheduleService->getStrInDb(array_values($firstDatesArray)); // Получили стороку для БД
-                $firstArray = $scheduleService->findByDatesBook($firstStr); // Получили
+                $firstStr = $this->scheduleService->getStrInDb(array_values($firstDatesArray)); // Получили стороку для БД
+                $firstArray = $this->scheduleService->findByDatesBook($firstStr); // Получили
 
                 //Получаем сумму по датам первого массива
                 $totalFirstArray = [];
@@ -137,9 +147,7 @@ class DateService extends Service
                 $totalFirst = array_sum($totalFirstArray);// Вся сумма первого массива
                 $monthFirst = date('m.Y', strtotime($date[0]));
 
-                $reportService = new ReportService();
-
-                $result = $reportService->findByMonth($monthFirst);
+                $result = $this->reportService->findByMonth($monthFirst);
                 $data = [];
                 if (!empty(count($result))) {
                     $data[] = $result[0]->count_night;
@@ -158,9 +166,9 @@ class DateService extends Service
 
             if (count($secondArray)) {
 
-                $str = $scheduleService->getStrInDb($secondArray);
+                $str = $this->scheduleService->getStrInDb($secondArray);
 
-                $secondArray = $scheduleService->findByDatesBook($str);
+                $secondArray = $this->scheduleService->findByDatesBook($str);
                 $totalSecondArray = [];
                 foreach ($secondArray as $cost) {
                     $totalSecondArray[] = $cost->cost;
@@ -170,7 +178,7 @@ class DateService extends Service
                 $dateService = new DateService();
 
                 $countNightSecond = $dateService->getCountNight($firstDatesSecondArray, $date[1]) + 1;
-                $res = $reportService->findByMonth($monthSecond);
+                $res = $this->reportService->findByMonth($monthSecond);
 
                 $dataSecond = [];
                 if (!empty(count($res))) {
@@ -182,7 +190,8 @@ class DateService extends Service
         }
     }
 
-    public static function setReportInTable(array $data, int $countNight, int $sum, string $month, $condition)
+    public static function setReportInTable(array $data,
+                                            int $countNight, int $sum, string $month, $condition): void
     {
         //Массив $data должен состоять из двух элементов - количество ночей и суммы, если таковые имеются в BD.
         if (!empty(count($data))) {

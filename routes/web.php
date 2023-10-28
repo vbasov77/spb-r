@@ -31,7 +31,8 @@ Auth::routes();
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function(){
 
-    Route::match(["get", "post"], '/to_queue', [QueueController::class, 'toQueue'])->name('to.queue')->middleware('admin');
+    Route::match(["get", "post"], '/to_queue', [QueueController::class, 'toQueue'])
+        ->name('to.queue')->middleware('admin');
 
 
 });
@@ -62,14 +63,14 @@ Route::get('/q_pay/{id}/pay', [QiwiController::class, 'verification']);
 
 
 Route::match(["get", "post"], '/queue/{id}/update', [QueueController::class, 'update'])->name('update.queue')->middleware('admin');
-Route::get('/view_queue', [QueueController::class, 'view'])->name('view.queue')->middleware('admin');
+Route::get('/view_queue', [QueueController::class, 'index'])->name('view.queue')->middleware('admin');
 Route::get('/queue/{id}/delete', [QueueController::class, 'delete'])->name('delete.queue')->middleware('admin');
 
 
 Route::get('/profile', [ProfileController::class, 'view'])->name('profile');
 
 Route::post('/in_archive', [ArchiveController::class, 'entryArchive'])->name('in.archive')->middleware('admin');
-Route::get('/view/{id}/archive', [ArchiveController::class, 'viewById'])->name('view.archive')->middleware('admin');
+Route::get('/view/{id}/archive', [ArchiveController::class, 'index'])->name('view.archive')->middleware('admin');
 Route::get('/archive', [ArchiveController::class, 'viewAll'])->name('archive')->middleware('admin');
 Route::get('/archive/{id}/delete', [ArchiveController::class, 'delete'])->name('delete.archive')->middleware('admin');
 Route::get('/archive/{id}/back', [ArchiveController::class, 'back'])->name('archive.back')->middleware('admin');

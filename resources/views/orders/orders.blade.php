@@ -43,7 +43,7 @@
                                     @if(!empty($data[$i][0]->archive))
                                         <br><small><i>Имеются отзывы:
                                                 <div style="color: red">
-                                                    {!!  $data[$i][0]->archive !!}
+                                                    {!!  $data[$i][0]->archive !!}<br>
                                                 </div>
 
                                             </i></small>

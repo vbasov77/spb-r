@@ -10,7 +10,6 @@ class ScheduleController extends Controller
 {
     public function view(ScheduleService $scheduleService, DateService $dateService)
     {
-
         $schedules = $scheduleService->findAll();
 
         // Получим строку дат для передачи в JS файл календаря
@@ -23,7 +22,6 @@ class ScheduleController extends Controller
                                    DateService $dateService,
                                    ScheduleService $scheduleService)
     {
-
         if ($request->isMethod('get')) {
             // этот код выполнится, если используется метод GET
             return view('schedule.edit_mass', ['message' => $request->message]);

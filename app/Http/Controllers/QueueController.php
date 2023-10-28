@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class QueueController extends Controller
 {
 
-    public function view(QueueService $queueService)
+    public function index(QueueService $queueService)
     {
         $data = $queueService->getDataQueues();
         return view('queue.view', ['data' => $data]);

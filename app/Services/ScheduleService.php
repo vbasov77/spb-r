@@ -6,41 +6,37 @@ namespace App\Services;
 
 use App\Repositories\ScheduleRepository;
 use Illuminate\Http\Request;
-use phpDocumentor\Reflection\Types\Mixed_;
 
 class ScheduleService extends Service
 
 {
-    public static function GetScheduleTable()
-    {
-        $scheduleRepo = new ScheduleRepository();
-        return $scheduleRepo->findAll();
-    }
+    private $scheduleRepository;
 
-    public function findByDatesBook(string $str)
+    public function __construct()
     {
-        $scheduleRepo = new ScheduleRepository();
-        return $scheduleRepo->findByDatesBook($str);
-    }
-
-    public function updateScheduleCost(string $str)
-    {
-        $scheduleRepo = new ScheduleRepository();
-        $scheduleRepo->updateCost($str);
+        $this->scheduleRepository = new ScheduleRepository();
     }
 
 
-    public function update(array $dates, int $cost)
+    public function findByDatesBook(string $str): array
     {
-        $scheduleRepo = new ScheduleRepository();
-        $scheduleRepo->update($dates, $cost);
-
+        return $this->scheduleRepository->findByDatesBook($str);
     }
 
-    public function getScheduleStr()
+    public function updateScheduleCost(string $str): void
     {
-        $scheduleRepo = new ScheduleRepository();
-        $schedules = $scheduleRepo->findAll();
+        $this->scheduleRepository->updateCost($str);
+    }
+
+
+    public function update(array $dates, int $cost): void
+    {
+        $this->scheduleRepository->update($dates, $cost);
+    }
+
+    public function getScheduleStr(): string
+    {
+        $schedules = $this->scheduleRepository->findAll();
 
         if (!empty(count($schedules))) {
             $dateBook = [];
@@ -54,17 +50,18 @@ class ScheduleService extends Service
         }
         return $dateBook;
     }
-    
-    public function getArrayInsertSchedule(array $bookingDatesArray, int $cost)
+
+    public function getArrayInsertSchedule(array $bookingDatesArray, int $cost): array
     {
         $array = [];
         $count = count($bookingDatesArray);
         for ($i = 0; $i < $count; $i++) {
-            $array[] = ["date_book" => $bookingDatesArray[$i], "cost"=>$cost];
+            $array[] = ["date_book" => $bookingDatesArray[$i], "cost" => $cost];
         }
         return $array;
     }
-    public function getStrUpdateSchedules(Request $request)
+
+    public function getStrUpdateSchedules(Request $request): string
     {
         $str = "";
         $count = count($request->cost);
@@ -75,23 +72,20 @@ class ScheduleService extends Service
 
     }
 
-    public function createSchedule(array $datesBook)
+    public function createSchedule(array $datesBook): void
     {
-        $scheduleRepo = new ScheduleRepository();
-        $scheduleRepo->createSchedule($datesBook);
+        $this->scheduleRepository->createSchedule($datesBook);
     }
 
-    public function findAll()
+    public function findAll(): object
     {
-        $scheduleRepo = new ScheduleRepository();
-        return $scheduleRepo->findAll();
+        return $this->scheduleRepository->findAll();
     }
 
-    public function updateSchedule(Request $request)
+    public function updateSchedule(Request $request): array
     {
         $datesService = new DateService();
         $scheduleService = new ScheduleService();
-        $scheduleRepo = new ScheduleRepository();
 
         $q = preg_replace("/\s+/", "", $request->date_book);// Удалили пробелы
         $dates = explode('-', $q); // Создали массив дат
@@ -99,25 +93,23 @@ class ScheduleService extends Service
         $arrayDates = $datesService->getDates($dates[0], $dates[1], 0);
         $datesStr = $scheduleService->getStrInDb($arrayDates);
 
-        return $scheduleRepo->findByDatesBook($datesStr);
-
-
+        return $this->scheduleRepository->findByDatesBook($datesStr);
     }
 
     public function findAllById(string $str)
     {
-        $scheduleRepo = new ScheduleRepository();
-        return $scheduleRepo->findAllById($str);
+        return $this->scheduleRepository->findAllById($str);
     }
 
 
-    /**
-     *
-     * Получение строки для запроса в БД
-     * Вид :
-     */
-    public function getStrInDb(array $dates)
+    public function getStrInDb(array $dates): string
     {
+        /**
+         *
+         * Получение строки для запроса в БД
+         * Вид :
+         */
+
         $str = "date_book = '$dates[0]'";
         $counter = 1;
         for ($i = 1; $i < count($dates); $i++) {
@@ -133,7 +125,7 @@ class ScheduleService extends Service
     }
 
 
-    public function delSchedule()
+    public function delSchedule(): int
     {
         $scheduleRepo = new ScheduleRepository();
 
@@ -157,7 +149,6 @@ class ScheduleService extends Service
         $count > 0 ? $scheduleRepo->deleteByIds($str) : false;
 
         return $count;
-
     }
 
 

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Mail;
 class MailService extends Service
 {
 
-    public function SendRegister(string $nameUser, string $email, string $password)
+    public function SendRegister(string $nameUser, string $email, string $password): void
     {
         $params = [
             'user_name' => $nameUser,
@@ -27,7 +27,7 @@ class MailService extends Service
         Mail::to($toEmail)->send(new SendRegister($subject, $params));
     }
 
-    public function RejectOrder(object $data)
+    public function RejectOrder(object $data): void
     {
         $params = [
             'user_name' => $data->user_name,
@@ -40,7 +40,7 @@ class MailService extends Service
         Mail::to($toEmail)->send(new RejectOrder($subject, $params));
     }
 
-    public function NewBooking(array $params, string $userName, string $email)
+    public function NewBooking(array $params, string $userName, string $email): string
     {
         $data = [
             'in' => $params['startDate'],
@@ -63,7 +63,7 @@ class MailService extends Service
         return $message;
     }
 
-    public function DeleteOrderUser(array $data)
+    public function DeleteOrderUser(array $data): void
     {
         $subject = 'Удаление бронирования';
         $toEmail = '0120912@mail.ru';
