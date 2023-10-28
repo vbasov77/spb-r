@@ -19,12 +19,10 @@ class QueueController extends Controller
     }
 
 
-    public function toQueue(Request $request, BookingService $bookingService,
-                            QueueService $queueService, DateService $dateService)
+    public function toQueue(Request $request)
     {
-        /**
-         * Метод для добавления пользователя в очередь.
-         */
+        $bookingService = new BookingService();
+
         if ($request->isMethod('get')) {
             // этот код выполнится, если используется метод GET
             $data = $bookingService->getBookingDates();
@@ -32,6 +30,9 @@ class QueueController extends Controller
         }
 
         if ($request->isMethod('post')) {
+
+            $dateService = new DateService();
+            $queueService = new QueueService();
             // этот код выполнится, если используется метод POST
             $booking = explode("-", preg_replace("/\s+/", "", $request->date_book));
 
@@ -47,7 +48,7 @@ class QueueController extends Controller
             ];
 
             $queueService->create($data);
-            return redirect()->action("QueueController@view");
+            return redirect()->action("QueueController@index");
         }
     }
 
@@ -79,14 +80,14 @@ class QueueController extends Controller
                 'messenger' => $request->messenger
             ];
             $queueService->update($data, $request->id);
-            return redirect()->action("QueueController@view");
+            return redirect()->action("QueueController@index");
         }
     }
 
     public function delete(Request $request, QueueService $queueService)
     {
         $queueService->deleteById($request->id);
-        return redirect()->action("QueueController@view");
+        return redirect()->action("QueueController@index");
     }
 
 }

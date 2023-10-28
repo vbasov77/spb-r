@@ -18,4 +18,6 @@ class FrontController extends Controller
         $dataSettings = explode("&", $frontSettings->settings);
         return view('front')->with(['data' => $data, 'dataSettings' => $dataSettings]);
     }
+
+
 }
