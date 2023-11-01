@@ -38,20 +38,20 @@
         @endif
         <br>
         <br>
-        @if($res ->confirmed == 0)<br>
+        @if($res->confirmed == 0)<br>
         <div>
 
             <a onClick="return confirm('Подтвердите подтверждение!')" style="margin: 5px"
-               href='{{route('order.confirm', ['id'=>$res->id])}}' type='button'
+               href='{{route('admin.order.confirm', ['id'=>$res->id])}}' type='button'
                class="btn btn-outline-success btn-sm">Подтвердить</a>
 
             <a onClick="return confirm('Подтвердите отклонение!')" style="margin: 5px"
-               href='{{route('reject', ['id'=>$res->id])}}' type='button'
+               href='{{route('admin.order.reject', ['id'=>$res->id])}}' type='button'
                class="btn btn-outline-secondary btn-sm">Отклонить</a>
 
         </div>
         @endif
-        @if($res [0]['confirmed'] == 1)
+        @if($res->confirmed == 1)
             <button class="btn btn-outline-success btn-sm"
                     onclick="window.location.href = '{{route('order.to_pay', ['id'=>$res->id])}}';">
                 Внести

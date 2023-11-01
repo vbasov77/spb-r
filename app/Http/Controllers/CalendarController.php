@@ -7,6 +7,7 @@ use App\Services\BookingService;
 use App\Services\DateService;
 use App\Services\MailService;
 use App\Services\UserService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -16,7 +17,7 @@ class CalendarController extends Controller
 
     public function addBooking(Request $request,
                                BookingService $bookingService,
-                               UserService $userService, MailService $mailService)
+                               UserService $userService, MailService $mailService): RedirectResponse
     {
         //Проверка на занятость дат
         $checkBooking = $bookingService->checkingForEmployment($request->date_view);
@@ -57,7 +58,7 @@ class CalendarController extends Controller
         return view('errors.error_book');
     }
 
-    public function verification(Request $request)
+    public function verification(Request $request): View
     {
         $moreBook = [];
         for ($i = 0; $i < count($request->user_name); $i++) {
@@ -69,7 +70,7 @@ class CalendarController extends Controller
     }
 
 
-    public function addInfo(Request $request, DateService $dateService)
+    public function addInfo(Request $request, DateService $dateService): View
     {
         /**
          *  Метод формирует информацию для бронирования - количество ночей,

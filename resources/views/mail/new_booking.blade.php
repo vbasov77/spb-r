@@ -5,7 +5,7 @@ mieten.ru<br>
 <br>
 Забронировал: {{$data['user_name']}}<br>
 <br>
-<a href="{{$data['url']}}/order/{{$data['id']}}/verification">Перейти</a>
+<a href="{{$data['url']}}/{{route("admin.order.verification", ["id" => $data['id']])}}">Перейти</a>
 
 
 

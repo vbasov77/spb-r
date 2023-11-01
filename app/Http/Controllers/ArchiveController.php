@@ -1,9 +1,13 @@
 <?php
 
+
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Services\ArchiveService;
 use App\Services\BookingService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -13,7 +17,7 @@ class ArchiveController extends Controller
     function index(ArchiveService $archiveService, Request $request): View
     {
         $data = $archiveService->findById($request->id);
-        return view('archive.one_view', ['data' => $data]);
+        return view('archive.index', ['data' => $data]);
     }
 
     public
@@ -26,7 +30,7 @@ class ArchiveController extends Controller
     public
     function entryArchive(ArchiveService $archiveService,
                           BookingService $bookingService,
-                          Request $request)
+                          Request $request): RedirectResponse
     {
         $id = $request->id;
         $data = $bookingService->findById($id);// Получаем данные бронирования по id из БД booking
@@ -37,14 +41,14 @@ class ArchiveController extends Controller
     }
 
     public
-    function delete(ArchiveService $archiveService, Request $request)
+    function delete(ArchiveService $archiveService, Request $request): RedirectResponse
     {
         $archiveService->delete($request->id);
         return redirect()->action([ArchiveController::class, 'viewAll']);
     }
 
     public
-    function back(ArchiveService $archiveService, Request $request)
+    function back(ArchiveService $archiveService, Request $request): RedirectResponse
     {
         $archiveService->back($request->id);
         return redirect()->route("orders");

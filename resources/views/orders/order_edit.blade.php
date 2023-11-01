@@ -12,7 +12,7 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8">
                     <h3>Редактировать заказ</h3>
-                    <form action="{{route("order.edit", ['id' => $order['id']])}}" method="post">
+                    <form action="{{route("admin.order.edit", ['id' => $order['id']])}}" method="post">
                         @csrf
                         <div class="border_none">
                             <label for="id"><b>ID заказа</b></label><br>

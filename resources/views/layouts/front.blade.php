@@ -59,7 +59,7 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{route('settings')}}">Настройки</a>
                             @if(Auth::user()->isAdmin())
-                                <a class="dropdown-item" href="{{route('orders')}}">Заказы</a>
+                                <a class="dropdown-item" href="{{route('admin.orders')}}">Заказы</a>
                                 <a class="dropdown-item" href="{{route('admin.in.queue')}}">В очередь</a>
                                 <a class="dropdown-item" href="{{route('view.queue')}}">Очереди</a>
                                 <a class="dropdown-item" href="{{route('reports')}}">Отчёты</a>

@@ -53,28 +53,30 @@
                                     @if($data[$i][0]->confirmed == 0)<br>
 
                                     <a onClick="return confirm('Подтвердите подтверждение!')" style="margin: 5px"
-                                       href='{{route('order.confirm', ['id'=>$data[$i][0]->id])}}' type='button'
+                                       href='{{route('admin.order.confirm', ['id'=>$data[$i][0]->id])}}' type='button'
                                        class="btn btn-outline-success btn-sm">Подтвердить</a>
 
-
+w
                                     <a onClick="return confirm('Подтвердите отклонение!')" style="margin: 5px"
-                                       href='/order/{{$data[$i][0]->id }}/reject' type='button'
+                                       href='{{route("admin.order.reject", ["id" => $data[$i][0]->id ])}}' type='button'
                                        class="btn btn-outline-secondary btn-sm">Отклонить</a>
 
                                     <br>
                                     @endif
                                     <button class="btn btn-outline-warning btn-sm"
                                             style="margin: 5px"
-                                            onclick="window.location.href = '/order/{{ $data[$i][0]->id }}/verification';">
+                                            onclick="window.location.href = '{{route("admin.order.verification",
+                                            ["id" => $data[$i][0]->id])}}';">
                                         Подробнее
                                     </button>
                                     <button class="btn btn-outline-info btn-sm"
                                             style="margin: 5px"
-                                            onclick="window.location.href = '/order/{{$data[$i][0]->id }}/edit';">
+                                            onclick="window.location.href = '{{route("admin.order.edit",
+                                            ["id" => $data[$i][0]->id])}}';">
                                         Редактировать
                                     </button>
                                     <a onClick="return confirm('Подтвердите удаление!')"
-                                       href='/order/{{$data[$i][0]->id}}/delete' type='button'
+                                       href='{{route("admin.order.delete", ['id' => $data[$i][0]->id])}}' type='button'
                                        class='btn btn-outline-danger btn-sm' style="margin: 5px">Удалить</a>
                                     <br>
                                     <br>

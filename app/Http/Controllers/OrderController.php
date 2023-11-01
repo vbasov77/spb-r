@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Mail\ConfirmOrder;
 use App\Models\Booking;
 use App\Services\ArchiveService;
@@ -9,18 +10,20 @@ use App\Services\BookingService;
 use App\Services\DateService;
 use App\Services\MailService;
 use App\Services\OrderService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\View\View;
 
 class OrderController extends Controller
 {
-    public function view(BookingService $bookingService, OrderService $orderService)
+    public function index(BookingService $bookingService, OrderService $orderService): View
     {
         $data = $bookingService->getBookingDates();
         $datesInOrder = $orderService->inOrder(); //Формируем даты по порядку
         $bookingDates = !empty($datesInOrder) ? $datesInOrder : null;
 
-        return view('orders.orders')->with(['data' => $bookingDates, 'data2' => $data]);
+        return view('orders.index')->with(['data' => $bookingDates, 'data2' => $data]);
     }
 
 
@@ -36,7 +39,7 @@ class OrderController extends Controller
         if ($request->isMethod('post')) {
             // этот код выполнится, если используется метод POST
             $orderService->updateOrder($request);
-            return redirect()->action('OrderController@view');
+            return redirect()->action('OrderController@index');
         }
 
 
@@ -45,7 +48,7 @@ class OrderController extends Controller
     public function delete(int $id,
                            BookingService $bookingService,
                            DateService $dateService,
-                           OrderService $orderService)
+                           OrderService $orderService): RedirectResponse
     {
         $result = $bookingService->findById($id);
 
@@ -55,13 +58,13 @@ class OrderController extends Controller
 
         $dateService->setCountNightObj($date, $result->total, $condition);
         $orderService->deleteOrder($id);
-        return redirect()->action('OrderController@view');
+        return redirect()->action('OrderController@index');
     }
 
     public function deleteProf(int $id,
                                BookingService $bookingService,
                                DateService $dateService,
-                               OrderService $orderService, MailService $mailService)
+                               OrderService $orderService, MailService $mailService): RedirectResponse
     {
         $booking = $bookingService->findById($id);
         if (!empty($booking)) {
@@ -78,7 +81,7 @@ class OrderController extends Controller
         return redirect()->action('ProfileController@view');
     }
 
-    public function confirm(int $id, BookingService $bookingService)
+    public function confirm(int $id, BookingService $bookingService): RedirectResponse
     {
         $bookingService->confirmOrder($id);
         $result = $bookingService->getBookingOrderId($id);
@@ -93,13 +96,13 @@ class OrderController extends Controller
         $subject = 'Подтверждение бронирования';
         $toEmail = preg_replace("/\s+/", "", $result->email);
         Mail::to($toEmail)->send(new ConfirmOrder($subject, $data));
-        return redirect()->action('OrderController@view');
+        return redirect()->action('OrderController@index');
     }
 
     public function reject(int $id, ArchiveService $archiveService,
                            BookingService $bookingService,
                            DateService $dateService,
-                           MailService $mailService, OrderService $orderService)
+                           MailService $mailService, OrderService $orderService): RedirectResponse
     {
         $res = Booking::where('id', $id)->get();
         $date[] = $res[0]->no_in;
@@ -117,16 +120,16 @@ class OrderController extends Controller
 
         $orderService->deleteOrder($id);
 
-        return redirect()->action('OrderController@view');
+        return redirect()->action('OrderController@index');
     }
 
-    public function toPayView(int $id)
+    public function toPayView(int $id): View
     {
         return view('orders/order_pay', ['id' => $id]);
     }
 
 
-    public function toPay(Request $request, BookingService $bookingService)
+    public function toPay(Request $request, BookingService $bookingService): RedirectResponse
     {
         $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $code = substr(str_shuffle($permitted_chars), 0, 16);
