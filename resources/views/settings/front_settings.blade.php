@@ -6,7 +6,7 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8">
                     <h3>Редактировать главную страницу</h3>
-                    <form action="{{route("front.edit")}}" onsubmit="return Validate(this);"
+                    <form action="{{route("admin.front.edit")}}" onsubmit="return Validate(this);"
                           enctype="multipart/form-data" method="post">
                         @csrf
                         <div>

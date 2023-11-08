@@ -1,17 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+declare(strict_types=1);
 
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
 use App\Services\BookingService;
+use Illuminate\View\View;
 
 class VerificationController extends Controller
 {
-    public function view()
-    {
-        return view('/');
-    }
 
-    public function verificationUserBook(int $id, BookingService $bookingService)
+    /**
+     * @param int $id
+     * @param BookingService $bookingService
+     * @return View
+     */
+    public function verificationUserBook(int $id, BookingService $bookingService): View
     {
         $res = $bookingService->getBookingOrderId($id);
         if (!empty($res)) {
@@ -26,6 +31,4 @@ class VerificationController extends Controller
             ]);
         }
     }
-
-
 }

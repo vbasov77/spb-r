@@ -6,7 +6,7 @@
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 @if(!empty(count($data)))
-                    <form action="{{route("edit.table")}}" method="post">
+                    <form action="{{route("admin.edit.table")}}" method="post">
                         @csrf
 
                         <table class="table">

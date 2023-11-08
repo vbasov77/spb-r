@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
-use App\Exceptions\InvalidArgumentException;
 use App\Services\BookingService;
 use App\Services\DateService;
 use App\Services\MailService;
@@ -11,7 +12,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class CalendarController extends Controller
+class BookingController extends Controller
 {
 
 
@@ -53,7 +54,7 @@ class CalendarController extends Controller
         }
     }
 
-    public function comeErrorBlade()
+    public function comeErrorBlade(): View
     {
         return view('errors.error_book');
     }
@@ -81,7 +82,7 @@ class CalendarController extends Controller
         $dates = preg_replace("/\s+/", "", $request->date_book);// удалили пробелы
         $dates = explode("-", $dates);// разбили строку на массив
 
-        $countNight = (integer)$dateService->getCountNight($dates[0], $dates[1]);//Количество ночей
+        $countNight = (int)$dateService->getCountNight($dates[0], $dates[1]);//Количество ночей
 
         $infoBook = (array)$dateService->getInfo($dates[0], $dates[1], $countNight);
         if ($infoBook != null) {

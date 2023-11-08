@@ -39,13 +39,13 @@
                                 <th scope="row">
                                     <a onClick="return confirm('Подтвердите восстановление!')"
                                        title="Восстановить"
-                                       href='{{route('archive.back', ['id' => $value->id])}}' type='button'
+                                       href='{{route('admin.archive.back', ['id' => $value->id])}}' type='button'
                                        class='btn btn-outline-success btn-sm' style="margin: 5px">
                                         <i class="fas fa-undo-alt"></i>
                                     </a>
                                     <a onClick="return confirm('Подтвердите удаление!')"
                                        title="Удалить"
-                                       href='{{route('delete.archive', ['id' => $value->id])}}' type='button'
+                                       href='{{route('admin.delete.archive', ['id' => $value->id])}}' type='button'
                                        class='btn btn-outline-danger btn-sm' style="margin: 5px">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
