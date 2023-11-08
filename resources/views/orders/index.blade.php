@@ -56,7 +56,6 @@
                                        href='{{route('admin.order.confirm', ['id'=>$data[$i][0]->id])}}' type='button'
                                        class="btn btn-outline-success btn-sm">Подтвердить</a>
 
-w
                                     <a onClick="return confirm('Подтвердите отклонение!')" style="margin: 5px"
                                        href='{{route("admin.order.reject", ["id" => $data[$i][0]->id ])}}' type='button'
                                        class="btn btn-outline-secondary btn-sm">Отклонить</a>
@@ -80,7 +79,7 @@ w
                                        class='btn btn-outline-danger btn-sm' style="margin: 5px">Удалить</a>
                                     <br>
                                     <br>
-                                    <form action="{{route('in.archive')}}" method="post">
+                                    <form action="{{route('admin.in.archive')}}" method="post">
                                         @csrf
                                         <input type="hidden" name="id" value="{{$data[$i][0]->id }}"/>
                                         <i>Отзыв администратора</i><br>

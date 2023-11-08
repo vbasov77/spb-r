@@ -87,14 +87,15 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{route('settings')}}">Настройки</a>
+
                                 @if(Auth::user()->isAdmin())
+                                    <a class="dropdown-item" href="{{route('admin.settings')}}">Настройки</a>
                                     <a class="dropdown-item" href="{{route('admin.orders')}}">Заказы</a>
                                     <a class="dropdown-item" href="{{route('admin.in.queue')}}">В очередь</a>
-                                    <a class="dropdown-item" href="{{route('view.queue')}}">Очереди</a>
-                                    <a class="dropdown-item" href="{{route('reports')}}">Отчёты</a>
-                                    <a class="dropdown-item" href="{{route('archive')}}">Архив</a>
-                                    <a class="dropdown-item" href="{{route('del.schedule')}}">Очистить базу</a>
+                                    <a class="dropdown-item" href="{{route('admin.view.queue')}}">Очереди</a>
+                                    <a class="dropdown-item" href="{{route('admin.reports')}}">Отчёты</a>
+                                    <a class="dropdown-item" href="{{route('admin.archive')}}">Архив</a>
+                                    <a class="dropdown-item" href="{{route('admin.del.schedule')}}">Очистить базу</a>
                                 @endif
                                 <a class="dropdown-item" href="{{route('profile')}}">Профиль</a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"

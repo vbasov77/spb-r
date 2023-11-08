@@ -1,23 +1,25 @@
 <?php
 
-namespace App\Http\Controllers;
+declare(strict_types=1);
 
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
 use App\Services\BookingService;
 use App\Services\ReportService;
+use Illuminate\View\View;
 
-class ReportsController extends Controller
+class ReportController extends Controller
 {
-    public function view(ReportService $reportService, BookingService $bookingService)
+    public function index(ReportService $reportService, BookingService $bookingService): View
     {
         $dateBook = $bookingService->getBookingDates();
         $countNight = $reportService->getCountNight();
         $sum = $reportService->getSum();
-        return view('reports.reports_obj', [
+        return view('reports.index', [
             'sum' => $sum,
             'count_night' => $countNight,
             'date_book' => $dateBook['date_book']
         ]);
     }
-
-
 }

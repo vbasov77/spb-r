@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+declare(strict_types=1);
 
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\ProfileController;
 use App\Mail\ConfirmOrder;
 use App\Models\Booking;
 use App\Services\ArchiveService;
@@ -39,7 +42,7 @@ class OrderController extends Controller
         if ($request->isMethod('post')) {
             // этот код выполнится, если используется метод POST
             $orderService->updateOrder($request);
-            return redirect()->action('OrderController@index');
+            return redirect()->action('index');
         }
 
 
@@ -58,7 +61,7 @@ class OrderController extends Controller
 
         $dateService->setCountNightObj($date, $result->total, $condition);
         $orderService->deleteOrder($id);
-        return redirect()->action('OrderController@index');
+        return redirect()->action([OrderController::class, "index"]);
     }
 
     public function deleteProf(int $id,
@@ -78,7 +81,7 @@ class OrderController extends Controller
             $mailService->DeleteOrderUser($data);
         }
 
-        return redirect()->action('ProfileController@view');
+        return redirect()->action([ProfileController::class, 'index']);
     }
 
     public function confirm(int $id, BookingService $bookingService): RedirectResponse
@@ -137,6 +140,4 @@ class OrderController extends Controller
         $bookingService->updateInfoPay($request->id, $infoPay);
         return redirect()->action([VerificationController::class, 'verificationUserBook'], ['id' => $request->id]);
     }
-
-
 }

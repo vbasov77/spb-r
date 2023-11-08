@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-    public function view(BookingService $bookingService)
+    public function index(BookingService $bookingService)
     {
         if (Auth::check()) {
             $userEmail = Auth::user()->email;

@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-
+use App\Http\Controllers\Controller;
 use App\Services\BookingService;
 use App\Services\DateService;
 use App\Services\QueueService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class QueueController extends Controller
 {
-
-    public function index(QueueService $queueService)
+    public function index(QueueService $queueService): View
     {
         $data = $queueService->getDataQueues();
         return view('queue.view', ['data' => $data]);
@@ -84,10 +86,14 @@ class QueueController extends Controller
         }
     }
 
-    public function delete(Request $request, QueueService $queueService)
+    /**
+     * @param Request $request
+     * @param QueueService $queueService
+     * @return RedirectResponse
+     */
+    public function delete(Request $request, QueueService $queueService): RedirectResponse
     {
         $queueService->deleteById($request->id);
         return redirect()->action("QueueController@index");
     }
-
 }

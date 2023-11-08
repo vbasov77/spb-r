@@ -54,10 +54,11 @@ class ArchiveService extends Service
         $this->archiveRepository->delete($id);
     }
 
-    public function back(int $id,
-                         DateService $dateService): void
+    public function back(int $id): void
     {
+        $dateService = new DateService();
         $bookingService  = new BookingService();
+
         $archive = $this->archiveRepository->findById($id);
         $datesBook = $dateService->getDates($archive->no_in, $archive->no_out, 1);
         $booking = [

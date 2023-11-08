@@ -63,13 +63,13 @@
                                         <th scope="row"> {!! $queue->messenger !!} </th>
 
                                         <th scope="row">
-                                            <a href='{{route('update.queue', ['id' => $queue->id])}}' type='button'
+                                            <a href='{{route('admin.update.queue', ['id' => $queue->id])}}' type='button'
                                                class='btn btn-outline-success btn-sm' style="margin: 5px">
                                                 <i class="fas fa-user-edit"></i>
                                             </a>
 
                                             <a onClick="return confirm('Подтвердите удаление!')"
-                                               href='{{route('delete.queue', ['id' => $queue->id])}}' type='button'
+                                               href='{{route('admin.delete.queue', ['id' => $queue->id])}}' type='button'
                                                class='btn btn-outline-danger btn-sm' style="margin: 5px">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>

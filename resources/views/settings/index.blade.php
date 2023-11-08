@@ -13,15 +13,15 @@
                             <h5 class="card-title">Редактировать расписание календаря</h5>
                             <div class="card-footer">
                                 <button class="btn btn-success btn-sm" style="color: white; margin-top: 25px"
-                                        onclick="window.location.href = '{{route('schedule.add')}}';">
+                                        onclick="window.location.href = '{{route('admin.schedule.add')}}';">
                                     Добавить
                                 </button>
                                 <button class="btn btn-info btn-sm" style="color: white; margin-top: 25px"
-                                        onclick="window.location.href = '{{route('schedule.edit')}}';">
+                                        onclick="window.location.href = '{{route('admin.schedule.edit')}}';">
                                     Изменить единично
                                 </button>
                                 <button class="btn btn-info btn-sm" style="color: white; margin-top: 25px"
-                                        onclick="window.location.href =  '{{ route('edit_schedule_mass')}}';">
+                                        onclick="window.location.href =  '{{ route('admin.edit_schedule_mass')}}';">
                                     Изменить массово
                                 </button>
                             </div>
@@ -37,7 +37,7 @@
                             <p class="card-text">Первый месяц & цена, Второй месяц & цена...</p>
                             <div class="card-footer">
                                 <button class="btn btn-outline-success"
-                                        onclick="window.location.href = '/front_edit';">Редактировать
+                                        onclick="window.location.href = '{{route("admin.front.edit")}}';">Редактировать
                                 </button>
                             </div>
 

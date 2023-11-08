@@ -78,7 +78,7 @@ class DateService extends Service
 
     }
 
-    public function getInfo(string $to, string $end, string $countNight): array
+    public function getInfo(string $to, string $end, int $countNight): array
     {
         $dateService = new DateService();
         $arrayDates = $dateService->getDates($to, $end, 1); // Получили даты из диапазона. Формат: 29.09.2023

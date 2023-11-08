@@ -1,14 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+declare(strict_types=1);
 
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
 use App\Services\DateService;
 use App\Services\ScheduleService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ScheduleController extends Controller
 {
-    public function view(ScheduleService $scheduleService, DateService $dateService)
+    public function view(ScheduleService $scheduleService, DateService $dateService): View
     {
         $schedules = $scheduleService->findAll();
 
@@ -45,7 +50,7 @@ class ScheduleController extends Controller
 
     }
 
-    public function delSchedule(ScheduleService $scheduleService)
+    public function delSchedule(ScheduleService $scheduleService): View
     {
         $count = $scheduleService->delSchedule();
         return view('messages.del_schedule', ['count' => $count]);
@@ -74,7 +79,7 @@ class ScheduleController extends Controller
     }
 
 
-    public function edit(Request $request, ScheduleService $scheduleService)
+    public function edit(Request $request, ScheduleService $scheduleService): View
     {
         if ($request->isMethod('get')) {
             // этот код выполнится, если используется метод GET
@@ -89,7 +94,7 @@ class ScheduleController extends Controller
     }
 
 
-    public function editScheduleCost(Request $request, ScheduleService $scheduleService)
+    public function editScheduleCost(Request $request, ScheduleService $scheduleService): RedirectResponse
     {
         $str = $scheduleService->getStrUpdateSchedules($request);
         $scheduleService->updateScheduleCost($str);
@@ -97,5 +102,4 @@ class ScheduleController extends Controller
         $message = "Изменения сохранены";
         return redirect()->action('SettingsController@view', ['message' => $message]);
     }
-
 }

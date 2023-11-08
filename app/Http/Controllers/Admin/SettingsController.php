@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+declare(strict_types=1);
 
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
 use App\Services\SettingsService;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -34,5 +37,4 @@ class SettingsController extends Controller
         }
 
     }
-
 }

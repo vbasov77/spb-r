@@ -7,7 +7,7 @@
                 <div class="col-lg-8">
                     <h2>Редактировать</h2>
                     <h3> Изменить расписание </h3>
-                    <form action="{{route('schedule.edit')}}" method="post">
+                    <form action="{{route('admin.schedule.edit')}}" method="post">
                         @csrf
                         <br>
                         <h3> Выбор дат </h3><br>

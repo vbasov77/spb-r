@@ -15,7 +15,7 @@
 
                             <div class="card-footer">
                                 <button class="btn btn-outline-success"
-                                        onclick="window.location.href = '{{route('orders')}}';">Перейти
+                                        onclick="window.location.href = '{{route('admin.orders')}}';">Перейти
                                 </button>
                             </div>
 
