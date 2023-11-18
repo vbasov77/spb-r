@@ -43,8 +43,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function(){
     Route::get('/order/{id}/verification', [VerificationController::class, 'verificationUserBook'])
         ->name("order.verification")->middleware('admin')->where("id", "\d+");
 
-    Route::match(['get', 'post'], '/order/{id}/edit', [OrderController::class, 'edit'])->name('order.edit')
-        ->middleware('admin')->where("id", "\d+");
+    Route::get( '/order/{id}/edit', [OrderController::class, 'viewEdit'])->name('order.edit.view')
+        ->where("id", "\d+")->middleware('admin');
+    Route::post( '/order/edit', [OrderController::class, 'edit'])->name('order.edit')
+        ->middleware('admin');
     Route::get('/orders', [OrderController::class, 'index'])->name("orders")
         ->middleware('admin');
     Route::get('/order/{id}/reject', [OrderController::class, 'reject'])->name('order.reject')
@@ -71,7 +73,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function(){
     Route::get('/archive/{id}/back', [ArchiveController::class, 'back'])->name('archive.back')
         ->middleware('admin')->where("id", "\d+");
 
-    Route::get('/reports', [ReportController::class, 'view'])->name('reports')
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports')
         ->middleware('admin');
 
     Route::match(["get", "post"], '/front_edit', [SettingsController::class, 'front'])->name("front.edit")
@@ -96,9 +98,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function(){
 
 Route::get('/', [FrontController::class, 'front'])->name("front");
 
-Route::post('/add_calendar', [BookingController::class, 'addInfo'])->name("add.calendar");
-Route::post('/order_info', [BookingController::class, 'verification'])->name("order.info");
-Route::get('/test', [BookingController::class, 'view']);
+Route::post('/add_dates', [BookingController::class, 'addDates'])->name("add.dates");
+Route::post('/order_info', [BookingController::class, 'orderInfo'])->name("add.order.info");
 Route::get('/error_book', [BookingController::class, 'comeErrorBlade'])->name('error.book');
 Route::post('/add_booking', [BookingController::class, 'addBooking'])->name("add.booking");
 

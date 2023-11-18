@@ -129,13 +129,18 @@
             <br>
             <br>
             <!-- Project One Row-->
-            <form action="{{route("add.calendar")}}" method="post">
+            <form action="{{route("add.dates")}}" method="post">
                 @csrf
                 <center><h4>Забронировать квартиру</h4></center>
                 <br>
                 <div style="color: red">
                     <center><i> Узнать точную цену на свои даты. Начните бронировать...</i></center>
                 </div>
+                @if($errors->any())
+                    @foreach($errors -> all() as $error)
+                        <x-alert type="danger" :message="$error"/>
+                    @endforeach
+                @endif
                 <br>
                 <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
                     <div class="col-lg-6">
@@ -143,7 +148,7 @@
                         <div>
                             <label for="date_book"><b>Выберете дату:</b></label>
                             <input id="input-id" style="display:inline" name="date_book" type="text"
-                                   class="form-control"
+                                   class="form-control @error("user_name") is-invalid @enderror"
                                    placeholder="Нажмите для выбора даты" autocomplete="off" readonly="readonly"
                                    required>
                         </div>
@@ -310,18 +315,18 @@
                     <div class="d-flex h-100">
 
                         <div style="float: left" class="body-front">
-                            <em>Одна станция метро:</em> <img style="width: 40px; opacity: .6"
+                            <em>Одна станция метро:</em> <br><img style="width: 30px; opacity: .6"
                                                               src="{{ asset('img/metro.svg')}}" alt="">
                             <strong>Площадь Александра Невского</strong>:
                             Свято-Троицкая
                             Александро-Невская лавра.<br>
-                            <em>Две станции</em>: <strong><img style="width: 40px; opacity: .6"
+                            <em>Две станции</em>: <strong><img style="width: 30px; opacity: .6"
                                                                src="{{ asset('img/metro.svg')}}">
-                                Маяковская, <img style="width: 40px; opacity: .6" src="{{ asset('img/metro.svg')}}"
+                                Маяковская, <img style="width: 30px; opacity: .6" src="{{ asset('img/metro.svg')}}"
                                                  alt=""> Площадь Восстания</strong>: ТРЦ Галерея,
                             БКЗ
                             Октябрьский.<br>
-                            <em>Три станции</em>: <strong><img style="width: 40px; opacity: .6"
+                            <em>Три станции</em>: <strong><img style="width: 30px; opacity: .6"
                                                                src="{{ asset('img/metro.svg')}}" alt="">
                                 Гостинный Двор</strong>: Казанский Собор, Спас на
                             Крови,
@@ -364,7 +369,7 @@
 
                         <div class="body-front i_am">
                             Приветствую!<br>
-                            Я НЕ агент, я собственник данных апартаментов.<br> Давайте знакомиться! Меня зовут Виталий))<br>
+                            Я НЕ агент, я собственник.<br> Давайте знакомиться! Меня зовут Виталий))<br>
                             Мой аккаунт в <i class="fab fa-vk"></i>(
                             <a href="https://vk.com/id642803932" target="_blank">Здесь</a>).
                             <br>Подтверждение недвижимости на сторонних сервисах:

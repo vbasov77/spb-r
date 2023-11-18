@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Booking\AddDatesRequest;
+use App\Http\Requests\Booking\AddInfoRequest;
 use App\Services\BookingService;
 use App\Services\DateService;
 use App\Services\MailService;
@@ -59,11 +61,13 @@ class BookingController extends Controller
         return view('errors.error_book');
     }
 
-    public function verification(Request $request): View
+    public function orderInfo(AddInfoRequest $request): View
     {
         $moreBook = [];
-        for ($i = 0; $i < count($request->user_name); $i++) {
-            $moreBook[] = $request->user_name[$i] . ", " . $request->age[$i] . ", " . $request->nationality [$i];
+        $count = count($request->input("user_name"));
+        for ($i = 0; $i < $count; $i++) {
+            $moreBook[] = $request->input("user_name")[$i] . ", " . $request->input("age")[$i] . ", "
+                . $request->input("district") [$i];
         }
         $date_view = explode(',', $request->date_view);
         return view('orders.verification_booking')->with(['date_view' => $date_view, 'more_book' => $moreBook,
@@ -71,7 +75,7 @@ class BookingController extends Controller
     }
 
 
-    public function addInfo(Request $request, DateService $dateService): View
+    public function addDates(AddDatesRequest $request, DateService $dateService): View
     {
         /**
          *  Метод формирует информацию для бронирования - количество ночей,
