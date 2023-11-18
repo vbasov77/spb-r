@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
+
+use Illuminate\Http\RedirectResponse;
 
 class HomeController extends Controller
 {
@@ -17,10 +21,10 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function index()
+    public function index(): RedirectResponse
     {
-        return redirect()->action('ProfileController@view');
+        return redirect()->action([ProfileController::class, "index"]);
     }
 }

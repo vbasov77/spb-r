@@ -12,7 +12,12 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8">
                     <h3>Заполните форму</h3>
-                    <form id="form" action="{{route("order.info")}}" method="post">
+                    @if($errors->any())
+                        @foreach($errors -> all() as $error)
+                            <x-alert type="danger" :message="$error"/>
+                        @endforeach
+                    @endif
+                    <form id="form" action="{{route("add.order.info")}}" method="POST">
                         @csrf
                         <input type="hidden" value="{{implode(",", $date_view) }}" name="date_view">
 
@@ -20,15 +25,15 @@
                         <div class="border_none">
                             <label for="date_book"><b>Выбранные даты:</b></label><br>
 
-                            <input class="form-control" value="{!!$data['date_book']!!}"
+                            <input class="form-control" value="{{$data['date_book']}}"
                                    readonly="readonly" type="text"
                                    name="date_book"
-                                   method="post"><br>
+                                  ><br>
                         </div>
                         <br>
                         <div style="background: #e9ecef; padding: 15px;">
                             @foreach($date_view as $dat)
-                                {!!$dat!!}<br>
+                                {!! $dat !!}<br>
                             @endforeach
 
                         </div>
@@ -37,16 +42,17 @@
                         <br>
                         <div>
                             <label for="phone"><b>Телефон:</b></label><br>
-                            <input name="phone" type="text" class="tel form-control" id="phone"
-                                   value="{{$_POST['phone'] ?? ''}}" placeholder="+7(000) 000-0000" required>
+                            <input name="phone" type="text"
+                                   class="tel form-control @error("phone") is-invalid @enderror" id="phone"
+                                   value="{{old("phone")}}" placeholder="+7(000) 000-0000" required>
                         </div>
                         <br>
 
                         <div>
                             <label for="email"><b>Email:</b></label>
-                            <input name="email" type="email" class="form-control" id="email"
-                                   {{--  onKeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"--}}
-                                   value="{{$_POST['email'] ?? ''}}" placeholder="Email" required>
+                            <input name="email" type="email"
+                                   class="form-control @error("email") is-invalid @enderror" id="email"
+                                   value="{{old("email")}}" placeholder="Email" required>
                         </div>
 
                         <br>
@@ -56,22 +62,25 @@
 
                             <div>
                                 <label for="ФИО"><b>ФИО:</b></label>
-                                <input name="user_name[]" id="user_name" type="text" class="form-control"
-                                       value="{{$_POST['user_name'] ?? ''}}" placeholder="ФИО" required>
+                                <input name="user_name[]" id="user_name" type="text"
+                                       class="form-control @error("user_name") is-invalid @enderror"
+                                       value="{{old("user_name")}}" placeholder="ФИО" required>
                             </div>
 
                             <div>
                                 <label for="age"><b>Возраст:</b></label>
-                                <input name="age[]" type="text" class="form-control"
-                                       value="{{$_POST['age'] ?? '' }}" placeholder="Полных лет" required>
+                                <input name="age[]" type="text"
+                                       class="form-control @error("age") is-invalid @enderror"
+                                       value="{{old("age")}}" placeholder="Полных лет" required>
                             </div>
 
                             <div>
-                                <label for="nationality"><b>Район:</b></label>
-                                <input name="nationality[]" type="text" class="form-control"
+                                <label for="district"><b>Район:</b></label>
+                                <input name="district[]" type="text"
+                                       class="form-control  @error("district") is-invalid @enderror"
+                                       value="{{old("district")}}"
                                        placeholder="Город, область жительства" required>
                             </div>
-
                             <br>
                         @endfor
 
@@ -87,7 +96,6 @@
 
         </div>
     </section>
-
     @push("scripts")
 
         <script src="{{ asset('js/mask.js') }}" defer></script>

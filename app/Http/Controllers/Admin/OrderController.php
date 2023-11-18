@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ProfileController;
+use App\Http\Requests\Orders\EditOrderRequest;
 use App\Mail\ConfirmOrder;
 use App\Models\Booking;
 use App\Services\ArchiveService;
@@ -29,24 +30,20 @@ class OrderController extends Controller
         return view('orders.index')->with(['data' => $bookingDates, 'data2' => $data]);
     }
 
-
-    public function edit(Request $request,
-                         BookingService $bookingService, OrderService $orderService)
+    public function viewEdit(Request $request, BookingService $bookingService): View
     {
-        if ($request->isMethod('get')) {
-            // этот код выполнится, если используется метод GET
-            $order = $bookingService->getBookingOrderId($request->id);
-
-            return view('/orders.order_edit')->with(['order' => $order]);
-        }
-        if ($request->isMethod('post')) {
-            // этот код выполнится, если используется метод POST
-            $orderService->updateOrder($request);
-            return redirect()->action('index');
-        }
-
-
+        $order = $bookingService->getBookingOrderId((int)$request->id);
+        return view('/orders.order_edit')->with(['order' => $order]);
     }
+
+
+
+    public function edit(OrderService $orderService, EditOrderRequest $editOrderRequest): RedirectResponse
+    {
+        $orderService->updateOrder($editOrderRequest);
+        return redirect()->action([OrderController::class, 'index']);
+    }
+
 
     public function delete(int $id,
                            BookingService $bookingService,
@@ -59,7 +56,7 @@ class OrderController extends Controller
         $date[] = $result->no_out;
         $condition = 2;
 
-        $dateService->setCountNightObj($date, $result->total, $condition);
+        $dateService->setCountNightObj($date, (int) $result->total, $condition);
         $orderService->deleteOrder($id);
         return redirect()->action([OrderController::class, "index"]);
     }

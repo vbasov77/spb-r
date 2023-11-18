@@ -70,7 +70,7 @@
                                     </button>
                                     <button class="btn btn-outline-info btn-sm"
                                             style="margin: 5px"
-                                            onclick="window.location.href = '{{route("admin.order.edit",
+                                            onclick="window.location.href = '{{route("admin.order.edit.view",
                                             ["id" => $data[$i][0]->id])}}';">
                                         Редактировать
                                     </button>
