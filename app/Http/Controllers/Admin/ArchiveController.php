@@ -21,7 +21,7 @@ class ArchiveController extends Controller
      */
     public function index(ArchiveService $archiveService, Request $request): View
     {
-        $data = $archiveService->findById($request->id);
+        $data = $archiveService->findById((int)$request->id);
         return view('archive.index', ['data' => $data]);
     }
 
@@ -47,9 +47,9 @@ class ArchiveController extends Controller
                                  BookingService $bookingService,
                                  Request $request): RedirectResponse
     {
-        $id = (int)$request->id;
+        $id = (int) $request->id;
         $data = $bookingService->findById($id);// Получаем данные бронирования по id из БД booking
-        $archiveService->save($data, $request->otz);// Добавляем новый архив
+        $archiveService->save($data, $request->comment);// Добавляем новый архив
         $bookingService->delete($id); // Удалили запись из БД
 
         return redirect()->action([OrderController::class, 'index']);

@@ -29,12 +29,12 @@ class OrderService extends Service
     public function inOrder(): array
     {
         $result = $this->bookingService->getBookingNoInTable();
+
         $bookingNoIn = [];
         if (!empty(count($result))) {
             for ($i = 0; $i < count($result); $i++) {
                 $array[] = strtotime($result[$i]);
             }
-
             sort($array);
             $bookingNoIn = [];
             foreach ($array as $item) {
@@ -47,22 +47,20 @@ class OrderService extends Service
 
     public function deleteOrder(int $id): array
     {
-        $booking = $this->bookingService->findById($id);
+        $booking = $this->bookingService->getBookingByOrderId($id)[0];
         $data = [
-            'id_book' => $booking->id,
-            'user_name' => $booking->user_name,
-            'phone' => $booking->phone,
-            'email' => $booking->email,
-            'no_in' => $booking->no_in,
-            'no_out' => $booking->no_out,
-            'payment_term' => $booking->payment_term,
+            'user_id' => $booking->user_id,
+            'date_book' => $booking->date_book,
+            'info_book' => $booking->info_book,
             'user_info' => $booking->user_info,
+            'confirmed' => $booking->confirmed,
             'total' => $booking->total,
-            'pay' => $booking->pay,
-            'otz' => "Удалено пользователем",
-            'info_pay' => $booking->info_pay
+            'info_pay' => $booking->info_pay,
+            'comment' => "Удалено пользователем",
+            'created_at' => $booking->created_at,
         ];
-        $this->archiveService->save($booking, $data['otz']);
+
+        $this->archiveService->save($data);
         $this->bookingService->delete($id);
 
         return $data;

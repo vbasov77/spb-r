@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 
 use App\Models\Booking;
+use App\Models\Pay;
 
 class PayRepository extends Repository
 {
@@ -13,13 +14,12 @@ class PayRepository extends Repository
         $data = [
             'info_pay' => $info_pay,
             'pay' => $pay,
-            'payment_term' => null,
         ];
         Booking::where('id', $id)->update($data);
     }
 
     public function updateBookInfoPay(int $id, string $info_pay): void
     {
-        Booking::where("id", $id)->update(["info_pay" => $info_pay]);
+        Pay::where("booking_id", $id)->update(["info_pay" => $info_pay]);
     }
 }

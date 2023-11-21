@@ -20,25 +20,9 @@ class ArchiveService extends Service
         return $this->archiveRepository->findById($id);
     }
 
-    public function save(object $data, string $otz): void
+    public function save(array $booking): void
     {
-        $archive = [
-            'user_name' => $data->user_name,
-            'phone' => $data->phone,
-            'email' => $data->email,
-            'no_in' => $data->no_in,
-            'no_out' => $data->no_out,
-            'payment_term' => $data->payment_term,
-            'more_book' => $data->more_book,
-            'user_info' => $data->user_info,
-            'total' => $data->total,
-            'pay' => $data->pay,
-            'info_pay' => $data->info_pay,
-            'confirmed' => $data->confirmed,
-            'otz' => $otz,
-            'created_at' => $data->created_at
-        ];
-        $this->archiveRepository->save($archive);
+        $this->archiveRepository->save($booking);
     }
 
     public function findAll(): object
@@ -54,7 +38,7 @@ class ArchiveService extends Service
     public function back(int $id): void
     {
         $dateService = new DateService();
-        $bookingService  = new BookingService();
+        $bookingService = new BookingService();
 
         $archive = $this->archiveRepository->findById($id);
         $datesBook = $dateService->getDates($archive->no_in, $archive->no_out, 1);
@@ -65,7 +49,6 @@ class ArchiveService extends Service
             'date_book' => implode(",", $datesBook),
             'no_in' => $archive->no_in,
             'no_out' => $archive->no_out,
-            'payment_term' => $archive->payment_term,
             'more_book' => $archive->more_book,
             'user_info' => $archive->user_info,
             'total' => $archive->total,

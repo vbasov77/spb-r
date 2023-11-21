@@ -23,7 +23,7 @@ class ScheduleService extends Service
         return $this->scheduleRepository->findByDatesBook($str);
     }
 
-    public function updateScheduleCost(string $str): void
+    public function updateScheduleCost(string $str)
     {
         $this->scheduleRepository->updateCost($str);
     }

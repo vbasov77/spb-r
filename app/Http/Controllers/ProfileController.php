@@ -10,9 +10,8 @@ class ProfileController extends Controller
     public function index(BookingService $bookingService)
     {
         if (Auth::check()) {
-            $userEmail = Auth::user()->email;
-            $book = $bookingService->findByEmail($userEmail);
-
+            $id = Auth::user()->id;
+            $book = $bookingService->findAllById($id);
             return view('profile', ['data' => $book]);
         } else {
 

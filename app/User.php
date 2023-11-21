@@ -2,12 +2,16 @@
 
 namespace App;
 
+use App\Models\Booking;
+use App\Models\UserPhone;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     use Notifiable;
+
+    public $timestamps = false;
 
     /**
      * The attributes that are mass assignable.
@@ -39,5 +43,15 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->admin == 1;
+    }
+
+    public function userPhone()
+    {
+        return $this->hasOne(UserPhone::class);
+    }
+
+    public function booking()
+    {
+        return $this->hasOne(Booking::class);
     }
 }

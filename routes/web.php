@@ -29,13 +29,19 @@ use App\Http\Controllers\HomeController;
 
 Auth::routes();
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function(){
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
 
-    Route::match( ['get', 'post'],'/queues', [QueueController::class, 'toQueue'])
+    Route::get('/queues', [QueueController::class, 'toQueue'])
         ->name('in.queue')->middleware('admin');
-    Route::match(["get", "post"], '/queue/{id}/update', [QueueController::class, 'update'])
+    Route::post('/queues', [QueueController::class, 'addQueue'])
+        ->name('in.queue')->middleware('admin');
+
+    Route::get('/queue/{id}/edit', [QueueController::class, 'editView'])
         ->name('update.queue')->middleware('admin');
-    Route::get('/view_queue', [QueueController::class, 'index'])
+    Route::post('/queue/{id}/edit', [QueueController::class, 'edit'])
+        ->name('update.queue')->middleware('admin');
+
+    Route::get('/view_queue', [QueueController::class, 'queueList'])
         ->name('view.queue')->middleware('admin');
     Route::get('/queue/{id}/delete', [QueueController::class, 'delete'])->name('delete.queue')
         ->middleware('admin')->where("id", "\d+");
@@ -43,20 +49,20 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function(){
     Route::get('/order/{id}/verification', [VerificationController::class, 'verificationUserBook'])
         ->name("order.verification")->middleware('admin')->where("id", "\d+");
 
-    Route::get( '/order/{id}/edit', [OrderController::class, 'viewEdit'])->name('order.edit.view')
+    Route::get('/order/{id}/edit', [OrderController::class, 'viewEdit'])->name('order.edit.view')
         ->where("id", "\d+")->middleware('admin');
-    Route::post( '/order/edit', [OrderController::class, 'edit'])->name('order.edit')
+    Route::post('/order/edit', [OrderController::class, 'edit'])->name('order.edit')
         ->middleware('admin');
-    Route::get('/orders', [OrderController::class, 'index'])->name("orders")
+    Route::get('/orders', [OrderController::class, 'ordersList'])->name("orders")
         ->middleware('admin');
     Route::get('/order/{id}/reject', [OrderController::class, 'reject'])->name('order.reject')
         ->middleware('admin')->where("id", "\d+");
     Route::get('/order/{id}/confirm', [OrderController::class, 'confirm'])->name('order.confirm')
         ->middleware('admin');
-    Route::get('/order/{id}/delete', [OrderController::class, 'delete'])->name("order.delete")
-        ->middleware('admin')->where("id", "\d+");
-    Route::get('/ord/{id}/delete', [OrderController::class, 'deleteProf'])->name("order.deleteProf")
-    ->middleware("admin")->where("id", "\d+");
+
+    Route::get('/delete/{id}/order', [OrderController::class, 'deleteProf'])->name("order.deleteProf")
+        ->middleware("admin");
+
     Route::get('/order/{id}/to_pay', [OrderController::class, 'toPayView'])
         ->name('order.to_pay')->middleware('admin')->where("id", "\d+");
     Route::post('/to_pay', [OrderController::class, 'toPay'])->name('to.pay')
@@ -103,7 +109,6 @@ Route::post('/order_info', [BookingController::class, 'orderInfo'])->name("add.o
 Route::get('/error_book', [BookingController::class, 'comeErrorBlade'])->name('error.book');
 Route::post('/add_booking', [BookingController::class, 'addBooking'])->name("add.booking");
 
-
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::post('/q_result', [QiwiController::class, 'result']);
@@ -112,6 +117,9 @@ Route::get('/q_success', [QiwiController::class, 'success']);
 Route::get('/q_pay/{id}/pay', [QiwiController::class, 'verification'])->where("id", "\d+");
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+
+Route::get('/order/{id}/delete', [OrderController::class, 'delete'])->name("order.delete")
+    ->where("id", "\d+");
 
 Route::get('/danke', [DankeController::class, 'view'])->name('danke');
 

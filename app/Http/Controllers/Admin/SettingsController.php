@@ -26,7 +26,7 @@ class SettingsController extends Controller
             $inDb = implode("&", $request->input("data"));
             $settingsService->updateFrontSettings($inDb);
             $message = "Настройки сохранены";
-            return redirect()->action("SettingsController@front", ['message' => $message]);
+            return redirect()->action([SettingsController::class, "front"], ['message' => $message]);
         }
 
         if ($request->isMethod('get')) {

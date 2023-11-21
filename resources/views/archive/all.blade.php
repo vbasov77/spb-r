@@ -32,7 +32,7 @@
                                 <th scope="row"><i class="fas fa-indent"></i> {!! $value->no_in !!}
                                     <br><i class="fas fa-outdent"></i> {!! $value->no_out !!}</th>
 
-                                <th scope="row"><i class="fas fa-comments"></i> {!! $value->otz !!}</th>
+                                <th scope="row"><i class="fas fa-comments"></i> {!! $value->comment !!}</th>
                                 <th scope="row"><i class="fas fa-users"></i> {!! $value->user_info !!}</th>
                                 <th scope="row"><i class="fas fa-ruble-sign"></i> {!! $value->total !!}</th>
                                 <th scope="row"><i class="fas fa-check"></i> {!! $value->confirmed !!}</th>

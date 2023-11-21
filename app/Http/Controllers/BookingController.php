@@ -9,6 +9,7 @@ use App\Http\Requests\Booking\AddInfoRequest;
 use App\Services\BookingService;
 use App\Services\DateService;
 use App\Services\MailService;
+use App\Services\UserPhoneService;
 use App\Services\UserService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,27 +24,33 @@ class BookingController extends Controller
                                UserService $userService, MailService $mailService): RedirectResponse
     {
         //Проверка на занятость дат
-        $checkBooking = $bookingService->checkingForEmployment($request->date_view);
+        $checkBooking = $bookingService->checkingForEmployment($request->info_book);
 
         if ($checkBooking == true) {
+
             $user = explode(",", preg_replace('/\s+?\'\s+?/', '\'', $request->more_book [0]));
 
             $userName = $user[0];
             $email = $request->email;
 
-            // Проверка есть ли email в БД
-            $checkEmail = $userService->checkEmail($email);
-
+            $userId = $userService->getUserIdByEmail($email);
             // Если email нет в БД, то создаём учётную запись и уведомляем пользователя
-            if ($checkEmail == false) {
+            if ($userId == null) {
                 $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
                 $password = substr(str_shuffle($permitted_chars), 0, 16);
 
-                $userService->addUser($userName, $email, $password); //Добавили юзера
+                $userId = $userService->addUser($userName, $email, $password, $request->phone); //Добавили юзера
 
                 $mailService->SendRegister($userName, $email, $password);// Отправили юзеру письмо о регистрации
 
             }
+            $userPhoneService = new UserPhoneService();
+            $checkUserPhoneInTable = $userPhoneService->checkPhone($userId);
+            if ($checkUserPhoneInTable == null) {
+                $userPhoneService->savePhone($userId, $request->phone);
+            }
+            $request->user_id = $userId;
+
             //Добавляем бронирование в БД, возвращаем данные для mail
             $params = $bookingService->addBooking($request, $userName);
 
@@ -69,8 +76,8 @@ class BookingController extends Controller
             $moreBook[] = $request->input("user_name")[$i] . ", " . $request->input("age")[$i] . ", "
                 . $request->input("district") [$i];
         }
-        $date_view = explode(',', $request->date_view);
-        return view('orders.verification_booking')->with(['date_view' => $date_view, 'more_book' => $moreBook,
+        $infoBook = explode(',', $request->input('info_book'));
+        return view('orders.verification_booking')->with(['infoBook' => $infoBook, 'more_book' => $moreBook,
             'sum' => $request->sum]);
     }
 
@@ -89,8 +96,9 @@ class BookingController extends Controller
         $countNight = (int)$dateService->getCountNight($dates[0], $dates[1]);//Количество ночей
 
         $infoBook = (array)$dateService->getInfo($dates[0], $dates[1], $countNight);
+
         if ($infoBook != null) {
-            return view('orders.order_info', ['data' => $_POST, 'date_view' => $infoBook['dateView'],
+            return view('orders.order_info', ['data' => $_POST, 'infoBook' => $infoBook['dateView'],
                 'sum' => $infoBook['total'], 'sum_night' => $countNight]);
         } else {
             return view("sorry.sorry");

@@ -4,8 +4,11 @@
 namespace App\Services;
 
 
+use App\Models\Booking;
+use App\Models\Pay;
 use App\Repositories\BookingRepository;
 use Illuminate\Http\Request;
+use Ramsey\Collection\Collection;
 
 
 class BookingService extends Service
@@ -21,6 +24,11 @@ class BookingService extends Service
     public function findById(int $id): object
     {
         return $this->bookingRepository->findById($id);
+    }
+
+    public function findAllById(int $id): object
+    {
+        return $this->bookingRepository->findAllById($id);
     }
 
     public function create(array $book): void
@@ -43,11 +51,6 @@ class BookingService extends Service
         return $this->bookingRepository->getBookingNoIn($noIn);
     }
 
-    public function findByEmail(string $email): object
-    {
-        return $this->bookingRepository->findByEmail($email);
-    }
-
     public function delete(int $id): void
     {
         $this->bookingRepository->delete($id);
@@ -59,9 +62,9 @@ class BookingService extends Service
     }
 
 
-    public function getBookingOrderId(int $id): object
+    public function getBookingByOrderId(int $id): object
     {
-        return $this->bookingRepository->getBookingOrderId($id);
+        return $this->bookingRepository->getBookingByOrderId($id);
     }
 
     public function updateInfoPay(int $id, string $infoPay): void
@@ -127,12 +130,11 @@ class BookingService extends Service
     public function addBooking(Request $request, string $userName): array
     {
         $dateService = new DateService();
+
         $email = $request->email;
-        $info = implode("&", $request->more_book);
+
         $dateBook = $request->date_book;
-        $total = $request->sum;
-        $phone = $request->phone;
-        $moreBook = $request->date_view;
+
 
         $dateBook = preg_replace("/\s+/", "", $dateBook);// удалили пробелы
         $dateBookArray = explode("-", $dateBook);// преобразовали в массив
@@ -146,22 +148,29 @@ class BookingService extends Service
         $dateArray = $dateService->getDates($startDate, $endDate, 1);
         $dateBook = implode(',', $dateArray);
 
-        $data = [
-            'user_name' => $userName,
-            'phone' => $phone,
-            'email' => $email,
-            'date_book' => $dateBook,
-            'no_in' => $startDate,
-            'no_out' => $endDate,
-            'more_book' => $moreBook,
-            'user_info' => $info,
-            'total' => $total,
-        ];
-        $id = $this->bookingRepository->addBooking($data);
+        $infoBook = $request->info_book;
+        $info = implode("&", $request->more_book);
+
+        $book = new Booking();
+
+        $book->user_id = $request->user_id;
+        $book->date_book = $dateBook;
+        $book->no_in = $startDate;
+        $book->no_out = $endDate;
+        $book->info_book = $infoBook;
+        $book->user_info = $info;
+
+        $pay = new Pay();
+
+        $pay->booking_id = $book->id;
+        $pay->total = $request->sum;
+        $book->save();
+        $book->pay()->save($pay);
+
         $params = [
             'startDate' => $startDate,
             'endDate' => $endDate,
-            'id' => $id
+            'id' => $book->id
         ];
         return $params;
 

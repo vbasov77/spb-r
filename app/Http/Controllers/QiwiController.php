@@ -22,7 +22,7 @@ class QiwiController extends Controller
         $id = $data ['bill']['comment'];
 
         $bookingService = new BookingService();
-        $res = $bookingService->getBookingOrderId($id);
+        $res = $bookingService->getBookingByOrderId($id);
         $bill = $res [0] ['info_pay'];
         $bill_array = explode(';', $bill);
         $billId = $bill_array[1];
@@ -53,8 +53,9 @@ class QiwiController extends Controller
     public function verification(Request $request, BookingService $bookingService, PayService $payService): View
     {
 
-        $res = $bookingService->getBookingOrderId($request->id);
-        $id = $request->id;
+        $res = $bookingService->getBookingByOrderId((int) $request->id);
+
+        $id = (int)$request->id;
 
         if (!empty($res)) {
             if (!empty($res->info_pay) == 0) {
@@ -63,11 +64,11 @@ class QiwiController extends Controller
                 $pay[] = 0;
                 $pay[] = $billId;
                 $info_pay = implode(';', $pay); //Создали строку из массива
-
                 $payService->updateBookInfoPay($id, $info_pay);
+
                 $bookingService = new BookingService();
-                $data = $bookingService->getBookingOrderId($id);
-                $c_pay = $data->total * (20 / 100);
+                $data = $bookingService->getBookingByOrderId($id);
+                $c_pay = $data[0]->total * (20 / 100);
                 return view("sorry.pay");
 //                return view('/qiwi.q_pay')->with(['data' => $data, 'c_pay' => $c_pay, 'billId' => $billId]);
             } else {
@@ -89,7 +90,7 @@ class QiwiController extends Controller
         $publicKey = $keyService->keyPublicQiwi();
         $billId = $request->billId;
         $amount = $request->amount;
-        $id = $request->id;
+        $id = (int)$request->id;
         $url = "https://oplata.qiwi.com/create?publicKey=" . $publicKey . "&amount=" . $amount . "&billId=" . $billId . "&comment=" . $id . "&customFields[themeCode]=Vytalyi-BRODDK2q2-&successUrl=https://mieten.ru/q_success";
         echo '<meta http-equiv="refresh" content="0; URL=' . $url . '">';
 

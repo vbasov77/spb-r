@@ -5,7 +5,7 @@
             <div class="col-lg-8">
                 <form action="{{route("add.booking")}}" method="post">
                     @csrf
-                    <input type="hidden" value="{{implode(",", $date_view) }}" name="date_view">
+                    <input type="hidden" value="{{implode(",", $infoBook) }}" name="info_book">
                     <input type="hidden" name="sum" value="{{$sum }}">
                     <h3>Проверьте данные:</h3><br>
                     <div class="border_none">
@@ -16,7 +16,7 @@
                                method="post"><br>
                     </div>
 
-                    @foreach ($date_view as $value)
+                    @foreach ($infoBook as $value)
                         <div>
                             {!!$value!!} <br>
                         </div>

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -71,10 +69,11 @@ class ScheduleController extends Controller
             $cost = $request->cost;
 
             //Получим массив для массового добавления  расписания в БД за один раз
-            $array = $scheduleService->getArrayInsertSchedule($bookingDatesArray, $cost);
+            $array = $scheduleService->getArrayInsertSchedule($bookingDatesArray, (int)$cost);
+
             // Запись расписания
             $scheduleService->createSchedule($array);
-            return redirect()->action('ScheduleController@view');
+            return redirect()->action([ScheduleController::class, 'view']);
         }
     }
 
@@ -94,12 +93,12 @@ class ScheduleController extends Controller
     }
 
 
-    public function editScheduleCost(Request $request, ScheduleService $scheduleService): RedirectResponse
+    public function editScheduleCost(Request $request, ScheduleService $scheduleService)
     {
         $str = $scheduleService->getStrUpdateSchedules($request);
-        $scheduleService->updateScheduleCost($str);
+        $scheduleService->updateScheduleCost((string)$str);
 
         $message = "Изменения сохранены";
-        return redirect()->action('SettingsController@view', ['message' => $message]);
+        return redirect()->action([SettingsController::class, 'index'], ['message' => $message]);
     }
 }

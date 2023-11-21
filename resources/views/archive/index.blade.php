@@ -17,7 +17,7 @@
                         Email: {!!$data['email']!!} <br>
                         Сумма: {!!$data ['total']!!} <br>
                         Гости: {!!$data ['user_info']!!} <br>
-                        Отзыв: {!!$data ['otz']!!} <br>
+                        Отзыв: {!!$data ['comment']!!} <br>
                     </div>
                 </div>
 

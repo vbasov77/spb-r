@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 use App\User;
+use Illuminate\Support\Facades\DB;
 
 class UserRepository extends Repository
 {
@@ -12,8 +13,13 @@ class UserRepository extends Repository
         return User::where("email", $email)->first();
     }
 
-    public function addUser(array $data): void
+    public function addUser(array $data): int
     {
-        User::insert([$data]);
+        return User::insertGetId($data);
+    }
+
+    public function getUserIdByEmail(string $email)
+    {
+        return User::where('email', $email)->value('id');
     }
 }
