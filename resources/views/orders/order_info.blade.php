@@ -19,7 +19,7 @@
                     @endif
                     <form id="form" action="{{route("add.order.info")}}" method="POST">
                         @csrf
-                        <input type="hidden" value="{{implode(",", $date_view) }}" name="date_view">
+                        <input type="hidden" value="{{implode(",", $infoBook) }}" name="info_book">
 
                         <input type="hidden" name="sum" value="{{$sum}}">
                         <div class="border_none">
@@ -32,8 +32,8 @@
                         </div>
                         <br>
                         <div style="background: #e9ecef; padding: 15px;">
-                            @foreach($date_view as $dat)
-                                {!! $dat !!}<br>
+                            @foreach($infoBook as $book)
+                                {!! $book !!}<br>
                             @endforeach
 
                         </div>

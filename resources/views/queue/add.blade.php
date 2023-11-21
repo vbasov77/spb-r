@@ -8,27 +8,35 @@
                 <div class="card">
                     <div class="card-header">Предварительное бронирование</div>
                     <div class="card-body">
+                        @if($errors->any())
+                            @foreach($errors -> all() as $error)
+                                <x-alert type="danger" :message="$error"/>
+                            @endforeach
+                        @endif
                         <div id="info"></div>
                         <form id="form" action="{{route('admin.in.queue')}}" method="post">
                             @csrf
                             <div>
                                 <label for="date_book"><b>Выберете дату:</b></label>
                                 <input id="input-id" style="display:inline" name="date_book" type="text"
-                                       class="form-control"
+                                       value="{{old('date_book')}}"
+                                       class="form-control @error("date_book") is-invalid @enderror"
                                        placeholder="Нажмите для выбора даты" autocomplete="off" readonly="readonly"
                                        required>
                             </div>
                             <br>
                             <div>
                                 <label for="Имя"><b>Имя:</b></label>
-                                <input name="name" id="name" type="text" class="form-control"
-                                       value="{{old('user_name')}}" placeholder="ФИО" required>
+                                <input name="name" id="name" type="text"
+                                       class="form-control @error("name") is-invalid @enderror"
+                                       value="{{old('name')}}" placeholder="ФИО" required>
                             </div>
                             <br>
                             <div>
                                 <label for="phone"><b>Телефон:</b></label><br>
-                                <input name="phone" type="text" class="tel form-control" id="phone"
-                                       value="{{$_POST['phone'] ?? ''}}" placeholder="+7(000) 000-0000" required>
+                                <input name="phone" type="text"
+                                       class="tel form-control @error("phone") is-invalid @enderror" id="phone"
+                                       value="{{old('phone')}}" placeholder="+7(000) 000-0000" required>
                             </div>
 
                             <br>

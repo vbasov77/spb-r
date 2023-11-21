@@ -17,20 +17,18 @@ class Archive extends Migration
     {
         Schema::create('archive', function (Blueprint $table) {
             $table->id();
-            $table->string('user_name')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('email')->nullable();
-            $table->string('no_in')->nullable();
-            $table->string('no_out')->nullable();
-            $table->string('payment_term')->nullable();
-            $table->text('more_book');
-            $table->string('otz')->nullable();
-            $table->string('user_info')->nullable();
-            $table->integer('total')->nullable();
-            $table->integer('pay')->nullable();
-            $table->string('info_pay')->nullable();
-            $table->integer('confirmed')->nullable();
-            $table->timestamp('created_at')->useCurrent();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+                ->references('id')->on('users')
+                ->onDelete('cascade');
+            $table->string('date_book');
+            $table->text('info_book');
+            $table->string('user_info');
+            $table->integer('confirmed');
+            $table->integer('total');
+            $table->string('info_pay');
+            $table->string('comment');
+            $table->string('created_at');
         });
     }
 

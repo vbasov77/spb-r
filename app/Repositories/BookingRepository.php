@@ -5,6 +5,8 @@ namespace App\Repositories;
 
 
 use App\Models\Booking;
+use App\Models\Pay;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,16 +19,20 @@ class BookingRepository extends Repository
         return Booking::find($id);
     }
 
-    public function findByEmail(string $email): object
+    public function findAllById(int $id): object
     {
-        return Booking::where("email", $email)->get();
+        $bookings = Booking::where("booking.user_id", $id)
+            ->leftJoin("pay", "booking.id", "=", "pay.booking_id")
+            ->leftJoin("user_phone", "booking.user_id", "=", "user_phone.user_id")
+            ->leftJoin("users", "booking.user_id", "=", "users.id")
+            ->get(["booking.*", "users.email", "users.name", "user_phone.phone", "pay.total", "pay.pay"]);
+        return $bookings;
     }
 
     public function findAll(): object
     {
         return Booking::all();
     }
-
 
     public function getBookingNoInTable(): object
     {
@@ -38,9 +44,12 @@ class BookingRepository extends Repository
         Booking::where("id", $id)->delete();
     }
 
-    public function getBookingOrderId(int $id): object
+    public function getBookingByOrderId(int $id): object
     {
-        return Booking::where("id", $id)->first();
+        return Booking::leftJoin("users", "booking.user_id", "=", "users.id")
+            ->leftJoin("pay", "booking.id", "=", "pay.booking_id")
+            ->where("booking.id", $id)
+            ->get(['booking.*', 'pay.total', 'pay.info_pay', 'users.name', 'users.email']);
     }
 
 
@@ -52,9 +61,13 @@ class BookingRepository extends Repository
 
     public function getBookingNoIn(string $noIn): array
     {
-        $booking = DB::select("select b.*, 
-       (select a.otz from archive a where a.phone = b.phone limit 1)archive
-from booking b where b.no_in = " . '"' . $noIn . '"');
+        $booking = DB::select("select b.*, p.pay, p.total, p.info_pay, up.phone, us.name,
+       (select a.comment from archive a where a.user_id = b.user_id limit 1)archive
+from booking b 
+left join pay p on b.id = p.booking_id
+left join user_phone up on b.user_id = up.user_id
+left join users us on b.user_id = us.id
+where b.no_in = " . '"' . $noIn . '"');
 
         return $booking;
     }
@@ -73,7 +86,6 @@ from booking b where b.no_in = " . '"' . $noIn . '"');
     {
         $data = [
             'confirmed' => 1,
-            'payment_term' => date('d.m.Y', strtotime("+2 days")),
         ];
         Booking::where('id', $id)->update($data);
     }

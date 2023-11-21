@@ -34,13 +34,12 @@ class ScheduleRepository extends Repository
         Schedule::whereIn('date_book', $dates)->update(['cost' => $cost]);
     }
 
-    public function updateCost(string $str): void
+    public function updateCost(string $str)
     {
-        DB::select("UPDATE schedule SET cost = CASE
-   $str ELSE cost END");
+        DB::select("UPDATE schedule SET cost = CASE $str ELSE cost END");
     }
 
-    public function deleteByIds($str): void
+    public function deleteByIds(string $str): void
     {
         DB::select("delete from schedule where " . $str);
     }

@@ -8,7 +8,7 @@
 {{$data['phone']}}<br>
 {{$data['email']}}<br>
 {{$data['no_in']}} - {{$data['no_out']}}<br>
-{{$data['otz']}}<br>
+{{$data['comment']}}<br>
 {{$data['user_info']}}<br>
 {{$data['total']}}<br>
 {{$data['pay']}}<br>

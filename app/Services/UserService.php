@@ -4,7 +4,9 @@
 namespace App\Services;
 
 
+use App\Models\UserPhone;
 use App\Repositories\UserRepository;
+use App\User;
 use Illuminate\Support\Facades\Hash;
 
 class UserService extends Service
@@ -16,14 +18,28 @@ class UserService extends Service
         return $userRepo->findByEmail($email) ? true : false;
     }
 
-    public function addUser(string $nameUser, string $email, string $password): void
+    public function addUser(string $nameUser, string $email, string $password, string $phone): int
     {
         $userRepo = new UserRepository();
-        $date = [
-            'name' => $nameUser,
-            'email' => $email,
-            'password' => Hash::make($password),
-        ];
-        $userRepo->addUser($date);
+        $user = new User();
+        $user->name = $nameUser;
+        $user->email = $email;
+        $user->password = Hash::make($password);
+        $user->save();
+
+        $userPhone = new UserPhone();
+        $userPhone->user_id = $user->id;
+        $userPhone->phone = $phone;
+        $user->userPhone()->save($userPhone);
+
+        return $user->id;
     }
+
+    public function getUserIdByEmail(string $email)
+    {
+        $userRepository = new UserRepository();
+        return $userRepository->getUserIdByEmail($email);
+    }
+
+
 }
