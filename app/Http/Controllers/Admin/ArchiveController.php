@@ -47,12 +47,15 @@ class ArchiveController extends Controller
                                  BookingService $bookingService,
                                  Request $request): RedirectResponse
     {
-        $id = (int) $request->id;
-        $data = $bookingService->findById($id);// Получаем данные бронирования по id из БД booking
-        $archiveService->save($data, $request->comment);// Добавляем новый архив
+        $id = (int)$request->id;
+        $data = $bookingService->getBookingByOrderId($id)[0];// Получаем данные бронирования по id из БД booking
+
+        $archive = $archiveService->getArrayForArchive($data, $request->input("comment"));
+
+        $archiveService->save($archive);// Добавляем новый архив
         $bookingService->delete($id); // Удалили запись из БД
 
-        return redirect()->action([OrderController::class, 'index']);
+        return redirect()->action([OrderController::class, 'ordersList']);
     }
 
     /**
@@ -66,16 +69,6 @@ class ArchiveController extends Controller
         return redirect()->action([ArchiveController::class, 'viewAll']);
     }
 
-    /**
-     * @param ArchiveService $archiveService
-     * @param Request $request
-     * @return RedirectResponse
-     */
-    public function back(ArchiveService $archiveService, Request $request): RedirectResponse
-    {
-        $archiveService->back((int)$request->id);
-        return redirect()->route("admin.orders");
-    }
 
 
 }

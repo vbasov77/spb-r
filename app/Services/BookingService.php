@@ -8,7 +8,6 @@ use App\Models\Booking;
 use App\Models\Pay;
 use App\Repositories\BookingRepository;
 use Illuminate\Http\Request;
-use Ramsey\Collection\Collection;
 
 
 class BookingService extends Service

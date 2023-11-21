@@ -6,7 +6,6 @@
 
 <b>Данные бронирования:</b><br>
 Номер заказа: {{ $data['user_name']}}<br>
-{{$data['id_book']}}<br>
 {{$data['phone']}}<br>
 {{$data['email']}}<br>
 {{$data['no_in']}} - {{$data['no_out']}}<br>

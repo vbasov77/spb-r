@@ -48,8 +48,10 @@ class BookingRepository extends Repository
     {
         return Booking::leftJoin("users", "booking.user_id", "=", "users.id")
             ->leftJoin("pay", "booking.id", "=", "pay.booking_id")
+            ->leftJoin("user_phone", "users.id", "=", "user_phone.user_id")
             ->where("booking.id", $id)
-            ->get(['booking.*', 'pay.total', 'pay.info_pay', 'users.name', 'users.email']);
+            ->get(['booking.*', 'pay.total', 'pay.info_pay', 'pay.pay', 'users.name',
+                'users.email', 'user_phone.phone']);
     }
 
 
@@ -74,10 +76,7 @@ where b.no_in = " . '"' . $noIn . '"');
 
     public function updateOrder(Request $data): void
     {
-        Booking::where("id", $data->id)->update([
-            'user_name' => $data->user_name,
-            'phone' => $data->phone,
-            'email' => $data->email,
+        Pay::where("booking_id", $data->id)->update([
             'total' => $data->total
         ]);
     }
@@ -92,7 +91,7 @@ where b.no_in = " . '"' . $noIn . '"');
 
     public function updateInfoPay(int $id, string $infoPay): void
     {
-        Booking::where('id', $id)->update(['pay' => 1, 'info_pay' => $infoPay]);
+        Pay::where('booking_id', $id)->update(['pay' => 1, 'info_pay' => $infoPay]);
     }
 
     public function getDateBooks(): object

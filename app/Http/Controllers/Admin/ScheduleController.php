@@ -21,15 +21,14 @@ class ScheduleController extends Controller
         return view('schedule.schedule')->with(['dateBook' => $dateBookStr]);
     }
 
-    public function updateDiaDates(Request $request,
+    public function edit(Request $request,
                                    DateService $dateService,
                                    ScheduleService $scheduleService)
     {
         if ($request->isMethod('get')) {
             // этот код выполнится, если используется метод GET
-            return view('schedule.edit_mass', ['message' => $request->message]);
+            return view('schedule.edit', ['message' => $request->message]);
         }
-
         if ($request->isMethod('post')) {
             // этот код выполнится, если используется метод POST
 
@@ -43,7 +42,7 @@ class ScheduleController extends Controller
 
             $message = "Цена (" . $request->cost . " руб) изменена с " . $date[0] . " по " . $date[1] . ", включительно.";
 
-            return redirect()->action('ScheduleController@updateDiaDates', ['message' => $message]);
+            return redirect()->action([ScheduleController::class, "edit"], ['message' => $message]);
         }
 
     }
@@ -74,21 +73,6 @@ class ScheduleController extends Controller
             // Запись расписания
             $scheduleService->createSchedule($array);
             return redirect()->action([ScheduleController::class, 'view']);
-        }
-    }
-
-
-    public function edit(Request $request, ScheduleService $scheduleService): View
-    {
-        if ($request->isMethod('get')) {
-            // этот код выполнится, если используется метод GET
-            $dateBook = $scheduleService->getScheduleStr();
-            return view('schedule.edit')->with(['date_book' => $dateBook]);
-        }
-        if ($request->isMethod('post')) {
-            // этот код выполнится, если используется метод POST
-            $params = $scheduleService->updateSchedule($request);
-            return view('schedule.edit_table', ['data' => $params]);
         }
     }
 

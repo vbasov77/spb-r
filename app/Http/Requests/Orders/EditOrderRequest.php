@@ -26,7 +26,7 @@ class EditOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "user_name" => ['required', 'string', 'min:2', 'max:200'],
+            "name" => ['required', 'string', 'min:2', 'max:200'],
             "email" => ['required', 'string', 'email:rfc,dns'],
             "phone" => ['required', 'string', 'min:17', 'max:17'],
             "total" => ['required', 'integer']
@@ -39,7 +39,7 @@ class EditOrderRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'user_name' => "ФИО",
+            'name' => "ФИО",
             'phone' => "Телефон",
             'email' => "Email",
             'total' => "Сумма"

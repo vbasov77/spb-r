@@ -35,30 +35,20 @@ class ArchiveService extends Service
         $this->archiveRepository->delete($id);
     }
 
-    public function back(int $id): void
+    public function getArrayForArchive(object $data, string $comment): array
     {
-        $dateService = new DateService();
-        $bookingService = new BookingService();
-
-        $archive = $this->archiveRepository->findById($id);
-        $datesBook = $dateService->getDates($archive->no_in, $archive->no_out, 1);
-        $booking = [
-            'user_name' => $archive->user_name,
-            'phone' => $archive->phone,
-            'email' => $archive->email,
-            'date_book' => implode(",", $datesBook),
-            'no_in' => $archive->no_in,
-            'no_out' => $archive->no_out,
-            'more_book' => $archive->more_book,
-            'user_info' => $archive->user_info,
-            'total' => $archive->total,
-            'pay' => $archive->pay,
-            'info_pay' => $archive->info_pay,
-            'confirmed' => $archive->confirmed,
-            'created_at' => $archive->created_at
+        return [
+            'user_id' => $data->user_id,
+            'date_book' => $data->date_book,
+            'info_book' => $data->info_book,
+            'user_info' => $data->user_info,
+            'confirmed' => $data->confirmed,
+            'total' => $data->total,
+            'info_pay' => $data->info_pay,
+            'comment' => $comment,
+            'created_at' => $data->created_at,
         ];
-        $bookingService->create($booking);
-        $this->archiveRepository->delete($archive->id);
+
     }
 
 

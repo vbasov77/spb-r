@@ -76,8 +76,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
         ->middleware('admin');
     Route::get('/archive/{id}/delete', [ArchiveController::class, 'delete'])->name('delete.archive')
         ->middleware('admin')->where("id", "\d+");
-    Route::get('/archive/{id}/back', [ArchiveController::class, 'back'])->name('archive.back')
-        ->middleware('admin')->where("id", "\d+");
+
 
     Route::get('/reports', [ReportController::class, 'index'])->name('reports')
         ->middleware('admin');
@@ -97,8 +96,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
         ->middleware('admin');
     Route::match(['get', 'post'], '/schedule_add', [ScheduleController::class, 'add'])->name('schedule.add')
         ->middleware('admin');
-    Route::match(['get', 'post'], '/edit_schedule_mass', [ScheduleController::class, 'updateDiaDates'])
-        ->name('edit_schedule_mass')->middleware('admin');
+    Route::match(['get', 'post'], '/edit_schedule_mass', [ScheduleController::class, 'edit'])
+        ->name('edit.schedule.mass')->middleware('admin');
 });
 
 

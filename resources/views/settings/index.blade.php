@@ -17,11 +17,7 @@
                                     Добавить
                                 </button>
                                 <button class="btn btn-info btn-sm" style="color: white; margin-top: 25px"
-                                        onclick="window.location.href = '{{route('admin.schedule.edit')}}';">
-                                    Изменить единично
-                                </button>
-                                <button class="btn btn-info btn-sm" style="color: white; margin-top: 25px"
-                                        onclick="window.location.href =  '{{ route('admin.edit_schedule_mass')}}';">
+                                        onclick="window.location.href =  '{{ route('admin.edit.schedule.mass')}}';">
                                     Изменить массово
                                 </button>
                             </div>

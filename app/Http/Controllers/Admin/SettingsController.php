@@ -16,6 +16,7 @@ class SettingsController extends Controller
         if (empty($request->message)) {
             $request->message = null;
         }
+
         return view('settings.index', ['message' => $request->message]);
     }
 
@@ -26,6 +27,7 @@ class SettingsController extends Controller
             $inDb = implode("&", $request->input("data"));
             $settingsService->updateFrontSettings($inDb);
             $message = "Настройки сохранены";
+
             return redirect()->action([SettingsController::class, "front"], ['message' => $message]);
         }
 
@@ -33,6 +35,7 @@ class SettingsController extends Controller
             $settings = $settingsService->findSettingsFrontPage();
             $data = explode("&", $settings->settings);
             !empty($request->message) ? $message = $request->message : $message = null;
+
             return view('settings.front_settings', ['data' => $data, "message" => $message]);
         }
 

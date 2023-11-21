@@ -33,7 +33,7 @@ class OrderController extends Controller
 
     public function viewEdit(Request $request, BookingService $bookingService): View
     {
-        $order = $bookingService->getBookingByOrderId((int)$request->id);
+        $order = $bookingService->getBookingByOrderId((int)$request->id)[0];
         return view('/orders.order_edit')->with(['order' => $order]);
     }
 
@@ -113,28 +113,29 @@ class OrderController extends Controller
                            DateService $dateService,
                            MailService $mailService, OrderService $orderService): RedirectResponse
     {
-        $res = Booking::where('id', $id)->get();
-        $date[] = $res[0]->no_in;
-        $date[] = $res[0]->no_out;
+        $order = $bookingService->getBookingByOrderId($id)[0];
+
+        $date[] = $order->no_in;
+        $date[] = $order->no_out;
+
         $condition = 2;
 
-        $dateService->setCountNightObj($date, $res[0]->total, $condition);
+        $dateService->setCountNightObj($date, $order->total, $condition);
 
-        $result = $bookingService->getBookingByOrderId($id);
-
-        $mailService->RejectOrder($result);
+        $mailService->RejectOrder($order);
 
         $comment = "Отклонено администратором";
-        $archiveService->save($result);
+        $archive = $archiveService->getArrayForArchive($order, $comment);
+        $archiveService->save($archive);
+        $bookingService->delete($id);
 
-        $orderService->deleteOrder($id);
 
         return redirect()->action([OrderController::class, "ordersList"]);
     }
 
     public function toPayView(int $id): View
     {
-        return view('orders/order_pay', ['id' => $id]);
+        return view('orders.order_pay', ['id' => $id]);
     }
 
 

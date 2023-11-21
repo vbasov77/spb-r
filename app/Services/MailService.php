@@ -15,10 +15,10 @@ use Illuminate\Support\Facades\Mail;
 class MailService extends Service
 {
 
-    public function SendRegister(string $nameUser, string $email, string $password): void
+    public function SendRegister(string $userName, string $email, string $password): void
     {
         $params = [
-            'user_name' => $nameUser,
+            'user_name' => $userName,
             'email' => $email,
             'password' => $password,
         ];
@@ -30,7 +30,7 @@ class MailService extends Service
     public function RejectOrder(object $data): void
     {
         $params = [
-            'user_name' => $data->user_name,
+            'user_name' => $data->name,
             'in' => $data->no_in,
             'out' => $data->no_out,
             'sum' => $data->total

@@ -41,16 +41,18 @@
                         </div>
 
                         <div class="border_none">
-                            <label for="user_name"><b>ФИО:</b></label><br>
-                            <input class="form-control  @error("user_name") is-invalid @enderror"
-                                   value="{{old("user_name") ?? $order['user_name']}}" type="text"
-                                   name="user_name"><br>
+                            <label for="name"><b>ФИО:</b></label><br>
+                            <input class="form-control  @error("name") is-invalid @enderror"
+                                   readonly="readonly"
+                                   value="{{old("name") ?? $order['name']}}" type="text"
+                                   name="name"><br>
                         </div>
 
                         <div class="border_none">
                             <label for="phone"><b>Телефон:</b></label><br>
 
-                            <input class="tel  @error("phone") is-invalid @enderror"
+                            <input class="tel form-control @error("phone") is-invalid @enderror"
+                                   readonly="readonly"
                                    value="{{ old('phone') ?? $order['phone']  }}"
                                    type="text" name="phone"><br>
 
@@ -60,6 +62,7 @@
                             <label for="email"><b>Email:</b></label><br>
                             <input class="form-control  @error("email") is-invalid @enderror"
                                    value="{{ old('email') ?? $order['email']  }}" type="text"
+                                   readonly="readonly"
                                    name="email"><br>
 
                         </div>

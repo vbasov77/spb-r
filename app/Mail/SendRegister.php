@@ -33,7 +33,7 @@ class SendRegister extends Mailable
     {
         return $this->subject($this->subject)
             ->view('mail.send_register', [
-                'data' => $this -> data
+                'data' => $this->data
             ]);
     }
 }
