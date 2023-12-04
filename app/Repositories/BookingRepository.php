@@ -31,7 +31,7 @@ class BookingRepository extends Repository
 
     public function findAll(): object
     {
-        return Booking::all();
+        return Booking::where('confirmed', 1)->get();
     }
 
     public function getBookingNoInTable(): object
@@ -97,6 +97,15 @@ where b.no_in = " . '"' . $noIn . '"');
     public function getDateBooks(): object
     {
         return Booking::get('date_book');
+    }
+    public function getDateBooksByPhone(string $phone, string $email): object
+    {
+        return DB::table('booking')
+            ->leftJoin('user_phone', 'booking.user_id', '=', 'user_phone.user_id')
+            ->leftJoin('users', 'booking.user_id', '=', 'users.id')
+            ->where('user_phone.phone', $phone)
+            ->orWhere('users.email', $email)
+            ->get('booking.date_book');
     }
 
 }

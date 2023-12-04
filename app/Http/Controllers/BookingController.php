@@ -24,7 +24,8 @@ class BookingController extends Controller
                                UserService $userService, MailService $mailService): RedirectResponse
     {
         //Проверка на занятость дат
-        $checkBooking = $bookingService->checkingForEmployment($request->info_book);
+        $checkBooking = $bookingService->checkingForEmployment($request->info_book, $request->input('phone'),
+            $request->input('email'));
 
         if ($checkBooking == true) {
 
@@ -59,7 +60,7 @@ class BookingController extends Controller
 
             return redirect()->action('DankeController@view', ['mess' => $message]);
         } else {
-            return redirect()->action('CalendarController@comeErrorBlade');
+            return redirect()->route('error.book');
         }
     }
 
@@ -68,7 +69,7 @@ class BookingController extends Controller
         return view('errors.error_book');
     }
 
-    public function orderInfo(AddInfoRequest $request): View
+    public function orderInfo(Request $request): View
     {
         $moreBook = [];
         $count = count($request->input("user_name"));

@@ -71,14 +71,15 @@ class BookingService extends Service
         $this->bookingRepository->updateInfoPay($id, $infoPay);
     }
 
-    public function checkingForEmployment(string $dateView): bool
+    public function checkingForEmployment(string $dateView, string $phone, string $email): bool
     {
         $check = explode(',', $dateView);
         for ($i = 0; $i < count($check) - 1; $i++) {
             $it = explode('/', $check[$i]);
             $arrayDates[] = $it[0];
         }
-        $allDates = $this->bookingRepository->getDateBooks();
+
+        $allDates = $this->bookingRepository->getDateBooksByPhone($phone, $email);
         if (!empty(count($allDates))) {
             foreach ($allDates as $date) {
                 $arrayTable[] = $date->date_book;

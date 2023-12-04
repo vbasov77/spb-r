@@ -4,6 +4,7 @@
     }
 
     .btn-up {
+        z-index: 2;
         position: fixed;
         background-color: #fd7e14;
         right: 20px;

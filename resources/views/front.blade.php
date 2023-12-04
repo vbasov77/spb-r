@@ -1,9 +1,6 @@
 @extends('layouts.front')
 @section('content')
 
-    <style>
-
-    </style>
     <!-- Masthead-->
     <header class="masthead">
         <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
@@ -44,7 +41,7 @@
 
                         {!! $firstMonth[0]   !!}- {!!$firstMonth[1]!!} руб / сут<br>
                         {!! $secondMonth[0]   !!}- {!!$secondMonth[1]!!} руб / сут<br>
-                        от 4-х суток<br>
+                        от 5-ти суток<br>
                     </div>
                 </div>
             </div>
