@@ -102,6 +102,7 @@
     </main>
 
 @stack('scripts')
+<x-yandex />
 
 <!-- Footer-->
 <footer class="footer bg-black small text-center text-white-50">

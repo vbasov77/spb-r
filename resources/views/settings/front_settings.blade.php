@@ -32,7 +32,5 @@
         </div>
     </section>
 
-    @push("scripts")
-        <script src="{{ asset('js/checks/check_file.js') }}" defer></script>
-    @endpush
+
 @endsection

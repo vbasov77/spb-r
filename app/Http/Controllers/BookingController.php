@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Booking\AddDatesRequest;
-use App\Http\Requests\Booking\AddInfoRequest;
 use App\Services\BookingService;
 use App\Services\DateService;
 use App\Services\MailService;

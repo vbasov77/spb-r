@@ -6,7 +6,7 @@ var datepicker = new HotelDatepicker(input,{
     format: 'DD.MM.YYYY',
     startOfWeek: 'monday',
     // selectForward: true,
-    minNights: 2,
+    minNights: 5,
     disabledDates: arrDatebook,
 
     i18n: {

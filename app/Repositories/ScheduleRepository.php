@@ -3,7 +3,6 @@
 
 namespace App\Repositories;
 
-
 use App\Models\Schedule;
 use Illuminate\Support\Facades\DB;
 
@@ -17,6 +16,7 @@ class ScheduleRepository extends Repository
     public function findAllById(string $str): array
     {
         return DB::select("select * from schedule where $str");
+
     }
 
     public function findByDatesBook(string $str): array

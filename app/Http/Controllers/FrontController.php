@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -17,6 +18,7 @@ class FrontController extends Controller
         $settings = new SettingsService();
         $frontSettings = $settings->findSettingsFrontPage();
         $dataSettings = explode("&", $frontSettings->settings);
+
         return view('front')->with(['data' => $data, 'dataSettings' => $dataSettings]);
     }
 

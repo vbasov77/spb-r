@@ -6,7 +6,6 @@ namespace App\Repositories;
 
 use App\Models\Booking;
 use App\Models\Pay;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

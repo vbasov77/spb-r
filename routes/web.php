@@ -28,7 +28,6 @@ use App\Http\Controllers\HomeController;
 */
 
 Auth::routes();
-
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
 
     Route::get('/queues', [QueueController::class, 'toQueue'])

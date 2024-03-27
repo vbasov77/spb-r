@@ -340,7 +340,7 @@
             <br>
             <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
                 <div class="col-lg">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/2XLNlCXYVdY"
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/J8HJz1pACsQ"
                             title="YouTube video player" frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen></iframe>
@@ -377,9 +377,7 @@
                                 Здесь</a>),
                             <br>Суточно ру(Ссылка <a target="_blank" style="text-decoration: none"
                                                      href="https://www.avito.ru/sankt-peterburg/kvartiry/kvartira-studiya_18m_13et._2542165635">Здесь</a>)
-                            <br>Циан(Ссылка <a style="text-decoration: none"
-                                               href="https://spb.cian.ru/rent/flat/268434305/" target="_blank">
-                                Здесь</a>)<br>
+
 
                         </div>
                     </div>
@@ -445,7 +443,6 @@
     </section>
     <br>
     <br>
-
 
     <script src="{{asset('js/preloader/preloader.js')}}"></script>
     <script>
