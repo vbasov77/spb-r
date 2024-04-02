@@ -14,7 +14,6 @@ class ProfileController extends Controller
             $book = $bookingService->findAllById($id);
             return view('profile', ['data' => $book]);
         } else {
-
             return redirect()->route('login');
         }
 

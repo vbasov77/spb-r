@@ -11,7 +11,6 @@ use Illuminate\View\View;
 
 class FrontController extends Controller
 {
-
     public function front(BookingService $bookingService): View
     {
         $data = $bookingService->getBookingDates();

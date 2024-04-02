@@ -26,6 +26,7 @@ class QiwiController extends Controller
         $bill = $res [0] ['info_pay'];
         $bill_array = explode(';', $bill);
         $billId = $bill_array[1];
+        
         if ($billId == $data ['bill']['billId']) {
             $pay = 1;
             $info = [];
@@ -36,12 +37,14 @@ class QiwiController extends Controller
             $payService = new PayService();
             $payService->updateBookInfoPayAndPay($id, $info_pay, $pay);
         }
+        
         $subject = 'Произведена оплата';
         $toEmail = "0120912@mail.ru";
         Mail::to($toEmail)->send(new PayQiwi($subject, $data));
         $subject2 = 'Произведена оплата';
         $toEmail2 = $res [0] ['email'];
         Mail::to($toEmail2)->send(new SendAmount($subject2, $data));
+        
         Route::get('/clear', function () {
             Artisan::call('cache:clear');
             Artisan::call('config:cache');
@@ -52,9 +55,7 @@ class QiwiController extends Controller
 
     public function verification(Request $request, BookingService $bookingService, PayService $payService): View
     {
-
         $res = $bookingService->getBookingByOrderId((int) $request->id);
-
         $id = (int)$request->id;
 
         if (!empty($res)) {
@@ -84,7 +85,6 @@ class QiwiController extends Controller
 
     }
 
-
     public function pay(Request $request, KeyService $keyService)
     {
         $publicKey = $keyService->keyPublicQiwi();
@@ -93,7 +93,6 @@ class QiwiController extends Controller
         $id = (int)$request->id;
         $url = "https://oplata.qiwi.com/create?publicKey=" . $publicKey . "&amount=" . $amount . "&billId=" . $billId . "&comment=" . $id . "&customFields[themeCode]=Vytalyi-BRODDK2q2-&successUrl=https://mieten.ru/q_success";
         echo '<meta http-equiv="refresh" content="0; URL=' . $url . '">';
-
     }
 
     public function success()
