@@ -9,7 +9,6 @@ use App\Models\Reports;
 
 class DateService extends Service
 {
-
     private $scheduleService;
     private $reportService;
 
@@ -46,6 +45,7 @@ class DateService extends Service
                 $str = $str . '"' . $arrDate[$i] . '"';
             }
         }
+
         return $str;
     }
 
@@ -106,6 +106,7 @@ class DateService extends Service
                 "total" => $total,
                 "dateView" => $dateView
             ];
+
             return $data;
         }
     }
@@ -155,16 +156,13 @@ class DateService extends Service
                 $dateService = new DateService();
                 $countNightFirst = $dateService->getCountNight($date[0], $endDatesFirstArray);
                 self::setReportInTable($data, $countNightFirst, $totalFirst, $monthFirst, $condition);
-
             }
 
             // Получаем сумму второго массива
             $firstDatesSecondArray = "01." . date('m.Y', strtotime($date[1]));// Получаем первую  дату месяца 01.02.2022
             $secondArray = $dateService->getDates($firstDatesSecondArray, $date[1], 0);// Получаем массив дат
 
-
             if (count($secondArray)) {
-
                 $str = $this->scheduleService->getStrInDb($secondArray);
 
                 $secondArray = $this->scheduleService->findByDatesBook($str);

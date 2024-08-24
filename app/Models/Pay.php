@@ -8,7 +8,6 @@ class Pay extends Model
 {
 
     protected $table = 'pay';
-
     public $timestamps = false;
 
     public function booking()

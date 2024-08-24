@@ -41,7 +41,7 @@
         @if($data->confirmed == 0)<br>
         <div>
 
-            <a onClick="return confirm('Подтвердите подтверждение!')" style="margin: 5px"
+            <a id="confirm" onClick="return confirm('Подтвердите подтверждение!')" style="margin: 5px"
                href='{{route('admin.order.confirm', ['id'=>$data->id])}}' type='button'
                class="btn btn-outline-success btn-sm">Подтвердить</a>
 
@@ -59,3 +59,4 @@
         @endif
     </div>
 @endsection
+

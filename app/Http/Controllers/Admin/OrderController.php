@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ProfileController;
 use App\Http\Requests\Orders\EditOrderRequest;
 use App\Mail\ConfirmOrder;
-use App\Models\Booking;
 use App\Services\ArchiveService;
 use App\Services\BookingService;
 use App\Services\DateService;
@@ -22,15 +21,27 @@ use Illuminate\View\View;
 
 class OrderController extends Controller
 {
-    public function ordersList(BookingService $bookingService, OrderService $orderService): View
+    /**
+     * @param BookingService $bookingService
+     * @param OrderService $orderService
+     * @param Request $request
+     * @return View
+     */
+    public function ordersList(BookingService $bookingService, OrderService $orderService, Request $request): View
     {
         $data = $bookingService->getBookingDates();
         $datesInOrder = $orderService->inOrder(); //Формируем даты по порядку
         $bookingDates = !empty($datesInOrder) ? $datesInOrder : null;
+        $error = !empty($request->error) ? $request->error : null;
 
-        return view('orders.orders_list')->with(['data' => $bookingDates, 'data2' => $data]);
+        return view('orders.orders_list')->with(['data' => $bookingDates, 'data2' => $data, 'error' => $error]);
     }
 
+    /**
+     * @param Request $request
+     * @param BookingService $bookingService
+     * @return View
+     */
     public function viewEdit(Request $request, BookingService $bookingService): View
     {
         $order = $bookingService->getBookingByOrderId((int)$request->id)[0];
@@ -62,9 +73,8 @@ class OrderController extends Controller
         if (Auth::user()->admin == 0) {
             return redirect()->action([ProfileController::class, 'index']);
         }
+
         return redirect()->action([OrderController::class, "ordersList"]);
-
-
     }
 
     public function deleteProf(Request $request,
@@ -92,20 +102,28 @@ class OrderController extends Controller
 
     public function confirm(int $id, BookingService $bookingService): RedirectResponse
     {
-        $bookingService->confirmOrder($id);
         $result = $bookingService->getBookingByOrderId((int)$id);
 
-        $data = [
-            'user_name' => $result[0]->name,
-            'in' => $result[0]->no_in,
-            'out' => $result[0]->no_out,
-            'sum' => $result[0]->total
+        $check = $bookingService->checkingForEmploymentAll($result[0]->no_in, $result[0]->no_out);
+        if ($check) {
+            $bookingService->confirmOrder($id);
 
-        ];
-        $subject = 'Подтверждение бронирования';
-        $toEmail = preg_replace("/\s+/", "", $result[0]->email);
-        Mail::to($toEmail)->send(new ConfirmOrder($subject, $data));
-        return redirect()->action([OrderController::class, 'ordersList']);
+            $data = [
+                'user_name' => $result[0]->name,
+                'in' => $result[0]->no_in,
+                'out' => $result[0]->no_out,
+                'sum' => $result[0]->total
+
+            ];
+            $subject = 'Подтверждение бронирования';
+            $toEmail = preg_replace("/\s+/", "", $result[0]->email);
+            Mail::to($toEmail)->send(new ConfirmOrder($subject, $data));
+
+            return redirect()->action([OrderController::class, 'ordersList']);
+        }
+
+        $message = "Имеются занятые даты";
+        return redirect()->action([OrderController::class, 'ordersList'], ['error' => $message]);
     }
 
     public function reject(int $id, ArchiveService $archiveService,

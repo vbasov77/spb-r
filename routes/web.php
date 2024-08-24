@@ -95,8 +95,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
         ->middleware('admin');
     Route::match(['get', 'post'], '/schedule_add', [ScheduleController::class, 'add'])->name('schedule.add')
         ->middleware('admin');
-    Route::match(['get', 'post'], '/edit_schedule_mass', [ScheduleController::class, 'edit'])
-        ->name('edit.schedule.mass')->middleware('admin');
+    Route::match(['get', 'post'], '/edit_schedule_mass', [ScheduleController::class, 'edit'])->name('edit.schedule.mass')->middleware('admin');
+    Route::get('/view_add_order_is_admin', [BookingController::class, 'ViewAddOrderIsAdmin'])->name('view_add_order_is_admin')->middleware('admin');
+    Route::post('/add_order_is_admin', [BookingController::class, 'addOrderIsAdmin'])->name('add_order_is_admin')->middleware('admin');
 });
 
 

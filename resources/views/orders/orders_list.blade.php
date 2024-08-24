@@ -6,6 +6,9 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8">
                     <h3>Бронь</h3>
+                    @if(!empty($error))
+                        <x-alert type="danger" :message="$error"/>
+                    @endif
                     <div>
                         <input id="input-id" name="date_book" type="text"
                                class="form-control"
@@ -14,10 +17,10 @@
                     <br>
                     @if (!empty($data))
                         @for($i = 0; $i < count($data); $i++)
-
                             @php
                                 $pay = explode(';', $data[$i][0]->info_pay);
-                                $phone = preg_replace("/[^0-9]/", '', $data[$i][0]->phone);
+                                $userInfo = explode(',', $data[$i][0]->user_info);
+                                $phone = preg_replace("/[^0-9]/", '', $userInfo[0]);
 
                             @endphp
 
@@ -26,8 +29,8 @@
                                     Даты: {{$data[$i][0]->no_in}} - {{ $data[$i][0]->no_out }}<br>
                                 </div>
                                 <div class="card-body">
-                                    Имя: {{ $data[$i][0]->name }}<br>
-                                    Телефон: <a href='tel:+{{ $phone }}'> {{ $data [$i][0]->phone }}</a><br>
+                                    Имя: {{ $userInfo[1] }}<br>
+                                    Телефон: <a href='tel:+{{ $phone }}'> {{ $userInfo[0] }}</a><br>
                                     <button class="btn btn-outline-success btn-sm"
                                             onclick="window.location.href = 'https://wa.clck.bar/{{$phone}}';"><i
                                                 class="fab fa-whatsapp"></i> по WhatsApp
@@ -52,9 +55,9 @@
                                 <div class="card-footer text-muted">
                                     @if($data[$i][0]->confirmed == 0)<br>
 
-                                    <a onClick="return confirm('Подтвердите подтверждение!')" style="margin: 5px"
+                                    <a id="confirm" style="margin: 5px"
                                        href='{{route('admin.order.confirm', ['id'=>$data[$i][0]->id])}}' type='button'
-                                       class="btn btn-outline-success btn-sm">Подтвердить</a>
+                                       class="btn btn-outline-success btn-sm confirm">Подтвердить</a>
 
                                     <a onClick="return confirm('Подтвердите отклонение!')" style="margin: 5px"
                                        href='{{route("admin.order.reject", ["id" => $data[$i][0]->id ])}}' type='button'
@@ -109,6 +112,5 @@
             let datebook = @json($data2 ['date_book']);
         </script>
         <script src="{{ asset('js/calendar.js') }}" defer></script>
-        <script src="{{ asset('js/comment.js') }}" defer></script>
     @endpush
 @endsection

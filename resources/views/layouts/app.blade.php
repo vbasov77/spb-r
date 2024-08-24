@@ -24,19 +24,16 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <!-- Font Awesome icons (free version)-->
 
-
     <!-- Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet"/>
     <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet"/>
 
-
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
 
     <script src="{{ asset('js/fecha.min.js') }}" defer></script>
     <link href="{{ asset('css/hotel-datepicker.css') }}" rel="stylesheet">
@@ -89,6 +86,7 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
                                 @if(Auth::user()->isAdmin())
+                                    <a class="dropdown-item" href="{{route('admin.view_add_order_is_admin')}}">Добавить бронь</a>
                                     <a class="dropdown-item" href="{{route('admin.settings')}}">Настройки</a>
                                     <a class="dropdown-item" href="{{route('admin.orders')}}">Заказы</a>
                                     <a class="dropdown-item" href="{{route('admin.in.queue')}}">В очередь</a>
@@ -129,7 +127,7 @@
 
 
 @stack('scripts')
-<x-yandex />
+{{--<x-yandex/>--}}
 
 <!-- Footer-->
 <footer class="footer bg-black small text-center text-white-50">

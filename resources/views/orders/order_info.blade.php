@@ -11,7 +11,7 @@
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8">
-                    <h3>Заполните форму</h3>
+                    <h3>Добавить бронь</h3>
                     @if($errors->any())
                         @foreach($errors -> all() as $error)
                             <x-alert type="danger" :message="$error"/>
@@ -97,10 +97,8 @@
         </div>
     </section>
     @push("scripts")
-
         <script src="{{ asset('js/mask.js') }}" defer></script>
         <script src="{{ asset('js/checks/check_add_calendar.js') }}" defer></script>
         <script src="{{ asset('js/close/close.js') }}" defer></script>
-
     @endpush
 @endsection

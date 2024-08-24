@@ -97,6 +97,7 @@ where b.no_in = " . '"' . $noIn . '"');
     {
         return Booking::get('date_book');
     }
+
     public function getDateBooksByPhone(string $phone, string $email): object
     {
         return DB::table('booking')

@@ -1,6 +1,5 @@
 @extends('layouts.front')
 @section('content')
-
     <!-- Masthead-->
     <header class="masthead">
         <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
@@ -57,15 +56,14 @@
             <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
                 <div class="col-xl-8 col-lg-7">
                     {{--                Slider--}}
-                    <div class="width-adaptive60">
+                    <div class="width-adaptive80">
                         <div id="carusel" class="carousel slide carousel-fade" data-ride="carousel">
                             <!-- Indicators -->
                             <ul class="carousel-indicators">
                                 <li data-target="#carusel" data-slide-to="0" class="active"></li>
                                 <li data-target="#carusel" data-slide-to="1"></li>
                                 <li data-target="#carusel" data-slide-to="2"></li>
-                                <li data-target="#carusel" data-slide-to="3"></li>
-                                <li data-target="#carusel" data-slide-to="4"></li>
+
                             </ul>
                             <!-- The slideshow -->
                             <div class="carousel-inner">
@@ -78,12 +76,7 @@
                                 <div class="carousel-item">
                                     <img src="{{ asset('img/slider/3.jpg')}}" alt="">
                                 </div>
-                                <div class="carousel-item">
-                                    <img src="{{ asset('img/slider/4.jpg')}}" alt="">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="{{ asset('img/slider/5.jpg')}}" alt="">
-                                </div>
+
                             </div>
                             <a class="carousel-control-prev" href="#carusel" data-slide="prev">
                                 <span class="carousel-control-prev-icon"></span>
@@ -109,26 +102,75 @@
                 </div>
             </div>
             <br>
-            <center><h4>Задать вопрос:</h4></center>
-            <br>
-            <center>
-                <button class="btn btn-outline-success"
-                        onclick="window.location.href = 'https://wa.clck.bar/79110120912';">
-                    <i class="fab fa-whatsapp"></i> по WhatsApp
-                </button>
-            </center>
-            <br>
-            <center>
-                <button class="btn btn-outline-primary" onclick="window.location.href = 'tel:+79110120912';"><i
-                            class="fas fa-phone-alt"></i> по телефону
-                </button>
-            </center>
+
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    {{--                Карта--}}
+                    <div class="width-adaptive60" style="float: right">
+                        <div id="carusel_8" class="carousel slide carousel-fade" data-ride="carousel">
+                            <!-- Indicators -->
+                            <ul class="carousel-indicators">
+                                <li data-target="#carusel_8" data-slide-to="0" class="active"></li>
+                                <li data-target="#carusel_8" data-slide-to="1"></li>
+                                <li data-target="#carusel_8" data-slide-to="2"></li>
+                                <li data-target="#carusel_8" data-slide-to="3"></li>
+
+                            </ul>
+                            <!-- The slideshow -->
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="{{ asset('img/slider/4.jpg')}}" alt="">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{{ asset('img/slider/5.jpg')}}" alt="">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{{ asset('img/slider/6.jpg')}}" alt="">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="{{ asset('img/slider/7.jpg')}}" alt="">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carusel_8" data-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </a>
+                            <a class="carousel-control-next" href="#carusel_8" data-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 order-lg-first">
+                    <div class="featured-text text-center text-lg-left">
+                        <div class="body-front">
+                            <center><h4>Задать вопрос:</h4></center>
+                            <br>
+                            <center>
+                                <button class="btn btn-outline-success"
+                                        onclick="window.location.href = 'https://wa.clck.bar/79110120912';">
+                                    <i class="fab fa-whatsapp"></i> по WhatsApp
+                                </button>
+                            </center>
+                            <br>
+                            <center>
+                                <button class="btn btn-outline-primary"
+                                        onclick="window.location.href = 'tel:+79110120912';"><i
+                                            class="fas fa-phone-alt"></i> по телефону
+                                </button>
+                            </center>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <br>
             <br>
             <!-- Project One Row-->
             <form action="{{route("add.dates")}}" method="post">
                 @csrf
-                <center><h4>Забронировать квартиру</h4></center>
+                <center><h4 style="margin-top: 60px">Забронировать квартиру</h4></center>
                 <br>
                 <div style="color: red">
                     <center><i> Узнать точную цену на свои даты. Начните бронировать...</i></center>
@@ -139,7 +181,7 @@
                     @endforeach
                 @endif
                 <br>
-                <div class="row gx-0 mb-5 mb-lg-0 justify-content-center">
+                <div class="row gx-0 mb-5 mb-lg-0">
                     <div class="col-lg-6">
                         <div id="info"></div>
                         <div>
@@ -152,19 +194,21 @@
                     </div>
                     <div class="col-lg-6">
                         <br>
-                        <b>Количество гостей:</b><br>
-                        <div class='form_radio_btn2 my_mobile' style="text-align: center;">
-                            <input type='radio' id="initial1" name="guests" value="1" required
-                            ><label for='initial1'>1 гость</label></div>
+                        <div class="featured-text text-center text-lg-left">
+                            <b>Количество гостей:</b><br>
+                            <div class='form_radio_btn2 my_mobile' style="text-align: center;">
+                                <input type='radio' id="initial1" name="guests" value="1" required
+                                ><label for='initial1'>1 гость</label></div>
 
-                        <div class='form_radio_btn2 my_mobile' style="text-align: center;">
-                            <input type='radio' id="initial2" name="guests" value="2" required
-                            ><label for='initial2'>2 гостя</label></div>
+                            <div class='form_radio_btn2 my_mobile' style="text-align: center;">
+                                <input type='radio' id="initial2" name="guests" value="2" required
+                                ><label for='initial2'>2 гостя</label></div>
 
-                        <br>
-                        <br>
-                        <div>
-                            <input class="btn btn-outline-primary" id="calendar" type="submit" value="Продолжить">
+                            <br>
+                            <br>
+                            <div>
+                                <input class="btn btn-outline-primary" id="calendar" type="submit" value="Продолжить">
+                            </div>
                         </div>
                     </div>
 
@@ -178,9 +222,10 @@
             <div class="row gx-0 justify-content-center">
                 <div class="col-lg-6">
                     {{--                Карта--}}
-                    <iframe
-                            src="https://yandex.ru/map-widget/v1/?um=constructor%3A65a07ea5894c7a1a22f3328ad7c44cc0d8d500728d59c4d65fc15f4df663c572&amp;source=constructor"
-                            width="500" height="300" frameborder="0"></iframe>
+                    <img src="{{ asset('img/map.jpg')}}" width="100%" height="auto" alt="">
+                    {{--                    <iframe--}}
+                    {{--                            src="https://yandex.ru/map-widget/v1/?um=constructor%3A65a07ea5894c7a1a22f3328ad7c44cc0d8d500728d59c4d65fc15f4df663c572&amp;source=constructor"--}}
+                    {{--                            width="500" height="300" frameborder="0"></iframe>--}}
                 </div>
                 <div class="col-lg-6 order-lg-first">
                     {{--                <div class="bg-black text-center h-100 project">--}}
@@ -192,10 +237,9 @@
                                 Елизаровская (10 мин. пешком). Проспект Обуховской обороны 123а. В окружении кафе,
                                 ресторанов, а также супермаркетов — Магнит, Дикси, Красное & Белое
                             </div>
-                            {{--                        <hr class="d-none d-lg-block mb-0 me-0"/>--}}
                         </div>
                     </div>
-                    {{--                </div>--}}
+
                 </div>
             </div>
             <br>
@@ -246,7 +290,8 @@
                         </center>
                         <br>
                         <center>
-                            <button class="btn btn-outline-primary" onclick="window.location.href = 'tel:+79110120912';"><i
+                            <button class="btn btn-outline-primary"
+                                    onclick="window.location.href = 'tel:+79110120912';"><i
                                         class="fas fa-phone-alt"></i> по телефону
                             </button>
                         </center>
@@ -313,7 +358,7 @@
 
                         <div style="float: left" class="body-front">
                             <em>Одна станция метро:</em> <br><img style="width: 30px; opacity: .6"
-                                                              src="{{ asset('img/metro.svg')}}" alt="">
+                                                                  src="{{ asset('img/metro.svg')}}" alt="">
                             <strong>Площадь Александра Невского</strong>:
                             Свято-Троицкая
                             Александро-Невская лавра.<br>
@@ -329,10 +374,7 @@
                             Крови,
                             Гостинный Двор, Эрмитаж.
                         </div>
-                        <hr class="d-none d-lg-block mb-0 me-0"/>
-
                     </div>
-                    {{--                </div>--}}
                 </div>
             </div>
             <br>
@@ -361,7 +403,6 @@
             <br>
             <div class="row gx-0 justify-content-center">
                 <div class="col-lg-8 one">
-                    {{--                <div class="bg-black text-center h-100 project">--}}
                     <div class="d-flex h-100">
 
                         <div class="body-front i_am">
@@ -381,7 +422,6 @@
 
                         </div>
                     </div>
-                    {{--                </div>--}}
                 </div>
 
                 <div class="col-lg-3 two">
@@ -394,7 +434,8 @@
                     background-color: gainsboro;">
                 <div class="col-lg-8 ">
                     <center>
-                        <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade" data-ride="carousel">
+                        <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade"
+                             data-ride="carousel">
                             <!-- Indicators -->
                             <ul class="carousel-indicators">
                                 <li data-target="#carouselExampleDark" data-slide-to="0" class="active"></li>
@@ -443,7 +484,6 @@
     </section>
     <br>
     <br>
-
     <script src="{{asset('js/preloader/preloader.js')}}"></script>
     <script>
         var datebook = @json($data['date_book']);
