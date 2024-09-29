@@ -104,7 +104,7 @@ class OrderController extends Controller
     {
         $result = $bookingService->getBookingByOrderId((int)$id);
 
-        $check = $bookingService->checkingForEmploymentAll($result[0]->no_in, $result[0]->no_out);
+        $check = $bookingService->checkingForEmploymentAll($result[0]->no_in, $result[0]->no_out, 0);
         if ($check) {
             $bookingService->confirmOrder($id);
 

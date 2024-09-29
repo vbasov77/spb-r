@@ -1,5 +1,9 @@
 @extends('layouts.app')
 @section('content')
+    <link href="{{ asset('css/hotel-datepicker.css') }}" rel="stylesheet">
+
+    <script src="{{ asset('js/fecha.min.js') }}" defer></script>
+    <script src="{{ asset('js/hotel-datepicker/hotel-datepicker.min.js') }}" defer></script>
 
     <div class="container mt-5 mb-5">
         <form action="{{route('admin.schedule.add')}}" method="post">

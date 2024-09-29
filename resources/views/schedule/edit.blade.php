@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content')
 
+    <link href="{{ asset('css/hotel-datepicker.css') }}" rel="stylesheet">
+
+    <script src="{{ asset('js/fecha.min.js') }}" defer></script>
+    <script src="{{ asset('js/hotel-datepicker/hotel-datepicker.min.js') }}" defer></script>
+
     <section class="about-section text-center" id="about">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -30,15 +35,10 @@
                 </div>
             </div>
         </div>
-
-        <script src="{{ asset('js/calendars/schedule_cal3.js') }}" defer></script>
     </section>
 
-
-
-
-
-
-
+    @push('scripts')
+        <script src="{{ asset('js/calendars/schedule_cal3.js') }}" defer></script>
+    @endpush
 
 @endsection

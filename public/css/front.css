@@ -4,6 +4,10 @@
     height: 100%;
 }
 
+.marginTop {
+    margin-top: 60px;
+}
+
 .i_am img {
     width: 200px;
     float: left;
@@ -13,26 +17,31 @@
 @media (max-width: 600px) {
     .i_am img {
         width: 70%;
-
     }
 
-
+    .marginTop {
+        margin-top: 0;
+    }
 }
 
 .wrap {
 
 }
+
 .one {
     order: 2;
 
 }
+
 .two {
     order: 1;
 }
+
 @media (min-width: 500px) {
     .one {
         order: 1;
     }
+
     .two {
         order: 2;
     }
@@ -40,4 +49,6 @@
     embed {
         width: 100%;
     }
+
+
 }

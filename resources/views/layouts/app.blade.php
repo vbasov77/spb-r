@@ -9,17 +9,19 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Квартира посуточно</title>
+    <title>
+        @isset($title)
+            {{ $title }} |
+        @endisset
+        {{ config('app.name') }}
+    </title>
 
     <!-- Scripts -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-    <!-- Font Awesome icons (free version)-->
-{{--    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>--}}
-
-<!-- Fonts -->
+    <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <!-- Font Awesome icons (free version)-->
@@ -31,92 +33,76 @@
             rel="stylesheet"/>
 
     <!-- Styles -->
+    <link rel="stylesheet" href="{{asset('themes/funder/fonts/icomoon/style.css')}}">
+    <link rel="stylesheet" href="{{asset('themes/funder/css/style.css')}}">
+
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
-    <script src="{{ asset('js/fecha.min.js') }}" defer></script>
-    <link href="{{ asset('css/hotel-datepicker.css') }}" rel="stylesheet">
-    <script src="{{ asset('js/hotel-datepicker/hotel-datepicker.min.js') }}" defer></script>
-
+    <link href="{{ asset('bootstrap/bootstrap.min.css') }}" rel="stylesheet">
 
     <script src="{{ asset('js/app.js') }}" defer></script>
+
 </head>
 
 
 <body id="page-top">
-<div id="app">
-
-    <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-        <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
-                MIETEN.RU
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="{{ __('Toggle navigation') }}">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- Left Side Of Navbar -->
-                <ul class="navbar-nav mr-auto">
-
-                </ul>
-
-                <!-- Right Side Of Navbar -->
-                <ul class="navbar-nav ml-auto">
-                    <!-- Authentication Links -->
-                    @guest
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                        @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                            </li>
-                        @endif
-                    @else
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                {{ Auth::user()->name }}
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-
-                                @if(Auth::user()->isAdmin())
-                                    <a class="dropdown-item" href="{{route('admin.view_add_order_is_admin')}}">Добавить бронь</a>
-                                    <a class="dropdown-item" href="{{route('admin.settings')}}">Настройки</a>
-                                    <a class="dropdown-item" href="{{route('admin.orders')}}">Заказы</a>
-                                    <a class="dropdown-item" href="{{route('admin.in.queue')}}">В очередь</a>
-                                    <a class="dropdown-item" href="{{route('admin.view.queue')}}">Очереди</a>
-                                    <a class="dropdown-item" href="{{route('admin.reports')}}">Отчёты</a>
-                                    <a class="dropdown-item" href="{{route('admin.archive')}}">Архив</a>
-                                    <a class="dropdown-item" href="{{route('admin.del.schedule')}}">Очистить базу</a>
-                                @endif
-                                <a class="dropdown-item" href="{{route('profile')}}">Профиль</a>
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                    {{ __('Logout') }}
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-                            </div>
-                        </li>
-                    @endguest
-                </ul>
+<div class="site-wrap">
+    <div class="site-mobile-menu">
+        <div class="site-mobile-menu-header">
+            <div class="site-mobile-menu-close mt-3">
+                <span class="icon-close2 js-menu-toggle"></span>
             </div>
         </div>
-    </nav>
+        <div class="site-mobile-menu-body"></div>
+    </div> <!-- .site-mobile-menu -->
 
-    @if (!empty($message))
-        <div style="background-color: #43b143; color:#ffffff; padding: 5px;margin: 15px">
-            <center> {{$message}}</center>
+    <div class="site-navbar-wrap js-site-navbar bg-white">
+        <div class="container">
+            <div class="site-navbar bg-light">
+                <div class="row align-items-center">
+                    <div class="col-2">
+                        <h2 class="mb-0 site-logo"><a style="text-decoration: none;" href="{{route('front')}}"
+                                                      class="font-weight-bold">MIETEN</a>
+                        </h2>
+                    </div>
+                    <div class="col-10">
+                        <nav class="site-navigation text-right" role="navigation">
+                            <div class="container">
+                                <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#"
+                                                                                              class="site-menu-toggle js-menu-toggle text-black"><span
+                                                class="icon-menu h3"></span></a></div>
+                                <ul class="site-menu js-clone-nav d-none d-lg-block">
+                                    @guest
+
+                                    @else
+                                        @if(Auth::user()->isAdmin())
+                                            <li class="has-children">
+                                                <a href="#">Админ</a>
+                                                <ul class="dropdown arrow-top">
+                                                    @include('blocks.admin_menu')
+                                                </ul>
+                                            </li>
+                                        @endif
+                                        <li class="has-children">
+                                            <a href="#"> {{ Auth::user()->name }}</a>
+                                            <ul class="dropdown arrow-top">
+                                                @include('blocks.user_menu')
+                                            </ul>
+                                        </li>
+
+                                    @endguest
+                                    <li>
+                                        {{--                                        @include('blocks.tools')--}}
+                                    </li>
+                                    <li class="active"><a href="{{route('front')}}">{{__('Главная')}}</a></li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
         </div>
-    @endif
+    </div>
 
     <center>
         <main class="py-4">
@@ -124,15 +110,16 @@
         </main>
     </center>
 </div>
-
-
-@stack('scripts')
-{{--<x-yandex/>--}}
-
 <!-- Footer-->
 <footer class="footer bg-black small text-center text-white-50">
     <div class="container px-4 px-lg-5">Апартаменты посуточно &copy; {{date('Y')}}</div>
+    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+
 </footer>
+
+<script src="{{asset('themes/funder/js/aos.js')}}"></script>
+<script src="{{asset('themes/funder/js/main.js')}}"></script>
+@stack('scripts')
 
 </body>
 </html>

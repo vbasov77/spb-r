@@ -111,10 +111,10 @@ class BookingService extends Service
 
     }
 
-    public function checkingForEmploymentAll(string $start, string $end): bool
+    public function checkingForEmploymentAll(string $start, string $end, int $firstDay): bool
     {
         $allDates = $this->bookingRepository->findAll();
-        $datesUser = $this->dateService->getDates($start, $end, 0);
+        $datesUser = $this->dateService->getDates($start, $end, $firstDay);
         $array = [];
         foreach ($allDates as $allDate) {
             $arrayOne = explode(',', $allDate->date_book);

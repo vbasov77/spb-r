@@ -12058,7 +12058,6 @@ iframe {
 @media screen and (max-width: 600px) {
     .body-front {
         font-size: 20px;
-        margin-top: 40px;
     }
 
 
@@ -12100,7 +12099,6 @@ iframe {
 main.py-4 {
     padding-top: 0rem !important;
 }
-
 
 
 .picker input#input-id {
