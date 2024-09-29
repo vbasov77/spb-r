@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('content')
-
-
+    <script src="{{ asset('js/fecha.min.js') }}" defer></script>
+    <link href="{{ asset('css/hotel-datepicker.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/hotel-datepicker/hotel-datepicker.min.js') }}" defer></script>
     <section class="about-section text-center" id="about">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">

@@ -147,7 +147,7 @@ class BookingController extends Controller
     {
         $dates = preg_replace("/\s+/", "", $request->date_book);
         $datesArr = explode('-', $dates);
-        $check = $this->bookingService->checkingForEmploymentAll($datesArr[0], $datesArr[1]);
+        $check = $this->bookingService->checkingForEmploymentAll($datesArr[0], $datesArr[1], 1);
         if ($check) {
             $this->bookingService->addBookingAdm($request);
 

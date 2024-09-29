@@ -1,8 +1,10 @@
 @extends('layouts.app')
 @section('content')
 
+    <script src="{{ asset('js/fecha.min.js') }}" defer></script>
+    <link href="{{ asset('css/hotel-datepicker.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/hotel-datepicker/hotel-datepicker.min.js') }}" defer></script>
 
-    {{--    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>--}}
     <div class="container-fluid">
         <div class="row justify-content-center ">
             <div class="col">
@@ -63,13 +65,15 @@
                                         <th scope="row"> {!! $queue->messenger !!} </th>
 
                                         <th scope="row">
-                                            <a href='{{route('admin.update.queue', ['id' => $queue->id])}}' type='button'
+                                            <a href='{{route('admin.update.queue', ['id' => $queue->id])}}'
+                                               type='button'
                                                class='btn btn-outline-success btn-sm' style="margin: 5px">
                                                 <i class="fas fa-user-edit"></i>
                                             </a>
 
                                             <a onClick="return confirm('Подтвердите удаление!')"
-                                               href='{{route('admin.delete.queue', ['id' => $queue->id])}}' type='button'
+                                               href='{{route('admin.delete.queue', ['id' => $queue->id])}}'
+                                               type='button'
                                                class='btn btn-outline-danger btn-sm' style="margin: 5px">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>

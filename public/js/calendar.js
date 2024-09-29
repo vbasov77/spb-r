@@ -1,14 +1,13 @@
-
 var input = document.getElementById('input-id');
 var arrDatebook = datebook.split(',');
 
-var datepicker = new HotelDatepicker(input,{
+
+var datepicker = new HotelDatepicker(input, {
     format: 'DD.MM.YYYY',
     startOfWeek: 'monday',
     // selectForward: true,
     minNights: 5,
     disabledDates: arrDatebook,
-
     i18n: {
         selected: 'Ваше пребывание:',
         night: 'Нч',
@@ -28,7 +27,6 @@ var datepicker = new HotelDatepicker(input,{
         'info-more-plural': 'Пожалуйста, выберите диапазон дат больше, чем %d ночей',
         'info-range': 'Пожалуйста, выберите диапазон дат между %d и %d ночами',
         'info-default': 'Пожалуйста, выберите диапазон дат'
-    }
-
+    },
 
 });

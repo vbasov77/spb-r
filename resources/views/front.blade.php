@@ -1,5 +1,8 @@
 @extends('layouts.front')
 @section('content')
+    <script src="{{ asset('js/fecha.min.js') }}" defer></script>
+    <link href="{{ asset('css/hotel-datepicker.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/hotel-datepicker/hotel-datepicker.min.js') }}" defer></script>
     <!-- Masthead-->
     <header class="masthead">
         <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
@@ -28,7 +31,7 @@
     </header>
     <br><br>
     <!-- About-->
-    <section class="about-section text-center" id="about">
+    <section class="about-section text-center marginTop" id="about">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8">
@@ -50,7 +53,7 @@
     <!-- Projects-->
     <br>
     <br>
-    <section class="projects-section bg-light" id="projects">
+    <section class="projects-section bg-light marginTop" id="projects">
         <div class="container px-4 px-lg-5">
             <!-- Featured Project Row-->
             <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
@@ -87,10 +90,11 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-xl-4 col-lg-5">
                     <div class="featured-text text-center text-lg-left">
-                        {{--                    <h4>Shoreline</h4>--}}
                         <div class="body-front">
+                            <br>
                             <div class="fontawesome"><i class="fas fa-bed"></i> двуспальная кровать<br></div>
                             <div class="fontawesome"><i class="fas fa-coffee"></i> оборудованная кухня<br></div>
                             <div class="fontawesome"><i class="fas fa-snowflake"></i> холодильник<br></div>
@@ -103,7 +107,7 @@
             </div>
             <br>
 
-            <div class="row align-items-center">
+            <div class="row align-items-center marginTop">
                 <div class="col-lg-7">
                     {{--                Карта--}}
                     <div class="width-adaptive60" style="float: right">
@@ -143,6 +147,8 @@
                 <div class="col-lg-5 order-lg-first">
                     <div class="featured-text text-center text-lg-left">
                         <div class="body-front">
+                            <br>
+                            <br>
                             <center><h4>Задать вопрос:</h4></center>
                             <br>
                             <center>
@@ -168,56 +174,58 @@
             <br>
             <br>
             <!-- Project One Row-->
-            <form action="{{route("add.dates")}}" method="post">
-                @csrf
-                <center><h4 style="margin-top: 60px">Забронировать квартиру</h4></center>
-                <br>
-                <div style="color: red">
-                    <center><i> Узнать точную цену на свои даты. Начните бронировать...</i></center>
-                </div>
-                @if($errors->any())
-                    @foreach($errors -> all() as $error)
-                        <x-alert type="danger" :message="$error"/>
-                    @endforeach
-                @endif
-                <br>
-                <div class="row gx-0 mb-5 mb-lg-0">
-                    <div class="col-lg-6">
-                        <div id="info"></div>
-                        <div>
-                            <label for="date_book"><b>Выберете дату:</b></label>
-                            <input id="input-id" style="display:inline" name="date_book" type="text"
-                                   class="form-control @error("user_name") is-invalid @enderror"
-                                   placeholder="Нажмите для выбора даты" autocomplete="off" readonly="readonly"
-                                   required>
-                        </div>
+            <div class="marginTop">
+                <form action="{{route("add.dates")}}" method="post">
+                    @csrf
+                    <center><h4 class="marginTop">Забронировать квартиру</h4></center>
+                    <br>
+                    <div style="color: red">
+                        <center><i> Узнать точную цену на свои даты. Начните бронировать...</i></center>
                     </div>
-                    <div class="col-lg-6">
-                        <br>
-                        <div class="featured-text text-center text-lg-left">
-                            <b>Количество гостей:</b><br>
-                            <div class='form_radio_btn2 my_mobile' style="text-align: center;">
-                                <input type='radio' id="initial1" name="guests" value="1" required
-                                ><label for='initial1'>1 гость</label></div>
-
-                            <div class='form_radio_btn2 my_mobile' style="text-align: center;">
-                                <input type='radio' id="initial2" name="guests" value="2" required
-                                ><label for='initial2'>2 гостя</label></div>
-
-                            <br>
-                            <br>
+                    @if($errors->any())
+                        @foreach($errors -> all() as $error)
+                            <x-alert type="danger" :message="$error"/>
+                        @endforeach
+                    @endif
+                    <br>
+                    <div class="row gx-0 mb-5 mb-lg-0">
+                        <div class="col-lg-6">
+                            <div id="info"></div>
                             <div>
-                                <input class="btn btn-outline-primary" id="calendar" type="submit" value="Продолжить">
+                                <label for="date_book"><b>Выберете дату:</b></label>
+                                <input id="input-id" style="display:inline" name="date_book" type="text"
+                                       class="form-control @error("user_name") is-invalid @enderror"
+                                       placeholder="Нажмите для выбора даты" autocomplete="off" readonly="readonly"
+                                       required>
                             </div>
                         </div>
-                    </div>
+                        <div class="col-lg-6">
+                            <br>
+                            <div class="featured-text text-center text-lg-left">
+                                <b>Количество гостей:</b><br>
+                                <div class='form_radio_btn2 my_mobile' style="text-align: center;">
+                                    <input type='radio' id="initial1" name="guests" value="1" required
+                                    ><label for='initial1'>1 гость</label></div>
 
-                </div>
-            </form>
-            <br>
+                                <div class='form_radio_btn2 my_mobile' style="text-align: center;">
+                                    <input type='radio' id="initial2" name="guests" value="2" required
+                                    ><label for='initial2'>2 гостя</label></div>
+
+                                <br>
+                                <br>
+                                <div>
+                                    <input class="btn btn-outline-primary" id="calendar" type="submit"
+                                           value="Продолжить">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
             <br>
             <!-- Project Two Row-->
-            <center><h4>Местоположение</h4></center>
+            <center><h4 class="marginTop">Местоположение</h4></center>
             <br>
             <div class="row gx-0 justify-content-center">
                 <div class="col-lg-6">
@@ -243,7 +251,7 @@
                 </div>
             </div>
             <br>
-            <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
+            <div class="row gx-0 mb-4 mb-lg-5 align-items-center marginTop">
                 <div class="col-xl-8 col-lg-7">
                     {{--                Slider--}}
                     <div class="width-adaptive80">
@@ -279,6 +287,7 @@
                     <div class="featured-text text-center text-lg-left">
                         {{--                    <h4>Shoreline</h4>--}}
                         <br>
+                        <br>
                         <center><h4>Задать вопрос:</h4></center>
                         <br>
                         <center>
@@ -300,7 +309,7 @@
                     </div>
                 </div>
             </div>
-            <center><h4>Достопримечательности</h4></center>
+            <center><h4 class="marginTop">Достопримечательности</h4></center>
             <br>
             <div class="row gx-0 justify-content-center">
                 <div class="col-lg-6">
@@ -378,7 +387,7 @@
                 </div>
             </div>
             <br>
-            <center><h4>Смотреть видео</h4></center>
+            <center><h4 class="marginTop">Смотреть видео</h4></center>
             <br>
             <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
                 <div class="col-lg">
@@ -398,13 +407,12 @@
 
         </div>
     </section>
-    <section class="about-section" id="about">
+    <section class="about-section marginTop" id="about">
         <div class="container">
             <br>
             <div class="row gx-0 justify-content-center">
                 <div class="col-lg-8 one">
                     <div class="d-flex h-100">
-
                         <div class="body-front i_am">
                             Приветствую!<br>
                             Я НЕ агент, я собственник.<br> Давайте знакомиться! Меня зовут Виталий))<br>
@@ -419,27 +427,28 @@
                             <br>Суточно ру(Ссылка <a target="_blank" style="text-decoration: none"
                                                      href="https://www.avito.ru/sankt-peterburg/kvartiry/kvartira-studiya_18m_13et._2542165635">Здесь</a>)
 
-
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-3 two">
+                <div class="col-lg-3 two justify-content-center ">
                     <div class="i_am">
                         <img src="{{ asset('img/ljbqpfwXe0A.png')}}">
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center text-center" style="margin-top: 50px;
-                    background-color: gainsboro;">
+            <div class="row justify-content-center text-center marginTop"
+                 style="background-color: gainsboro; margin: 100px 0 100px 0; padding: 70px 0 70px 0; background-size: 100%;">
                 <div class="col-lg-8 ">
                     <center>
                         <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade"
                              data-ride="carousel">
                             <!-- Indicators -->
                             <ul class="carousel-indicators">
-                                <li data-target="#carouselExampleDark" data-slide-to="0" class="active"></li>
-                                <li data-target="#carouselExampleDark" data-slide-to="1"></li>
+                                <li style="background-color: #5c636a" data-target="#carouselExampleDark"
+                                    data-slide-to="0" class="active"></li>
+                                <li style="background-color: #5c636a" data-target="#carouselExampleDark"
+                                    data-slide-to="1"></li>
 
                             </ul>
                             <!-- The slideshow -->
@@ -463,13 +472,13 @@
                 </div>
             </div>
             <br>
-            <center><h4>Задать вопрос:</h4></center>
+            <br>
+            <center><h4 class="marginTop">Задать вопрос:</h4></center>
             <br>
             <center>
                 <button class="btn btn-outline-success"
                         onclick="window.location.href = 'https://wa.clck.bar/79110120912';">
-                    <i
-                            class="fab fa-whatsapp"></i> в WhatsApp
+                    <i class="fab fa-whatsapp"></i> в WhatsApp
                 </button>
             </center>
             <br>
@@ -484,6 +493,7 @@
     </section>
     <br>
     <br>
+
     <script src="{{asset('js/preloader/preloader.js')}}"></script>
     <script>
         var datebook = @json($data['date_book']);

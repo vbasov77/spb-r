@@ -54,9 +54,7 @@
                                    class="form-control @error("email") is-invalid @enderror" id="email"
                                    value="{{old("email")}}" placeholder="Email" required>
                         </div>
-
                         <br>
-
                         @for ($i = 1; $i <= $data['guests']; $i++)
                             <h3> {!! $i !!} гость</h3>
 

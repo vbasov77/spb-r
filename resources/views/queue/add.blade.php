@@ -1,6 +1,10 @@
 @extends('layouts.app')
 @section('content')
 
+    <script src="{{ asset('js/fecha.min.js') }}" defer></script>
+    <link href="{{ asset('css/hotel-datepicker.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/hotel-datepicker/hotel-datepicker.min.js') }}" defer></script>
+
     <link href="{{ asset('css/checkbox/radio.css') }}" rel="stylesheet">
     <div class="container">
         <div class="row justify-content-center">
