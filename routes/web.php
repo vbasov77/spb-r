@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ArchiveController;
 use App\Http\Controllers\Admin\VerificationController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\NewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,7 +99,14 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
     Route::match(['get', 'post'], '/edit_schedule_mass', [ScheduleController::class, 'edit'])->name('edit.schedule.mass')->middleware('admin');
     Route::get('/view_add_order_is_admin', [BookingController::class, 'ViewAddOrderIsAdmin'])->name('view_add_order_is_admin')->middleware('admin');
     Route::post('/add_order_is_admin', [BookingController::class, 'addOrderIsAdmin'])->name('add_order_is_admin')->middleware('admin');
+
+    Route::get('/create-news', [NewsController::class, 'create'])->name('create.news')->middleware('admin');
+    Route::post('/store-news', [NewsController::class, 'store'])->name('store.news')->middleware('admin');
+    Route::delete('/delete-post/id{id}', [NewsController::class, 'destroy'])->name('delete.post')->middleware('admin');
 });
+
+
+Route::get('/post{id}', [NewsController::class, 'show'])->name('post');
 
 
 Route::get('/', [FrontController::class, 'front'])->name("front");

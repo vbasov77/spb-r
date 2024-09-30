@@ -16,6 +16,7 @@ use App\Services\BookingService;
 use App\Services\DateService;
 use App\Services\KeyService;
 use App\Services\MailService;
+use App\Services\NewsService;
 use App\Services\OrderService;
 use App\Services\PayService;
 use App\Services\QueueService;
@@ -24,6 +25,7 @@ use App\Services\ScheduleService;
 use App\Services\Service;
 use App\Services\SettingsService;
 use App\Services\UserService;
+use App\Services\VkService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -47,7 +49,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(Service::class, ScheduleService::class);
         $this->app->bind(Service::class, SettingsService::class);
         $this->app->bind(Service::class, UserService::class);
-
+        $this->app->bind(Service::class, NewsService::class);
+        $this->app->bind(Service::class, VkService::class);
     }
 
     /**
