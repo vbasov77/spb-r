@@ -1,4 +1,5 @@
 <li>
+    <a class="dropdown-item" href="{{route('admin.create.news')}}">Добавить новость</a>
     <a class="dropdown-item" href="{{route('admin.view_add_order_is_admin')}}">Добавить бронь</a>
     <a class="dropdown-item" href="{{route('admin.settings')}}">Настройки</a>
     <a class="dropdown-item" href="{{route('admin.orders')}}">Заказы</a>
