@@ -1,8 +1,4 @@
 <style>
-    body {
-        min-height: 2000px;
-    }
-
     .btn-up {
         z-index: 2;
         position: fixed;

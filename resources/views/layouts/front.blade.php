@@ -19,6 +19,7 @@
     <script src="{{ asset('jquery/jquery.min.js') }}" defer></script>
     <script src="{{ asset('bootstrap/popper.min.js') }}" defer></script>
     <script src="{{ asset('bootstrap/bootstrap.min.js') }}" defer></script>
+
 </head>
 
 <body id="page-top">

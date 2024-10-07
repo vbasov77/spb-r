@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Services\NewsService;
+use App\Services\TelegramService;
 use App\Services\VkService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class NewsController extends Controller
 {
     private $newsService;
     private $vkService;
+    private $telegramService;
 
     /**
      * NewsController constructor.
@@ -21,17 +23,20 @@ class NewsController extends Controller
     {
         $this->newsService = new NewsService();
         $this->vkService = new VkService();
+        $this->telegramService = new TelegramService();
     }
 
 
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        //
+        $news = $this->newsService->findAll();
+
+        return view('news.index', ['news' => $news]);
     }
 
     /**
@@ -50,25 +55,28 @@ class NewsController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $vkPost = $this->vkService->getWallUploadServer($request);
-        $id = $this->newsService->store($request, $vkPost);
+        $telegramPostId = $this->telegramService->addTelegramPost($request);
 
-        return redirect()->route('post', ['id' => $id]);
+        if ($telegramPostId['ok'] == true) {
+            $vkPost = $this->vkService->getWallUploadServer($request);
+            $id = $this->newsService->store($request, $vkPost, $telegramPostId['id']);
+
+            return redirect()->route('post', ['id' => $id]);
+        } else {
+            $message = "Проблема с публикацией в телеграм \n Причина: " . $telegramPostId['message'];
+
+            return redirect()->route('error.message', ['message' => $message]);
+        }
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     *
-     * @return View
-     */
-    public function show($id): View
+
+    public function show(Request $request): View
     {
-        $post = $this->newsService->findById($id);
+        $post = $this->newsService->findById($request->id);
         $images = [];
 
-        if(isset($post->img)){
+        if (isset($post->img)) {
             $images = json_decode($post->img);
         }
 
@@ -105,9 +113,12 @@ class NewsController extends Controller
     {
         try {
             $id = $request->id;
-            $postVkId = $this->newsService->findVkId($id);
 
-            $this->vkService->destroyPost($postVkId);
+            $findIds = $this->newsService->findIds($id);
+
+            $this->vkService->destroyPostVk($findIds);
+
+            $this->telegramService->destroyTgPost($findIds);
 
             $this->newsService->destroy($id);
 
@@ -115,5 +126,15 @@ class NewsController extends Controller
         } catch (\Exception $e) {
             exit(json_encode($e));
         }
+    }
+
+    /**
+     * @return View
+     */
+    public function newsByUserId(): View
+    {
+        $news = $this->newsService->findByUserId(Auth::id());
+
+        return view('news.index', ['news' => $news]);
     }
 }

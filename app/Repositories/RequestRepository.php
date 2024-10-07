@@ -30,7 +30,7 @@ class RequestRepository extends Repository
         return $result;
     }
 
-    public function postFile(string $url, object $curlFile)
+    public function postFile(string $url, $curlFile)
     {
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -43,4 +43,14 @@ class RequestRepository extends Repository
         return $response;
     }
 
+    function sendTelegram($url, $response) {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $response);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        $res = curl_exec($ch);
+        curl_close($ch);
+        return $res;
+    }
 }

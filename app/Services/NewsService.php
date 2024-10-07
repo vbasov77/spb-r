@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Repositories\NewsRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class NewsService extends Service
@@ -25,19 +26,28 @@ class NewsService extends Service
         return $this->newsRepository->findById($id);
     }
 
-    public function findAllById(): object
+    public function findAll(): object
     {
         return $this->newsRepository->findAll();
     }
 
-    public function store(Request $request, array $images): int
+    public function store(Request $request, array $vkPost, string $telegramPost): int
     {
+        $ids = [
+            'vkPostId' => $vkPost[0]['vkPostId'],
+            'tgPost' => $telegramPost
+        ];
+
+        $img = null;
+        if (!empty($vkPost[1]['images'])) {
+            $img = $vkPost[1]['images'];
+        }
+
         $data = [
-            'title' => $request->input('title'),
+            'user_id' => Auth::id(),
             'text' => $request->input('text'),
-            'description' => $request->input('description'),
-            'img' => $images[1]['images'],
-            'ids' => $images[0]['vkPostId'],
+            'img' => $img,
+            'ids' => collect($ids)->toJson(),
         ];
 
         return $this->newsRepository->store($data);
@@ -49,9 +59,19 @@ class NewsService extends Service
         $this->newsRepository->destroy($id);
     }
 
-    public function findVkId(int $id)
+    public function findIds(int $id)
     {
-        return $this->newsRepository->findVkId($id);
+        return $this->newsRepository->findIds($id);
+    }
+
+    public function findByUserId(int $userId): object
+    {
+        return $this->newsRepository->findByUserId($userId);
+    }
+
+    public function findForFrontPage(): object
+    {
+        return $this->newsRepository->findForFrontPage();
     }
 
 }

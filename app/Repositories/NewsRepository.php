@@ -19,7 +19,7 @@ class NewsRepository extends Repository
 
     public function findAll(): object
     {
-        return News::where('published', 1)->get();
+        return News::OrderBy('id', 'desc')->paginate(10);;
     }
 
     public function delete(int $id): void
@@ -38,17 +38,19 @@ class NewsRepository extends Repository
         News::where('id', $id)->delete();
     }
 
-    public function publishedNews(int $id): void
-    {
-        $data = [
-            'published' => 1,
-        ];
-        News::where('id', $id)->update($data);
-    }
-
-    public function findVkId(int $id)
+    public function findIds(int $id)
     {
         return News::where('id', $id)->value('ids');
+    }
+
+    public function findByUserId(int $userId): object
+    {
+        return News::where('user_id', $userId)->get();
+    }
+
+    public function findForFrontPage(): object
+    {
+        return News::OrderBy('id', 'desc')->get()->take(4);
     }
 
 }

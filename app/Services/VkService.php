@@ -20,12 +20,28 @@ class VkService extends Service
         $this->keyRepository = new KeyRepository();
     }
 
+    public function wallGet(array $data)
+    {
+
+        $url = "https://api.vk.com/method/wall.get";
+        $params = [
+            'owner_id' => $data ['owner_id'],
+            'count' => $data ['count'],
+            'offset' => $data ['offset'],
+            'filter' => $data ['filter'],
+            'extended' => $data ['extended'],
+            'access_token' => $data ['access_token'],
+            'v' => $data ['v'],
+        ];
+
+        return json_decode($this->requestRepository->post($url, $params));
+    }
+
 
     public function getWallUploadServer(Request $request)
     {
-        $groupId = 227627516;
+        $groupId = $this->keyRepository->idGroupVk();
         $accessToken = $this->keyRepository->accessToken();
-        $title = $request->input('title');
         $message = $request->input('text');
         $imagesStr = '';
 
@@ -37,12 +53,20 @@ class VkService extends Service
             'v' => 5.131
         ];
         $server = json_decode($this->requestRepository->post($urlGetWallUploadServer, $data));
+        $files = [];
 
-        if ($request->file('img')) {
+        if (!empty($request->file('video'))) {
+            $video = $this->saveVideoInServer($request->file('video'));
+            $files[] = 'video' . $video->owner_id . "_" . $video->video_id;
+        }
+
+        if (!empty($request->file('img'))) {
             $count = count($request->file('img'));
+
             for ($i = 0; $i < $count; $i++) {
                 $image = $request->file('img')[$i]->path();
                 if (!empty($server->response->upload_url)) {
+
                     // Отправка изображения на сервер.
                     if (function_exists('curl_file_create')) {
                         $curlFile = curl_file_create($image, 'image/jpeg', 'image.jpg');
@@ -50,6 +74,7 @@ class VkService extends Service
                         $curlFile = '@' . $image;
                     }
                     $json = json_decode($this->requestRepository->postFile($server->response->upload_url, $curlFile), true);
+
                     // Сохранение фото в группе.
                     $urlSaveWallPhoto = 'https://api.vk.com/method/photos.saveWallPhoto';
                     $dataSaveWallPhoto = [
@@ -64,22 +89,19 @@ class VkService extends Service
                 }
             }
             $countImages = count($save);
-            $images = [];
 
             for ($l = 0; $l < $countImages; $l++) {
-                $images[] = 'photo' . $save[$l]->response[0]->owner_id . '_' . $save[$l]->response[0]->id;
+                $files[] = 'photo' . $save[$l]->response[0]->owner_id . '_' . $save[$l]->response[0]->id;
             }
-
-            $imagesStr = implode(',', $images);
         }
-
+        $imagesStr = implode(',', $files);
         // Отправляем сообщение.
         $urlWallPost = "https://api.vk.com/method/wall.post";
         $params = [
             'access_token' => $accessToken,
             'owner_id' => '-' . $groupId,
             'from_group' => 1,
-            'message' => $title . "\n\n" . $message,
+            'message' => $message,
             'attachments' => $imagesStr,
             'v' => '5.131',
         ];
@@ -96,12 +118,17 @@ class VkService extends Service
             ];
             $getPost = json_decode($this->requestRepository->post($urlPhotosGet, $dataPhotosGet));
 
+            // Записываем урлы для отображения фото на сайте в базу
             if (!empty(count($getPost->response->items[0]->attachments))) {
                 foreach ($getPost->response->items[0]->attachments as $value) {
-                    $imagesPost[] = $value->photo->orig_photo->url;
+                    if (!empty($value->photo->orig_photo->url)) {
+                        $imagesPost[] = $value->photo->orig_photo->url;
+                    }
                 }
                 $post[] = ['vkPostId' => $groupId . '_' . $response->response->post_id];
-                $post[] = ['images' => collect($imagesPost)->toJson()];
+                if (!empty($imagesPost)) {
+                    $post[] = ['images' => collect($imagesPost)->toJson()];
+                }
 
                 return $post;
             }
@@ -110,10 +137,34 @@ class VkService extends Service
         return null;
     }
 
-    public function destroyPost(string $data)
+    /**
+     * @param object $file
+     * @return mixed
+     */
+    public function saveVideoInServer(object $file)
+    {
+        $url = "https://api.vk.com/method/video.save";
+        $params = [
+            'access_token' => $this->keyRepository->accessToken(),
+            'v' => 5.199,
+            'name' => 'Name of the video',
+            'description' => 'A comprehensive description of our first video.',
+            'group_id' => $this->keyRepository->idGroupVk(),
+            'no_comments' => 0
+        ];
+        $curlResult = json_decode($this->requestRepository->post($url, $params));
+        $parameters = ['video_file' => curl_file_create($file, 'video/mp4', 'video.mp4')];
+        $curlResult = json_decode($this->requestRepository->sendTelegram($curlResult->response->upload_url, $parameters));
+
+        return $curlResult;
+
+    }
+
+    public function destroyPostVk(string $data)
     {
         $url = 'https://api.vk.com/method/wall.delete';
-        $post = explode('_', $data);
+        $array = json_decode($data, true);
+        $post = explode('_', $array['vkPostId']);
         $params = [
             'access_token' => $this->keyRepository->accessToken(),
             'owner_id' => '-' . $post[0],

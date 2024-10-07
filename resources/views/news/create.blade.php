@@ -1,45 +1,69 @@
 @extends('layouts.app')
 @section('content')
     <style>
-        .add {
-            width: 150px;
-            height: 75px;
-            line-height: 75px;
-            text-align: center;
-            border: 1px dashed grey;
-            margin: 10px 0;
+        /*.add {*/
+        /*    width: 150px;*/
+        /*    height: 75px;*/
+        /*    line-height: 75px;*/
+        /*    text-align: center;*/
+        /*    border: 1px dashed grey;*/
+        /*    margin: 10px 0;*/
+        /*}*/
+
+        /*.add:hover {*/
+        /*    cursor: pointer;*/
+        /*    background-color: #360581;*/
+        /*}*/
+
+        .imageThumb {
+            max-height: 75px;
+            border: 2px solid;
+            padding: 1px;
+            cursor: pointer;
         }
 
-        .add:hover {
+        .pip {
+            display: inline-block;
+            margin: 10px 10px 0 0;
+        }
+
+        .remove {
+            display: block;
+            background: #444;
+            border: 1px solid black;
+            color: white;
+            text-align: center;
             cursor: pointer;
-            background-color: #360581;
+        }
+
+        .remove:hover {
+            background: white;
+            color: black;
         }
     </style>
     <section>
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center text-center">
                 <div class="col-lg-10">
-                    <form action="{{route("admin.store.news")}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route("store.news")}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <h3 style="margin-top: 60px">New</h3>
-                        <label for="name"><b>Заголовок</b></label><br>
-                        <input type="text" placeholder="Заголовок" class="form-control" name="title"
-                               required value="{{old("title")}}"
-                        ><br>
                         <br>
-                        <label for="description"><b>Описание</b></label><br>
-                        <textarea type="text" placeholder="Описание" class="form-control" name="description"
-                                  required
-                        >{{old("description")}}</textarea><br>
-
-                        <br>
-                        <textarea type="text" placeholder="Текст" class="form-control" name="text"
+                        <textarea rows='10' type="text" placeholder="Текст" class="form-control" name="text"
                                   required
                         >{{old("text")}}</textarea><br>
-                        <div class="elements"></div>
-                        <br>
-                        <div class="add" id="addImg">Добавить фото</div>
 
+                        <br>
+                        <label for="video">Видео</label>
+                        <input id="video" type="file" class="form-control" name="video" value="{{old("text")}}">
+                        <br>
+                        <label for="files">Фото</label>
+                        <input class="form-control" type="file" accept="image/*" id="files"
+                               name="img[]" multiple/>
+                        <br>
+                        <br>
+                        <div id="result"></div>
+                        <br>
                         <br>
                         <input class="btn btn-outline-success" type="submit" value="Сохранить">
                         <br>
@@ -49,27 +73,31 @@
         </div>
     </section>
     <script>
-        var x = 0;
+        $(document).ready(function () {
+            if (window.File && window.FileList && window.FileReader) {
 
-        document.getElementById('addImg').addEventListener('click', event => {  // Наведение мыши
-            addImg();
+                $("#files").on("change", function (e) {
+                    document.querySelectorAll('.pip').forEach(element => element.remove());
+                    var files = e.target.files,
+                        filesLength = files.length;
+                    for (var i = 0; i < filesLength; i++) {
+                        var f = files[i];
+                        var fileReader = new FileReader();
+                        fileReader.onload = (function (e) {
+                            var file = e.target;
+                            $("<span class=\"pip\">" +
+                                "<img class=\"imageThumb\" src=\"" + e.target.result + "\" title=\"" + file.name + "\"/>" +
+                                "<br/>" +
+                                "</span>").insertAfter("#files");
+                        });
+                        fileReader.readAsDataURL(f);
+                    }
+                });
+            } else {
+                alert("Your browser doesn't support to File API")
+            }
         });
 
-        function addImg() {
-            document.querySelector('.elements').insertAdjacentHTML('beforeend',
-                '<br><input class="form-control" type="file" name="img[' + x + ']" ' +
-                'onchange="showPreview(event, ' + x + ');"/>' +
-                '<img style="margin: 10px" width="25%" height="auto" id="preview' + x + '">');
-            x++;
-        }
-
-        function showPreview(event, x) {
-            if (event.target.files.length > 0) {
-                var src = URL.createObjectURL(event.target.files[0]);
-                var preview = document.getElementById("preview" + x);
-                preview.src = src;
-                preview.style.display = "block";
-            }
-        }
     </script>
+
 @endsection

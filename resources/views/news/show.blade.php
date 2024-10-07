@@ -1,40 +1,30 @@
 @extends('layouts.app', ['title' => $post->title])
 @section('content')
-    <style>
-        .imgI {
-            width: 50%;
-            height: auto;
-        }
-
-        @media screen and (max-width: 640px) {
-            .imgI {
-                width: 100%;
-                height: auto;
-            }
-        }
-    </style>
+    <link href="{{ asset('css/gallery.css') }}" rel="stylesheet">
     <section>
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center text-center">
                 <div class="col-lg-9">
-                    <div>
-                        <h1 style="margin-top: 50px">{{$post->title}}</h1>
-                    </div>
-                    <br>
                     <br>
                     {!!nl2br(e($post->text))!!}
                     <br>
-                    <br>
                     @if(!empty(count($images)))
-                        <div>
-                            @foreach($images as $image)
-                                <img src="{{$image}}" width="45%" height="auto">
-                            @endforeach
+                        <div class="container page-top">
+                            <div class="row justify-content-center text-center">
+                                @foreach($images as $image)
+                                    <div class="col-lg-4 col-md-4 col-xs-6 thumb">
+
+                                        <img src="{{$image}}"
+                                             class="zoom img-fluid " alt="">
+
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     @endif
                     <br>
                     @auth
-                        @if(Auth::user()->isAdmin())
+                        @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
                             <div>
                                 <div>
                                     <br>
@@ -47,16 +37,13 @@
                 </div>
             </div>
         </div>
-    </section>
-    {{-- Комментарии --}}
+        {{--        @include('blocks.gallery')--}}
 
-@endsection
-@push('scripts')
-
-    <script>
-        var postId = @json($post->id);
-    </script>
-
-    <script src="{{ asset('js/deletes/delete_post_vk.js') }}" defer></script>
-
-@endpush
+        @endsection
+        @push('scripts')
+            <script>
+                var postId = @json($post->id);
+            </script>
+            <script src="{{ asset('js/deletes/delete_post_vk.js') }}" defer></script>
+            <script src="{{ asset('js/gallery/gallery.js') }}" defer></script>
+    @endpush
