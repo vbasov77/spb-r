@@ -1,5 +1,7 @@
 @extends('layouts.front')
 @section('content')
+    <link href="{{ asset('css/pulse_button.css') }}" rel="stylesheet">
+
     <script src="{{ asset('js/fecha.min.js') }}" defer></script>
     <link href="{{ asset('css/hotel-datepicker.css') }}" rel="stylesheet">
     <script src="{{ asset('js/hotel-datepicker/hotel-datepicker.min.js') }}" defer></script>
@@ -36,7 +38,19 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8">
                     <div class="body-front">
+                        @auth
+                            @if(Auth::user()->isAdmin() || Auth::user()->isModerator())
+                                <div class="icons">
+                                    <a href="{{route('create.news')}}"> <img style="color: white"
+                                                                             src="{{asset('icons/post.svg')}}"
+                                                                             width="50px"
+                                                                             height="auto"></a>
+                                </div>
+                            @endif
+                        @endauth
+                        <br>
                         @php
+
                             $firstMonth = explode(",", $dataSettings[0]);
                             $secondMonth = explode(",", $dataSettings[1]);
                         @endphp
@@ -50,6 +64,7 @@
 
         </div>
     </section>
+    @include('components.btn-ap')
     <!-- Projects-->
     <br>
     <br>
@@ -415,18 +430,9 @@
                     <div class="d-flex h-100">
                         <div class="body-front i_am">
                             Приветствую!<br>
-                            Я НЕ агент, я собственник.<br> Давайте знакомиться! Меня зовут Виталий))<br>
+                            Я НЕ агент, я собственник.<br> Давайте знакомиться! Меня зовут Виталий😊<br>
                             Мой аккаунт в <i class="fab fa-vk"></i>(
                             <a href="https://vk.com/id642803932" target="_blank">Здесь</a>).
-                            <br>Подтверждение недвижимости на сторонних сервисах:
-                            <br>Авито(Ссылка
-                            <a target="_blank" style="text-decoration: none"
-                               href=
-                               "https://www.avito.ru/sankt-peterburg/kvartiry/kvartira-studiya_18m_13et._2542165635">
-                                Здесь</a>),
-                            <br>Суточно ру(Ссылка <a target="_blank" style="text-decoration: none"
-                                                     href="https://www.avito.ru/sankt-peterburg/kvartiry/kvartira-studiya_18m_13et._2542165635">Здесь</a>)
-
                         </div>
                     </div>
                 </div>
@@ -435,40 +441,6 @@
                     <div class="i_am">
                         <img src="{{ asset('img/ljbqpfwXe0A.png')}}">
                     </div>
-                </div>
-            </div>
-            <div class="row justify-content-center text-center marginTop"
-                 style="background-color: gainsboro; margin: 100px 0 100px 0; padding: 70px 0 70px 0; background-size: 100%;">
-                <div class="col-lg-8 ">
-                    <center>
-                        <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade"
-                             data-ride="carousel">
-                            <!-- Indicators -->
-                            <ul class="carousel-indicators">
-                                <li style="background-color: #5c636a" data-target="#carouselExampleDark"
-                                    data-slide-to="0" class="active"></li>
-                                <li style="background-color: #5c636a" data-target="#carouselExampleDark"
-                                    data-slide-to="1"></li>
-
-                            </ul>
-                            <!-- The slideshow -->
-                            <div class="carousel-inner">
-                                <div class="carousel-item active">
-                                    <img src="{{ asset('img/slider/avito.jpg')}}" alt="">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="{{ asset('img/slider/Cian.jpg')}}" alt="">
-                                </div>
-
-                            </div>
-                            <a class="carousel-control-prev" href="#carouselExampleDark" data-slide="prev">
-                                <span class="carousel-control-prev-icon"></span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselExampleDark" data-slide="next">
-                                <span class="carousel-control-next-icon"></span>
-                            </a>
-                        </div>
-                    </center>
                 </div>
             </div>
             <br>
@@ -491,8 +463,14 @@
             <br>
         </div>
     </section>
+
+    @include('blocks.news')
     <br>
     <br>
+    <!-- Put this script tag to the <head> of your page -->
+
+    @include('blocks.buttons')
+    @include('blocks.vidgetVk')
 
     <script src="{{asset('js/preloader/preloader.js')}}"></script>
     <script>

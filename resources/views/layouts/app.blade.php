@@ -106,6 +106,7 @@
 
     <center>
         <main class="py-4">
+            @include('components.btn-ap')
             @yield('content')
         </main>
     </center>

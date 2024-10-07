@@ -16,11 +16,10 @@ class News extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('description');
+            $table->bigInteger('user_id');
             $table->text('text');
             $table->json('img');
-            $table->string('ids');
+            $table->json('ids');
             $table->timestamp('created_at')->useCurrent();
         });
     }

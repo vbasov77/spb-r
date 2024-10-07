@@ -42,7 +42,12 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->admin == 1;
+        return $this->role == 1;
+    }
+
+    public function isModerator()
+    {
+        return $this->role == 2;
     }
 
     public function userPhone()

@@ -16,6 +16,9 @@ use App\Http\Controllers\Admin\ArchiveController;
 use App\Http\Controllers\Admin\VerificationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\ErrorController;
+use App\Http\Controllers\Admin\Parsers\NewsWallGroupsController;
+use App\Http\Controllers\FileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,13 +103,25 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
     Route::get('/view_add_order_is_admin', [BookingController::class, 'ViewAddOrderIsAdmin'])->name('view_add_order_is_admin')->middleware('admin');
     Route::post('/add_order_is_admin', [BookingController::class, 'addOrderIsAdmin'])->name('add_order_is_admin')->middleware('admin');
 
-    Route::get('/create-news', [NewsController::class, 'create'])->name('create.news')->middleware('admin');
-    Route::post('/store-news', [NewsController::class, 'store'])->name('store.news')->middleware('admin');
-    Route::delete('/delete-post/id{id}', [NewsController::class, 'destroy'])->name('delete.post')->middleware('admin');
+
+    Route::post('/storeNewsWallGroups', [NewsWallGroupsController::class, 'storeNewsWallGroups'])->name('parser.store-wallGroupsNews')->middleware('admin');
+    Route::get('/parser-wallGroupsNews', [NewsWallGroupsController::class, 'showGetNewsWallGroups'])->name('parser.view-wallGroupsNews')->middleware('admin');
+
+
+    Route::get('/read-file', [FileController::class, 'readFile'])->name('read.file')->middleware('admin');
+
+
 });
 
+Route::get('/create-news', [NewsController::class, 'create'])->name('create.news')->middleware('role: moderator, admin');
+Route::post('/store-news', [NewsController::class, 'store'])->name('store.news')->middleware('role: moderator, admin');
+Route::delete('/delete-post/id{id}', [NewsController::class, 'destroy'])->name('delete.post')->middleware('role: moderator, admin');
+Route::get('/my-news', [NewsController::class, 'newsByUserId'])->name('my.news')->middleware('role: moderator, admin');
+Route::get('/news', [NewsController::class, 'index'])->name('news');
 
 Route::get('/post{id}', [NewsController::class, 'show'])->name('post');
+
+Route::get('/error-message', [ErrorController::class, 'view'])->name('error.message');
 
 
 Route::get('/', [FrontController::class, 'front'])->name("front");
