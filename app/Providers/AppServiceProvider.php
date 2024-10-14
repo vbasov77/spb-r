@@ -24,6 +24,7 @@ use App\Services\ReportService;
 use App\Services\ScheduleService;
 use App\Services\Service;
 use App\Services\SettingsService;
+use App\Services\TopPlaceService;
 use App\Services\UserService;
 use App\Services\VkService;
 use Illuminate\Support\ServiceProvider;
@@ -51,6 +52,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(Service::class, UserService::class);
         $this->app->bind(Service::class, NewsService::class);
         $this->app->bind(Service::class, VkService::class);
+        $this->app->bind(Service::class, TopPlaceService::class);
     }
 
     /**

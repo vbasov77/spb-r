@@ -18,7 +18,7 @@
                         <div>
                             <label for="date_book"><b>Выберете дату:</b></label>
                             <input id="input-id" style="display:inline" name="date_book" type="text"
-                                   class="form-control @error("user_name") is-invalid @enderror"
+                                   class="form-control @error("date_book") is-invalid @enderror"
                                    placeholder="Нажмите для выбора даты" autocomplete="off" readonly="readonly"
                                    required>
                         </div>

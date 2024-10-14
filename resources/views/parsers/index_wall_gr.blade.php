@@ -41,6 +41,19 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div id="col-md" class="col-md-9">
                 @if(count($posts))
+                    @auth
+                        @if(Auth::user()->isAdmin())
+                            <div>
+                                <div>
+                                    <br>
+                                    <div class="btn btn-outline-danger btn-sm deleteFile" type="submit">Удалить файл
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+                    @endauth
+                    <br>
+                    <br>
                     @foreach($posts as $item)
                         <div class="card" style="margin-top: 25px;">
                             <div class="card-body" style="text-align: left;">
@@ -67,11 +80,17 @@
                             </div>
                         </div>
                     @endforeach
-                    <br>
+
                 @else
                     Нет материала
                 @endif
             </div>
         </div>
     </div>
+    <script>
+        var fileName = @json($fileName);
+    </script>
+
+    <script src="{{ asset('js/deletes/delete_file.js') }}" defer></script>
+
 @endsection

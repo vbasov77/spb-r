@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <center><h1 style="margin: 60px 0 40px 0">News</h1></center>
+    <center><h1 style="margin: 60px 0 40px 0">Куда сходить в СПб</h1></center>
     <style>
         a.link {
             color: black;
@@ -13,8 +13,8 @@
 
         img.rightM {
             float: right;
-            width: 150px;
-            height: 150px;
+            width: 200px;
+            height: 200px;
 
         }
 
@@ -40,19 +40,14 @@
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div id="col-md" class="col-md-9">
-                @if(count($news))
-                    @foreach($news as $item)
-                        @php
-                            $img = json_decode($item->img)
-                        @endphp
-
+                @if(count($places))
+                    @foreach($places as $place)
                         <div class="card" style="margin-top: 25px;">
                             <div class="card-body" style="text-align: left;">
                                 <a class="link" style="text-decoration: none"
-                                   href="{{route('post', ["id"=>$item['id']])}}">
-                                    @if(!empty($img[0]))
-
-                                        <img src="{{$img[0]}}"
+                                   href="{{route('show.place', ["id" => $place->id])}}">
+                                    @if(!empty($place->path))
+                                        <img src="{{ asset('images/places/' . $place->path)}}"
                                              height="150px" width="auto" class="rightM" style="object-fit: cover;">
                                     @else
                                         <img src="{{ asset("images/no_image/no_image.jpg") }}"
@@ -60,9 +55,9 @@
                                              class="rightM">
                                     @endif
                                     <div class="textBlock">
-                                        {{mb_substr($item ['text'],  0, 250, 'UTF-8') }}...
+                                        <b>{{$place->title}}</b><br>
                                         <br>
-                                        <p style="font-size: 10px; margin-top: 20px; float: left">{{date('d.m.Y', strtotime($item['created_at']))}}</p>
+                                        {{mb_substr($place->description,  0, 250, 'UTF-8') }}...
                                     </div>
                                     <br>
                                 </a>
@@ -70,8 +65,7 @@
                         </div>
                     @endforeach
                     <br>
-                    {{$news->links()}}
-
+{{--                    {{$places->links()}}--}}
                 @else
                     Нет материала
                 @endif

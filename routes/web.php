@@ -19,6 +19,8 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ErrorController;
 use App\Http\Controllers\Admin\Parsers\NewsWallGroupsController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\TopPlacesController;
+use App\Http\Controllers\Admin\ImgPlaceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -109,9 +111,23 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
 
 
     Route::get('/read-file', [FileController::class, 'readFile'])->name('read.file')->middleware('admin');
+    Route::delete('/delete-file/name{id}', [FileController::class, 'destroyFile'])->name('destroy.file')->middleware('admin');
+    Route::get('/index-files', [FileController::class, 'index'])->name('files')->middleware('admin');
 
+    Route::post('/upload_img/place{id}', [ImgPlaceController::class, 'create'])->middleware('admin');
+    Route::delete('/delete_img', [ImgPlaceController::class, 'destroy'])->middleware('admin');
+
+
+    Route::get('/create-place', [TopPlacesController::class, 'create'])->name('create.place')->middleware('admin');
+    Route::get('/edit-place/id{id}', [TopPlacesController::class, 'edit'])->name('edit.place')->middleware('admin');
+    Route::post('/store-place', [TopPlacesController::class, 'store'])->name('store.place')->middleware('admin');
+    Route::post('/edit_place/id{id}', [TopPlacesController::class, 'update'])->middleware('admin');
+    Route::delete('/delete-place/id{id}', [TopPlacesController::class, 'destroy'])->middleware('admin');
 
 });
+
+Route::get('/show-place/id{id}', [TopPlacesController::class, 'show'])->name('show.place');
+Route::get('/list-places', [TopPlacesController::class, 'index'])->name('list.places');
 
 Route::get('/create-news', [NewsController::class, 'create'])->name('create.news')->middleware('role: moderator, admin');
 Route::post('/store-news', [NewsController::class, 'store'])->name('store.news')->middleware('role: moderator, admin');
