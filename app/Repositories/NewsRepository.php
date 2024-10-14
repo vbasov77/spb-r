@@ -27,7 +27,6 @@ class NewsRepository extends Repository
         News::where("id", $id)->delete();
     }
 
-
     public function store(array $data): int
     {
         return News::insertGetId($data);

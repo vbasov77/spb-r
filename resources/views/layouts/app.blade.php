@@ -21,17 +21,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
-    <!-- Font Awesome icons (free version)-->
-
-    <!-- Google fonts-->
-    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet"/>
-    <link
-            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-            rel="stylesheet"/>
-
     <!-- Styles -->
     <link rel="stylesheet" href="{{asset('themes/funder/fonts/icomoon/style.css')}}">
     <link rel="stylesheet" href="{{asset('themes/funder/css/style.css')}}">
@@ -47,6 +36,7 @@
 
 <body id="page-top">
 <div class="site-wrap">
+
     <div class="site-mobile-menu">
         <div class="site-mobile-menu-header">
             <div class="site-mobile-menu-close mt-3">
@@ -57,14 +47,17 @@
     </div> <!-- .site-mobile-menu -->
 
     <div class="site-navbar-wrap js-site-navbar bg-white">
+
         <div class="container">
             <div class="site-navbar bg-light">
+
                 <div class="row align-items-center">
                     <div class="col-2">
                         <h2 class="mb-0 site-logo"><a style="text-decoration: none;" href="{{route('front')}}"
                                                       class="font-weight-bold">MIETEN</a>
                         </h2>
                     </div>
+
                     <div class="col-10">
                         <nav class="site-navigation text-right" role="navigation">
                             <div class="container">

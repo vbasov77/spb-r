@@ -61,10 +61,9 @@
                                          height="150px" width="auto"
                                          class="rightM">
                                 @endif
-
-
                                 {!!nl2br(e(mb_substr($item ['text'],  0, 200, 'UTF-8'))) !!}...
                                 <br>
+                                <p style="font-size: 10px; margin-top: 20px; float: left">{{date('d.m.Y', strtotime($item['created_at']))}}</p>
                             </a>
                         </div>
                     </div>

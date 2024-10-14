@@ -1,5 +1,152 @@
-@extends('layouts.front')
+@extends('layouts.app')
 @section('content')
+
+    <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+<style>
+    .call-to-action {
+        position: relative;
+        background-color: #343a40;
+        background: url("../assets/img/bg-masthead.jpg") no-repeat center center;
+        background-size: cover;
+        padding-top: 7rem;
+        padding-bottom: 7rem;
+    }
+
+    .call-to-action:before {
+        content: "";
+        position: absolute;
+        background-color: #1c375e;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0.5;
+    }
+
+    footer.footer {
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
+
+    .line-height {
+        line-height: 50px;
+    }
+
+    .bg-banner {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .width-adaptive {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .width-adaptive80 {
+        width: 80%;
+    }
+
+    .width-adaptive60 {
+        width: 60%;
+    }
+
+    .body-front {
+
+        font-size: 26px;
+        color: #7A7A7A;
+    }
+
+    iframe {
+        width: 98%;
+    }
+
+    @media screen and (max-width: 600px) {
+        .body-front {
+            font-size: 20px;
+        }
+
+
+        .body-white {
+            font-size: 20px;
+            color: #fff;
+        }
+
+        .width-adaptive {
+            width: 100%;
+        }
+
+        .width-adaptive80 {
+            width: 100%;
+        }
+
+        .width-adaptive60 {
+            width: 100%;
+        }
+
+        .col-lg-6.order-lg-first {
+            margin-top: 50px;
+        }
+
+        header.masthead {
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+        }
+
+        .front-gif {
+            display: none;
+        }
+
+        .mob {
+            width: 100%;
+        }
+    }
+
+    main.py-4 {
+        padding-top: 0rem !important;
+    }
+
+
+    .picker input#input-id {
+        display: none;
+    }
+
+    .picker .datepicker__info.datepicker__info--feedback.datepicker__info--help {
+        display: none;
+    }
+
+    .picker button#clear-input-id {
+        display: none;
+    }
+
+    .picker .datepicker__topbar {
+        display: none;
+    }
+
+    .picker div#datepicker-input-id {
+        right: 0;
+        left: 0;
+        margin: auto;
+    }
+
+    .preloader {
+        height: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%)
+    }
+
+    .preloader-img {
+        display: none;
+    }
+</style>
+
+
+
+    <link href="{{ asset('css/front.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/checkbox/radio.css') }}" rel="stylesheet">
+
     <link href="{{ asset('css/pulse_button.css') }}" rel="stylesheet">
 
     <script src="{{ asset('js/fecha.min.js') }}" defer></script>
