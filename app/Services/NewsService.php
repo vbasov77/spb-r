@@ -31,18 +31,8 @@ class NewsService extends Service
         return $this->newsRepository->findAll();
     }
 
-    public function store(Request $request, array $vkPost, string $telegramPost): int
+    public function store(Request $request, array $ids, string $img): int
     {
-        $ids = [
-            'vkPostId' => $vkPost[0]['vkPostId'],
-            'tgPost' => $telegramPost
-        ];
-
-        $img = null;
-        if (!empty($vkPost[1]['images'])) {
-            $img = $vkPost[1]['images'];
-        }
-
         $data = [
             'user_id' => Auth::id(),
             'text' => $request->input('text'),

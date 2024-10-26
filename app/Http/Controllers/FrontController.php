@@ -7,6 +7,8 @@ namespace App\Http\Controllers;
 use App\Services\BookingService;
 use App\Services\NewsService;
 use App\Services\SettingsService;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 
@@ -22,8 +24,15 @@ class FrontController extends Controller
         $this->newsService = new NewsService();
     }
 
-    public function front(BookingService $bookingService): View
+    /**
+     * @param BookingService $bookingService
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|View
+     */
+    public function front(BookingService $bookingService)
     {
+        if (Auth::user()->isAdmin()) {
+            return redirect()->route('create.news');
+        }
         $data = $bookingService->getBookingDates();
         $settings = new SettingsService();
         $frontSettings = $settings->findSettingsFrontPage();

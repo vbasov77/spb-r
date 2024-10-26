@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
-use App\Models\Archive;
-
 
 class KeyRepository extends Repository
 {
@@ -27,11 +25,17 @@ class KeyRepository extends Repository
 
     public function idGroupVk(): int
     {
-        return 227627516; // 7754824
+        return 7754824; // 7754824(prod) | 227627516(test)
+    }
+
+    public function idGroupVkAnimal(): int
+    {
+        return 21413221; // 21413221(prod) | 227627516(test)
     }
 
     public function idTgChannel(): string
     {
-        return "-1002453188364";
+        return "-1002415592751"; // -1002415592751(prod) | -1002453188364(test)
     }
+
 }

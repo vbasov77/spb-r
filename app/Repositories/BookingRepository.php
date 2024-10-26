@@ -4,6 +4,7 @@
 namespace App\Repositories;
 
 
+use App\Http\Requests\Orders\EditOrderRequest;
 use App\Models\Booking;
 use App\Models\Pay;
 use Illuminate\Http\Request;
@@ -73,11 +74,20 @@ where b.no_in = " . '"' . $noIn . '"');
         return $booking;
     }
 
-    public function updateOrder(Request $data): void
+    public function updateOrder(EditOrderRequest $editOrderRequest): void
     {
-        Pay::where("booking_id", $data->id)->update([
-            'total' => $data->total
-        ]);
+        $pay = Pay::where('booking_id', $editOrderRequest->input('id'))->first();
+
+        if ($pay) {
+            Pay::where('booking_id', $editOrderRequest->input('id'))->update([
+                'total' => $editOrderRequest->input('total')
+            ]);
+        } else {
+            Pay::insertGetId([
+                'booking_id' => $editOrderRequest->input('id'),
+                'total' => $editOrderRequest->input('total')
+            ]);
+        }
     }
 
     public function confirmOrder(int $id): void

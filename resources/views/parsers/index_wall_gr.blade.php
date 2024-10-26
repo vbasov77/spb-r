@@ -40,18 +40,20 @@
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div id="col-md" class="col-md-9">
-                @if(count($posts))
-                    @auth
-                        @if(Auth::user()->isAdmin())
+                @auth
+                    @if(Auth::user()->isAdmin())
+                        <div>
                             <div>
-                                <div>
-                                    <br>
-                                    <div class="btn btn-outline-danger btn-sm deleteFile" type="submit">Удалить файл
-                                    </div>
+                                <br>
+                                <div class="btn btn-outline-danger btn-sm deleteFile" type="submit">Удалить файл
                                 </div>
                             </div>
-                        @endif
-                    @endauth
+                        </div>
+                    @endif
+                @endauth
+                <br>
+                <br>
+                @if(count($posts))
                     <br>
                     <br>
                     @foreach($posts as $item)
@@ -80,7 +82,6 @@
                             </div>
                         </div>
                     @endforeach
-
                 @else
                     Нет материала
                 @endif

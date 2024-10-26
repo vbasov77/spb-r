@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\KeyRepository;
 use App\Services\NewsService;
 use App\Services\TelegramService;
 use App\Services\VkService;
@@ -15,6 +16,7 @@ class NewsController extends Controller
     private $newsService;
     private $vkService;
     private $telegramService;
+    private $keyRepository;
 
     /**
      * NewsController constructor.
@@ -24,6 +26,7 @@ class NewsController extends Controller
         $this->newsService = new NewsService();
         $this->vkService = new VkService();
         $this->telegramService = new TelegramService();
+        $this->keyRepository = new KeyRepository();
     }
 
 
@@ -49,24 +52,61 @@ class NewsController extends Controller
         return view('news.create');
     }
 
-    /**
-     * @param Request $request
-     * @return RedirectResponse
-     */
-    public function store(Request $request): RedirectResponse
-    {
-        $telegramPostId = $this->telegramService->addTelegramPost($request);
 
-        if ($telegramPostId['ok'] == true) {
-            $vkPost = $this->vkService->getWallUploadServer($request);
-            $id = $this->newsService->store($request, $vkPost, $telegramPostId['id']);
+    public function store(Request $request)
+    {
+        $dataVk = '';
+        $img = null;
+
+        if ($request->input('telegram') || $request->input('all')) {
+            $telegramPostId = $this->telegramService->addTelegramPost($request);
+            if (!$telegramPostId) {
+                $message = "Проблема с публикацией в телеграм \n Причина: " . $telegramPostId['message'];
+
+                return redirect()->route('error.message', ['message' => $message]);
+
+            }
+        }
+
+        if ($request->input('vk_go') || $request->input('all')) {
+            $keyGo = $this->keyRepository->idGroupVk();
+            $vkGo = $this->vkService->getWallUploadServer($request, $keyGo);
+
+            if ($vkGo) {
+                $dataVk = $vkGo[0]['vkPostId'];
+                $img = $vkGo[1]['images'];
+            } else {
+                return redirect()->route('error.message', ['message' => "Не получен ответ с VK"]);
+            }
+
+        }
+
+        if ($request->input('animal') || $request->input('all')) {
+            $keyAnimal = $this->keyRepository->idGroupVkAnimal();
+            $vkAnimal = $this->vkService->getWallUploadServer($request, $keyAnimal);
+            !empty($vkGo) ? $dataVk = $vkGo [0]['vkPostId'] . ',' . $vkAnimal[0]['vkPostId']
+                : $dataVk = $vkAnimal[0]['vkPostId'];
+
+            if (!empty($vkAnimal[1]['images'])) {
+                $img = $vkAnimal[1]['images'];
+            }
+        }
+
+        if ($request->input('all') || $request->input('this_site')) {
+            $ids = [];
+            if (!empty($dataVk)) {
+                $ids ['vkPostId'] = $dataVk;
+            }
+
+            if (!empty($telegramPostId)) {
+                $ids ['tgPost'] = $telegramPostId['id'];
+            }
+            $id = $this->newsService->store($request, $ids, $img);
 
             return redirect()->route('post', ['id' => $id]);
-        } else {
-            $message = "Проблема с публикацией в телеграм \n Причина: " . $telegramPostId['message'];
-
-            return redirect()->route('error.message', ['message' => $message]);
         }
+
+        return redirect()->route('create.news');
 
     }
 

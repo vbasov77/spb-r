@@ -1,19 +1,66 @@
 @extends('layouts.app')
 @section('content')
     <style>
-        /*.add {*/
-        /*    width: 150px;*/
-        /*    height: 75px;*/
-        /*    line-height: 75px;*/
-        /*    text-align: center;*/
-        /*    border: 1px dashed grey;*/
-        /*    margin: 10px 0;*/
-        /*}*/
+        /*-------------------------------Чекбоксы*/
+        .checkbox-btn2 {
+            display: inline-block;
+            margin: 5px;
+            user-select: none;
+            position: relative;
+        }
 
-        /*.add:hover {*/
-        /*    cursor: pointer;*/
-        /*    background-color: #360581;*/
-        /*}*/
+        @media screen and (max-width: 640px) {
+            .checkbox-btn2, .checkbox-btn2 span {
+                width: 100%;
+            }
+        }
+
+        .checkbox-btn2 input[type=checkbox] {
+            z-index: -1;
+            opacity: 0;
+            display: block;
+            width: 0;
+            height: 0;
+        }
+
+        .checkbox-btn2 span {
+            display: inline-block;
+            cursor: pointer;
+            padding: 15px;
+
+            border: 1px solid #999;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+
+        /* Checked */
+        .checkbox-btn2 input[type=checkbox]:checked + span {
+            background: #5cc4ef;
+            color: white;
+        }
+
+        /* Focus */
+        .focused span {
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+        }
+
+        /* Hover */
+        .checkbox-btn2:hover {
+            color: #666;
+        }
+
+        /* Active */
+        .checkbox-btn2 input[type=checkbox]:active:not(:disabled) + span {
+            color: #000;
+        }
+
+        /* Disabled */
+        .checkbox-btn2 input[type=checkbox]:disabled + span {
+            background: #efefef;
+            color: #666;
+            cursor: default;
+        }
+
 
         .imageThumb {
             max-height: 75px;
@@ -53,9 +100,45 @@
                                   required
                         >{{old("text")}}</textarea><br>
 
+                        <div style="margin-top: 50px; margin-bottom: 50px">
+
+                            <b>Опубликовать только:</b><br>
+                            <label class="checkbox-btn2">
+                                <input type="checkbox" name="this_site"
+                                       value="this_site">
+                                <span>Этот сайт</span>
+                            </label>
+
+                            <label class="checkbox-btn2">
+                                <input type="checkbox" name="telegram"
+                                       value="telegram">
+                                <span>Telegram</span>
+                            </label>
+
+                            <label class="checkbox-btn2">
+                                <input type="checkbox" name="vk_go"
+                                       value="vk_go">
+                                <span>ВК куда сходить</span>
+                            </label>
+
+                            <label class="checkbox-btn2">
+                                <input type="checkbox" name="animal"
+                                       value="animal">
+                                <span>ВК пушистые</span>
+                            </label>
+                            <br>
+                            <label class="checkbox-btn2">
+                                <input type="checkbox" name="all"
+                                       value="all">
+                                <span>ВЕЗДЕ</span>
+                            </label>
+                        </div>
                         <br>
                         <label for="video">Видео</label>
-                        <input id="video" type="file" class="form-control" name="video" value="{{old("text")}}">
+                        <input id="video" type="file" class="form-control" name="video" value="{{old("video")}}">
+                        <br>
+                        <label for="title_video">Название видео</label>
+                        <input id="title_video" placeholder="Название видео" type="text" class="form-control" name="title_video" value="{{old("title_video")}}">
                         <br>
                         <label for="files">Фото</label>
                         <input class="form-control" type="file" accept="image/*" id="files"

