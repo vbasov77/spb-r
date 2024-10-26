@@ -18,7 +18,7 @@ class News extends Migration
             $table->id();
             $table->bigInteger('user_id');
             $table->text('text');
-            $table->json('img');
+            $table->json('img')->nullable();
             $table->json('ids');
             $table->timestamp('created_at')->useCurrent();
         });

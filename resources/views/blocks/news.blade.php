@@ -1,5 +1,4 @@
 <center><h3 style="margin: 60px 0 40px 0">Культурные новости, куда сходить в СПб</h3></center>
-
 <div class="wrap">
     <button onclick="window.location.href = 'https://t.me/spb_mieten';"
             style="color: white; margin-top: 50px; margin-bottom: 50px;" class="button2">Telegram Канал
@@ -41,7 +40,7 @@
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div id="col-md" class="col-md-9">
-            <center><h5 style="margin-bottom: 50px">Будь в курсе! Подпишись на культурные новости Санкт-Петербурга!</h5>
+            <center><h5 style="margin-bottom: 50px; text-align: left;">Будь в курсе! Подпишись на культурные новости Санкт-Петербурга!</h5>
             </center>
             @if(count($news))
                 @foreach($news as $item)
@@ -50,7 +49,7 @@
                     @endphp
 
                     <div class="card" style="margin-top: 25px;">
-                        <div class="card-body">
+                        <div class="card-body text-left">
                             <a class="link" style="text-decoration: none" href="{{route('post', ["id"=>$item['id']])}}">
                                 @if(!empty($img[0]))
 

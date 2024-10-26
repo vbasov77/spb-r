@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Http\Requests\Orders\EditOrderRequest;
 use App\Repositories\BookingRepository;
 use Illuminate\Http\Request;
 
@@ -21,9 +22,9 @@ class OrderService extends Service
     }
 
 
-    public function updateOrder(Request $data): void
+    public function updateOrder(EditOrderRequest $editOrderRequest): void
     {
-        $this->bookingRepository->updateOrder($data);
+        $this->bookingRepository->updateOrder($editOrderRequest);
     }
 
     public function inOrder(): array

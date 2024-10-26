@@ -2,145 +2,119 @@
 @section('content')
 
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
-<style>
-    .call-to-action {
-        position: relative;
-        background-color: #343a40;
-        background: url("../assets/img/bg-masthead.jpg") no-repeat center center;
-        background-size: cover;
-        padding-top: 7rem;
-        padding-bottom: 7rem;
-    }
+    <style>
 
-    .call-to-action:before {
-        content: "";
-        position: absolute;
-        background-color: #1c375e;
-        height: 100%;
-        width: 100%;
-        top: 0;
-        left: 0;
-        opacity: 0.5;
-    }
-
-    footer.footer {
-        padding-top: 4rem;
-        padding-bottom: 4rem;
-    }
-
-    .line-height {
-        line-height: 50px;
-    }
-
-    .bg-banner {
-        background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    .width-adaptive {
-        width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .width-adaptive80 {
-        width: 80%;
-    }
-
-    .width-adaptive60 {
-        width: 60%;
-    }
-
-    .body-front {
-
-        font-size: 26px;
-        color: #7A7A7A;
-    }
-
-    iframe {
-        width: 98%;
-    }
-
-    @media screen and (max-width: 600px) {
-        .body-front {
-            font-size: 20px;
+        .call-to-action {
+            position: relative;
+            background-color: #343a40;
+            background: url("../assets/img/bg-masthead.jpg") no-repeat center center;
+            background-size: cover;
+            padding-top: 7rem;
+            padding-bottom: 7rem;
         }
 
+        .call-to-action:before {
+            content: "";
+            position: absolute;
+            background-color: #1c375e;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0.5;
+        }
 
-        .body-white {
-            font-size: 20px;
-            color: #fff;
+        footer.footer {
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+        }
+
+        .line-height {
+            line-height: 50px;
+        }
+
+        .bg-banner {
+            background-color: rgba(0, 0, 0, 0.4);
         }
 
         .width-adaptive {
             width: 100%;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .width-adaptive80 {
-            width: 100%;
+            width: 80%;
         }
 
         .width-adaptive60 {
-            width: 100%;
+            width: 60%;
         }
 
-        .col-lg-6.order-lg-first {
-            margin-top: 50px;
+        .body-front {
+
+            font-size: 26px;
+            color: #7A7A7A;
         }
 
-        header.masthead {
-            padding-top: 3rem;
-            padding-bottom: 3rem;
+        iframe {
+            width: 98%;
         }
 
-        .front-gif {
-            display: none;
+        @media screen and (max-width: 600px) {
+            .body-front {
+                font-size: 20px;
+            }
+
+
+            .body-white {
+                font-size: 20px;
+                color: #fff;
+            }
+
+            .width-adaptive {
+                width: 100%;
+            }
+
+            .width-adaptive80 {
+                width: 100%;
+            }
+
+            .width-adaptive60 {
+                width: 100%;
+            }
+
+            .col-lg-6.order-lg-first {
+                margin-top: 50px;
+            }
+
+            header.masthead {
+                padding-top: 3rem;
+                padding-bottom: 3rem;
+            }
+
+            .front-gif {
+                display: none;
+            }
+
+            .mob {
+                width: 100%;
+            }
         }
 
-        .mob {
-            width: 100%;
+        main.py-4 {
+            padding-top: 0rem !important;
         }
-    }
 
-    main.py-4 {
-        padding-top: 0rem !important;
-    }
-
-
-    .picker input#input-id {
-        display: none;
-    }
-
-    .picker .datepicker__info.datepicker__info--feedback.datepicker__info--help {
-        display: none;
-    }
-
-    .picker button#clear-input-id {
-        display: none;
-    }
-
-    .picker .datepicker__topbar {
-        display: none;
-    }
-
-    .picker div#datepicker-input-id {
-        right: 0;
-        left: 0;
-        margin: auto;
-    }
-
-    .preloader {
-        height: auto;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-right: -50%;
-        transform: translate(-50%, -50%)
-    }
-
-    .preloader-img {
-        display: none;
-    }
-</style>
+        .preloader {
+            height: auto;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%)
+        }
+    </style>
 
 
 
@@ -162,14 +136,12 @@
                         <h2 class="mx-auto mt-2 mb-5">
                             <div class="body-white">
                                 <div class="line-height" style="color: white">
-                                    <div class="fontawesome"><i class="fa fa-check"></i> 100 м до набережной Невы<br>
-                                    </div>
-                                    <div class="fontawesome"><i class="fa fa-check"></i> 10 мин пешком до метро<br>
-                                    </div>
-                                    <div class="fontawesome"><i class="fa fa-check"></i> 1 станция метро до центра
-                                        СПб<br>
-                                    </div>
-                                    <div class="fontawesome"><i class="fa fa-phone"></i> +7 911 012 09 12<br></div>
+                                    <img width="30px" src="{{asset("icons/check.svg")}}"> 100 м до набережной Невы<br>
+                                    <img width="30px" src="{{asset("icons/check.svg")}}"> 10 мин пешком до метро<br>
+
+                                    <img width="30px" src="{{asset("icons/check.svg")}}"> 1 станция метро до центра
+                                    СПб<br>
+                                    <img width="30px" src="{{asset("icons/phone.svg")}}"> +7 911 012 09 12<br>
                                 </div>
                             </div>
                         </h2>
@@ -254,15 +226,15 @@
                 </div>
 
                 <div class="col-xl-4 col-lg-5">
-                    <div class="featured-text text-center text-lg-left">
-                        <div class="body-front">
+                    <div class="featured-text text-center text-lg-center">
+                        <div style="text-align: center" class="body-front">
                             <br>
+                            <img width="30px" src="{{asset("icons/coff.svg")}}"> оборудованная кухня<br>
                             <div class="fontawesome"><i class="fas fa-bed"></i> двуспальная кровать<br></div>
-                            <div class="fontawesome"><i class="fas fa-coffee"></i> оборудованная кухня<br></div>
                             <div class="fontawesome"><i class="fas fa-snowflake"></i> холодильник<br></div>
                             <div class="fontawesome"><i class="fas fa-tv"></i> телевизор<br></div>
-                            <div class="fontawesome"><i class="fas fa-fan"></i> фен<br></div>
                             <div class="fontawesome"><i class="fas fa-check"></i> утюг<br></div>
+                            <div class="fontawesome"><i class="fas fa-fan"></i> фен<br></div>
                         </div>
                     </div>
                 </div>
@@ -400,12 +372,13 @@
                 <div class="col-lg-6 order-lg-first">
                     {{--                <div class="bg-black text-center h-100 project">--}}
                     <div class="d-flex h-100">
-                        <div class="project-text w-100 my-auto text-center text-lg-right">
+                        <div class="project-text w-100 my-auto text-left text-lg-left">
                             <div class="body-front">
-                                Вашему вниманию предлагаются отличные апартаменты в
-                                трёхзвёздочном отеле, расположенные в шаговой доступности от станции метро
-                                Елизаровская (10 мин. пешком). Проспект Обуховской обороны 123а. В окружении кафе,
-                                ресторанов, а также супермаркетов — Магнит, Дикси, Красное & Белое
+                                К вашему вниманию предлагаются уютные апартаменты в трёхзвёздочном отеле, расположенном
+                                в непосредственной близости от станции метро «Елизаровская» (всего 10 минут пешком).
+                                Отель находится по адресу проспект Обуховской обороны, дом 123а. В непосредственной
+                                близости от отеля расположены кафе, рестораны, а также супермаркеты «Магнит», «Дикси» и
+                                «Красное & Белое».
                             </div>
                         </div>
                     </div>
@@ -551,21 +524,21 @@
             <br>
             <center><h4 class="marginTop">Смотреть видео</h4></center>
             <br>
-            <div class="row gx-0 mb-4 mb-lg-5 align-items-center">
-                <div class="col-lg">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/J8HJz1pACsQ"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
-                </div>
-                <div class="col-lg">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/pUeHjTWTH_Q"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
-                </div>
-            </div>
-            <br>
+{{--            <div class="row gx-0 mb-4 mb-lg-5 align-items-center">--}}
+{{--                <div class="col-lg">--}}
+{{--                    <iframe width="560" height="315" src="https://www.youtube.com/embed/J8HJz1pACsQ"--}}
+{{--                            title="YouTube video player" frameborder="0"--}}
+{{--                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"--}}
+{{--                            allowfullscreen></iframe>--}}
+{{--                </div>--}}
+{{--                <div class="col-lg">--}}
+{{--                    <iframe width="560" height="315" src="https://www.youtube.com/embed/pUeHjTWTH_Q"--}}
+{{--                            title="YouTube video player" frameborder="0"--}}
+{{--                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"--}}
+{{--                            allowfullscreen></iframe>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <br>--}}
 
         </div>
     </section>

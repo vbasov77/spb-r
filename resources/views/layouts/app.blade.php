@@ -58,7 +58,7 @@
                         </h2>
                     </div>
 
-                    <div class="col-10">
+                    <div class="col-9">
                         <nav class="site-navigation text-right" role="navigation">
                             <div class="container">
                                 <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#"
@@ -66,7 +66,14 @@
                                                 class="icon-menu h3"></span></a></div>
                                 <ul class="site-menu js-clone-nav d-none d-lg-block">
                                     @guest
-
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{{ route('login') }}">{{ __('Логин') }}</a>
+                                        </li>
+                                        @if (Route::has('register'))
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ route('register') }}">{{ __('Регистрация') }}</a>
+                                            </li>
+                                        @endif
                                     @else
                                         @if(Auth::user()->isAdmin())
                                             <li class="has-children">
@@ -84,9 +91,6 @@
                                         </li>
 
                                     @endguest
-                                    <li>
-                                        {{--                                        @include('blocks.tools')--}}
-                                    </li>
                                     <li class="active"><a href="{{route('front')}}">{{__('Главная')}}</a></li>
                                 </ul>
                             </div>

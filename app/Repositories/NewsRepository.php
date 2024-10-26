@@ -19,7 +19,7 @@ class NewsRepository extends Repository
 
     public function findAll(): object
     {
-        return News::OrderBy('id', 'desc')->paginate(10);;
+        return News::OrderBy('id', 'desc')->paginate(10);
     }
 
     public function delete(int $id): void
@@ -44,7 +44,7 @@ class NewsRepository extends Repository
 
     public function findByUserId(int $userId): object
     {
-        return News::where('user_id', $userId)->get();
+        return News::where('user_id', $userId)->OrderBy('id', 'desc')->paginate(10);
     }
 
     public function findForFrontPage(): object

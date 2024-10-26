@@ -1,10 +1,12 @@
 <li class="has-children">
     <a href="#">Добавить</a>
     <ul class="dropdown">
-        <a class="dropdown-item" href="{{route('create.news')}}">Новость</a>
-        <a class="dropdown-item" href="{{route('admin.create.place')}}">Место</a>
-        <a class="dropdown-item" href="{{route('admin.view_add_order_is_admin')}}">Бронь</a>
-        <a class="dropdown-item" href="{{route('admin.in.queue')}}">В очередь</a>
+        <li>
+            <a class="dropdown-item" href="{{route('create.news')}}">Новость</a>
+            <a class="dropdown-item" href="{{route('admin.create.place')}}">Место</a>
+            <a class="dropdown-item" href="{{route('admin.view_add_order_is_admin')}}">Бронь</a>
+            <a class="dropdown-item" href="{{route('admin.in.queue')}}">В очередь</a>
+        </li>
     </ul>
 </li>
 <li>
@@ -23,7 +25,9 @@
 <li class="has-children">
     <a href="#">Парсеры</a>
     <ul class="dropdown">
-        <a class="dropdown-item" href="{{route('admin.parser.view-wallGroupsNews')}}">Стены групп</a>
+        <li>
+            <a class="dropdown-item" href="{{route('admin.parser.view-wallGroupsNews')}}">Стены групп</a>
+        </li>
     </ul>
 </li>
 

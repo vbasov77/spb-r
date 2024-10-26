@@ -81,6 +81,7 @@ class TelegramService extends Service
                 }
             }
             $responseStr = implode('&', $response);
+            sleep(0.3);
 
             return ["ok" => true, "id" => $chatId . "_" . $responseStr];
         } else {
@@ -92,15 +93,18 @@ class TelegramService extends Service
     public function destroyTgPost(string $data)
     {
         $array = json_decode($data, true);
-        $post = explode('_', $array['tgPost']);
-        $url = 'https://api.telegram.org/bot' . $this->token . '/deleteMessages';
-        $ids = explode('&', $post[1]);
-        $params = [
-            'chat_id' => $post[0],
-            'message_ids' => json_encode($ids),
-        ];
+        if (!empty($array['tgPost'])) {
+            $post = explode('_', $array['tgPost']);
+            $url = 'https://api.telegram.org/bot' . $this->token . '/deleteMessages';
+            $ids = explode('&', $post[1]);
+            $params = [
+                'chat_id' => $post[0],
+                'message_ids' => json_encode($ids),
+            ];
 
-        $this->requestRepository->post($url, $params);
+            $this->requestRepository->post($url, $params);
+        }
+
     }
 
 }

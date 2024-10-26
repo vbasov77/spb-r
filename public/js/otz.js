@@ -1,7 +1,7 @@
 
 $('#submit').attr('disabled', true);
-$('#comment').change(function () {
-    if ($('#comment').val() != '') {
+$('#otz').change(function () {
+    if ($('#otz').val() != '') {
         $('#submit').attr('disabled', false);
     } else {
         $('#submit').attr('disabled', true);

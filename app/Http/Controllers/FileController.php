@@ -47,7 +47,7 @@ class FileController extends Controller
 
     public function index()
     {
-        $files = Storage::allFiles('/public/folder');
+        $files = Storage::files('/public/folder');
 
         $fileNames = array_map(function ($file) {
             return basename($file); // remove the folder name
@@ -59,7 +59,7 @@ class FileController extends Controller
     public function destroyFile(Request $request)
     {
         try {
-           $this->fileService->destroyFile($request->id);
+            $this->fileService->destroyFile($request->id);
 
             exit(json_encode(true));
         } catch (\Exception $e) {
