@@ -30,9 +30,6 @@ class FrontController extends Controller
      */
     public function front(BookingService $bookingService)
     {
-        if (Auth::user()->isAdmin()) {
-            return redirect()->route('create.news');
-        }
         $data = $bookingService->getBookingDates();
         $settings = new SettingsService();
         $frontSettings = $settings->findSettingsFrontPage();

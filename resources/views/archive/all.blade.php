@@ -25,7 +25,7 @@
                             <tr>
                                 <th scope="row"> {{ $value->id }}</th>
                                 <th scope="row"><i class="fas fa-user-alt"></i> {{ $value->user_id }}</th>
-                                <th scope="row"><i class="fas fa-indent"></i> {{ substr($value->date_book, 0, 20) }}...
+                                <th scope="row"><i class="fas fa-indent"></i> {{ $value->date_in . " " . $value->date_out }}
                                    </th>
 
                                 <th scope="row"><i class="fas fa-comments"></i> {{ $value->comment }}</th>
@@ -33,12 +33,19 @@
                                 <th scope="row"><i class="fas fa-ruble-sign"></i> {{ $value->total }}</th>
                                 <th scope="row"><i class="fas fa-check"></i> {{ $value->confirmed }}</th>
                                 <th scope="row">
+                                    <a onClick="return confirm('Подтвердите редактирование!')"
+                                       title="Удалить"
+                                       href='{{route('admin.edit.archive', ['id' => $value->id])}}' type='button'
+                                       class='btn btn-outline-success btn-sm' style="margin: 5px">
+                                        <img src="{{asset('icons/edit.svg')}}" width="16px" alt="">
+                                    </a>
                                     <a onClick="return confirm('Подтвердите удаление!')"
                                        title="Удалить"
                                        href='{{route('admin.delete.archive', ['id' => $value->id])}}' type='button'
                                        class='btn btn-outline-danger btn-sm' style="margin: 5px">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
+
                                 </th>
                             </tr>
                         @endforeach

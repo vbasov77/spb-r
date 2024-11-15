@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Параллакс фона при прокрутке страницы | pcvector.net</title>
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+  <meta http-equiv="X-UA-compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="format-detection" content="telephone=no">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+  <link rel="stylesheet" type="text/css" href="css/demo.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="js/bgscroll.js"></script>
+</head>
+
+<body>
+<script>
+  var articleLink = '/scripts/parallax/493-bgscrolljs-parallaks-effekt-dlya-fona-pri-prokrutke-stranicy.html';
+</script>
+
+<div class="bg bg--1"><p>bgscroll.js</p></div>
+<section class="section">
+  <div class="section__inner">
+    <h2>Заголовок секции</h2>
+    <p>Как же странно иногда бывает в жизни. Ты живешь, живешь какой-то обычной жизнью, и друг в ней появляется человек. Мужчина. Точнее, сначала ты появилась в его жизни. А ты сама его сначала не заметила. Но он появился, и ты его увидела каким-то боковым зрением, точнее, даже не самого, а какой-то силуэт, и не придала этому значения. Но постепенно этот силуэт становился все отчетливее, определеннее, и вот ты видишь перед собой конкретного мужчину. А ты, конечно, до этого мечтала о том, что кто-то в твоей жизни появится, и у тебя не было никаких сомнений, что ты достойна счастья. Но этот конкретный, определенный мужчина не имел ничего общего с тем прекрасным, размытым образом, который ты себе рисовала.</p>
+    <p>И вот ты смотришь на этого мужчину, и думаешь — нет, это совсем не то, что тебе нужно. Но этот мужчина делает так много усилий, чтобы стать ближе к тебе, он так настойчиво пытается ворваться в твою жизнь, его становится так много. Он везде. Он встречает тебя после работы, поджидает где-нибудь, провожает, постоянно звонит, что-то говорит или молчит в трубку, и ты понимаешь, что это он. И оттого, что его так много ты даже боишься включить телевизор, потому что думаешь -вот включишь телевизор, и он там появится. </p>
+  </div>
+</section>
+<div class="bg bg--2"></div>
+<div class="bg bg--3"></div>
+<div class="bg bg--4"></div>
+
+<script type="text/javascript">
+$(window).scroll(function(){
+  $('.bg--1').bgscroll({
+    direction: 'bottom', // направление bottom или top
+    bgpositionx: 50, // x позиция фонового изображения, от 0 до 100, размерность в %, 50 - означает по центру
+    debug: false, // Режим отладки
+    min:0, // минимальное положение (в %) на которое может смещаться фон
+    max:100 // максимальное положение (в %) на которое может смещаться фон
+  });
+  $('.bg--2').bgscroll({
+    direction: 'top'
+  });
+  $('.bg--3').bgscroll({
+    direction: 'top'
+  });
+  $('.bg--4').bgscroll({
+    direction: 'bottom'
+  });
+})
+</script>
+</body>
+</html>

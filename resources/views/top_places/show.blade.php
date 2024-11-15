@@ -10,6 +10,10 @@
             height: 100%;
         }
 
+        .carousel-inner {
+            height: 400px;
+        }
+
         @media (max-width: 500px) {
             .width-slider {
                 width: 100%;
@@ -34,6 +38,9 @@
             <div class="row align-items-center">
                 <div class="col-xl-12">
                     <div class="width-slider">
+                        {{--
+                                                class="carousel-inner" role="listbox" style=" width:100%; height: 500px !important;"
+                        --}}
                         <div id="carusel" class="carousel slide" data-ride="carousel">
                             <ul class="carousel-indicators">
                                 @if(!empty($images))
@@ -56,7 +63,8 @@
                                                  } else {$carusel = "carousel-item";}
                                         @endphp
                                         <div class="{{$carusel}}">
-                                            <img src="{{ asset('images/places/' . $images[$i]->path)}}" alt="">
+                                            <img src="{{ asset('images/places/' . $images[$i]->path)}}"
+                                                 class="img-fluid" alt="">
                                         </div>
                                     @endfor
                                 @else
@@ -89,14 +97,13 @@
                                     <button class="btn btn-success" style="color: white; margin-top: 25px"
                                             onclick="window.location.href =
                                                     '{{route('admin.edit.place', ['id'=>$place->id])}}';">
-                                        Редакторовать
+                                        Редактировать
                                     </button>
                                     <br>
                                     <br>
                                     <div class="btn btn-outline-danger btn-sm deletePost" type="submit">
                                         Удалить пост
                                     </div>
-
                                 </div>
                             </div>
                         @endif

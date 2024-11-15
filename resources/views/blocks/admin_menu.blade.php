@@ -1,3 +1,4 @@
+
 <li class="has-children">
     <a href="#">Добавить</a>
     <ul class="dropdown">
@@ -5,6 +6,7 @@
             <a class="dropdown-item" href="{{route('create.news')}}">Новость</a>
             <a class="dropdown-item" href="{{route('admin.create.place')}}">Место</a>
             <a class="dropdown-item" href="{{route('admin.view_add_order_is_admin')}}">Бронь</a>
+            <a class="dropdown-item" href="{{route('admin.missed.dates')}}">Упущенные даты</a>
             <a class="dropdown-item" href="{{route('admin.in.queue')}}">В очередь</a>
         </li>
     </ul>

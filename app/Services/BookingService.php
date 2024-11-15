@@ -25,52 +25,86 @@ class BookingService extends Service
         $this->dateService = new DateService();
     }
 
+    /**
+     * @param int $id
+     * @return object
+     */
     public function findById(int $id): object
     {
         return $this->bookingRepository->findById($id);
     }
 
+    /**
+     * @param int $id
+     * @return object
+     */
     public function findAllById(int $id): object
     {
         return $this->bookingRepository->findAllById($id);
     }
 
+    /**
+     * @param array $book
+     */
     public function create(array $book): void
     {
         $this->bookingRepository->addBooking($book);
     }
 
+    /**
+     * @return object
+     */
     public function getBookingNoInTable(): object
     {
         return $this->bookingRepository->getBookingNoInTable();
     }
 
+    /**
+     * @return object
+     */
     public function findAll(): object
     {
         return $this->bookingRepository->findAll();
     }
 
+    /**
+     * @param string $noIn
+     * @return array
+     */
     public function getBookingNoIn(string $noIn): array
     {
         return $this->bookingRepository->getBookingNoIn($noIn);
     }
 
+    /**
+     * @param int $id
+     */
     public function delete(int $id): void
     {
         $this->bookingRepository->delete($id);
     }
 
+    /**
+     * @param int $id
+     */
     public function confirmOrder(int $id): void
     {
         $this->bookingRepository->confirmOrder($id);
     }
 
-
+    /**
+     * @param int $id
+     * @return object
+     */
     public function getBookingByOrderId(int $id): object
     {
         return $this->bookingRepository->getBookingByOrderId($id);
     }
 
+    /**
+     * @param int $id
+     * @param string $infoPay
+     */
     public function updateInfoPay(int $id, string $infoPay): void
     {
         $this->bookingRepository->updateInfoPay($id, $infoPay);
@@ -82,7 +116,6 @@ class BookingService extends Service
      * @param string $email
      * @return bool
      */
-
     public function checkingForEmployment(string $dateView, string $phone, string $email): bool
     {
         $check = explode(',', $dateView);
@@ -111,6 +144,12 @@ class BookingService extends Service
 
     }
 
+    /**
+     * @param string $start
+     * @param string $end
+     * @param int $firstDay
+     * @return bool
+     */
     public function checkingForEmploymentAll(string $start, string $end, int $firstDay): bool
     {
         $allDates = $this->bookingRepository->findAll();
@@ -134,6 +173,9 @@ class BookingService extends Service
         return true;
     }
 
+    /**
+     * @return array
+     */
     public function getBookingDates(): array
     {
         $booking = $this->bookingRepository->findAll();
@@ -161,6 +203,11 @@ class BookingService extends Service
     }
 
 
+    /**
+     * @param Request $request
+     * @param string $userName
+     * @return array
+     */
     public function addBooking(Request $request, string $userName): array
     {
         $dateService = new DateService();
@@ -170,8 +217,6 @@ class BookingService extends Service
         $dateBookArray = explode("-", $dateBook);// преобразовали в массив
         $email = preg_replace("/\s+/", "", $email);// удалили пробелы
 
-        $condition = 1;                                            // 1 - прибавить, 2 - вычесть
-        $dateService->setCountNightObj($dateBookArray, $request->sum, $condition);
         $startDate = $dateBookArray[0];
         $endDate = $dateBookArray[1];
         $dateArray = $dateService->getDates($startDate, $endDate, 1);
@@ -202,18 +247,16 @@ class BookingService extends Service
 
     }
 
-    public function addBookingAdm(Request $request) :void
+    /**
+     * @param Request $request
+     */
+    public function missedDates(Request $request): void
     {
-        $dateService = new DateService();
-
-        $dateBook = $request->date_book;
-        $dateBook = preg_replace("/\s+/", "", $dateBook);// удалили пробелы
-        $dateBookArray = explode("-", $dateBook);// преобразовали в массив
-        $startDate = $dateBookArray[0];
-        $endDate = $dateBookArray[1];
-        $dateArray = $dateService->getDates($startDate, $endDate, 1);
+        $startDate = date('d.m.Y', strtotime($request->input('date_in')));
+        $endDate = date('d.m.Y', strtotime($request->input('date_out')));
+        $dateArray = $this->dateService->getDates($startDate, $endDate, 1);
         $dateBook = implode(',', $dateArray);
-        $userInfo = (string) $request->input('phone')
+        $userInfo = (string)$request->input('phone')
             . ', ' . $request->input('user_name')
             . ', ' . $request->input('age')
             . ', ' . $request->input('district');
@@ -234,6 +277,69 @@ class BookingService extends Service
 
         $book->save();
         $book->pay()->save($pay);
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function addBookingAdm(Request $request): void
+    {
+        $dateService = new DateService();
+
+        $dateBook = $request->date_book;
+        $dateBook = preg_replace("/\s+/", "", $dateBook);// удалили пробелы
+        $dateBookArray = explode("-", $dateBook);// преобразовали в массив
+        $startDate = $dateBookArray[0];
+        $endDate = $dateBookArray[1];
+        $dateArray = $dateService->getDates($startDate, $endDate, 1);
+        $dateBook = implode(',', $dateArray);
+        $userInfo = (string)$request->input('phone')
+            . ', ' . $request->input('user_name')
+            . ', ' . $request->input('age')
+            . ', ' . $request->input('district');
+
+        $book = new Booking();
+
+        $book->user_id = Auth::id();
+        $book->date_book = $dateBook;
+        $book->no_in = $startDate;
+        $book->no_out = $endDate;
+        $book->info_book = 1;
+        $book->user_info = $userInfo;
+        $book->confirmed = 1;
+
+        $pay = new Pay();
+        $pay->booking_id = $book->id;
+        $pay->total = $request->total;
+
+        $book->save();
+        $book->pay()->save($pay);
+    }
+
+    /**
+     * @param int $id
+     * @return object
+     */
+    public function findDatesById(int $id): object
+    {
+        return $this->bookingRepository->findDatesById($id);
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function updateDates(Request $request)
+    {
+        $dateStart = date('d.m.Y', strtotime($request->input('date_in')));
+        $dateStop = date('d.m.Y', strtotime($request->input('date_out')));
+        $dateBook = $this->dateService->getDates($dateStart, $dateStop, 1);
+        $data = [
+            'no_in' => $dateStart,
+            'no_out' => $dateStop,
+            'date_book' => implode(',', $dateBook)
+        ];
+
+        $this->bookingRepository->updateDates($data, $request->id);
     }
 
 

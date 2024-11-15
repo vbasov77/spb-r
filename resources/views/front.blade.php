@@ -2,130 +2,13 @@
 @section('content')
 
     <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
-    <style>
 
-        .call-to-action {
-            position: relative;
-            background-color: #343a40;
-            background: url("../assets/img/bg-masthead.jpg") no-repeat center center;
-            background-size: cover;
-            padding-top: 7rem;
-            padding-bottom: 7rem;
-        }
-
-        .call-to-action:before {
-            content: "";
-            position: absolute;
-            background-color: #1c375e;
-            height: 100%;
-            width: 100%;
-            top: 0;
-            left: 0;
-            opacity: 0.5;
-        }
-
-        footer.footer {
-            padding-top: 4rem;
-            padding-bottom: 4rem;
-        }
-
-        .line-height {
-            line-height: 50px;
-        }
-
-        .bg-banner {
-            background-color: rgba(0, 0, 0, 0.4);
-        }
-
-        .width-adaptive {
-            width: 100%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .width-adaptive80 {
-            width: 80%;
-        }
-
-        .width-adaptive60 {
-            width: 60%;
-        }
-
-        .body-front {
-
-            font-size: 26px;
-            color: #7A7A7A;
-        }
-
-        iframe {
-            width: 98%;
-        }
-
-        @media screen and (max-width: 600px) {
-            .body-front {
-                font-size: 20px;
-            }
-
-
-            .body-white {
-                font-size: 20px;
-                color: #fff;
-            }
-
-            .width-adaptive {
-                width: 100%;
-            }
-
-            .width-adaptive80 {
-                width: 100%;
-            }
-
-            .width-adaptive60 {
-                width: 100%;
-            }
-
-            .col-lg-6.order-lg-first {
-                margin-top: 50px;
-            }
-
-            header.masthead {
-                padding-top: 3rem;
-                padding-bottom: 3rem;
-            }
-
-            .front-gif {
-                display: none;
-            }
-
-            .mob {
-                width: 100%;
-            }
-        }
-
-        main.py-4 {
-            padding-top: 0rem !important;
-        }
-
-        .preloader {
-            height: auto;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            margin-right: -50%;
-            transform: translate(-50%, -50%)
-        }
-    </style>
-
-
-
-    <link href="{{ asset('css/front.css') }}" rel="stylesheet">
     <link href="{{ asset('css/checkbox/radio.css') }}" rel="stylesheet">
-
     <link href="{{ asset('css/pulse_button.css') }}" rel="stylesheet">
-
     <script src="{{ asset('js/fecha.min.js') }}" defer></script>
     <link href="{{ asset('css/hotel-datepicker.css') }}" rel="stylesheet">
     <script src="{{ asset('js/hotel-datepicker/hotel-datepicker.min.js') }}" defer></script>
+    <link href="{{ asset('css/front.css') }}" rel="stylesheet">
     <!-- Masthead-->
     <header class="masthead">
         <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
@@ -183,7 +66,7 @@
 
         </div>
     </section>
-    @include('components.btn-ap')
+    @include('blocks.btn-ap')
     <!-- Projects-->
     <br>
     <br>
@@ -374,11 +257,14 @@
                     <div class="d-flex h-100">
                         <div class="project-text w-100 my-auto text-left text-lg-left">
                             <div class="body-front">
-                                К вашему вниманию предлагаются уютные апартаменты в трёхзвёздочном отеле, расположенном
-                                в непосредственной близости от станции метро «Елизаровская» (всего 10 минут пешком).
-                                Отель находится по адресу проспект Обуховской обороны, дом 123а. В непосредственной
-                                близости от отеля расположены кафе, рестораны, а также супермаркеты «Магнит», «Дикси» и
-                                «Красное & Белое».
+                                Мы рады предложить вам уютную небольшую студию в апарт-отеле, который расположен на
+                                самой набережной Невы, всего в 10 минутах ходьбы от станции метро «Елизаровская».
+                                Апарт-отель находится по адресу проспект Обуховской обороны, дом 123а. В
+                                непосредственной близости от него вы найдете множество кафе, ресторанов и супермаркетов,
+                                таких как «Магнит», «Дикси» и «Красное & Белое».
+                                @include('blocks.popup')
+                                <br>
+                                <center><a href="#" class="open-popup">Правила въезда</a></center>
                             </div>
                         </div>
                     </div>
@@ -501,19 +387,20 @@
                     <div class="d-flex h-100">
 
                         <div style="float: left" class="body-front">
-                            <em>Одна станция метро:</em> <br><img style="width: 30px; opacity: .6"
-                                                                  src="{{ asset('img/metro.svg')}}" alt="">
+                            <em>Одна станция метро:</em> <br><img style="width: 30px; opacity: .6; margin-bottom: 10px;"
+                                                                  src="{{ asset('icons/metro.svg')}}" alt="">
                             <strong>Площадь Александра Невского</strong>:
                             Свято-Троицкая
                             Александро-Невская лавра.<br>
-                            <em>Две станции</em>: <strong><img style="width: 30px; opacity: .6"
-                                                               src="{{ asset('img/metro.svg')}}">
-                                Маяковская, <img style="width: 30px; opacity: .6" src="{{ asset('img/metro.svg')}}"
+                            <em>Две станции</em>: <strong><img style="width: 30px; opacity: .6; margin-bottom: 10px;"
+                                                               src="{{ asset('icons/metro.svg')}}">
+                                Маяковская, <img style="width: 30px; opacity: .6; margin-bottom: 10px;"
+                                                 src="{{ asset('icons/metro.svg')}}"
                                                  alt=""> Площадь Восстания</strong>: ТРЦ Галерея,
                             БКЗ
                             Октябрьский.<br>
-                            <em>Три станции</em>: <strong><img style="width: 30px; opacity: .6"
-                                                               src="{{ asset('img/metro.svg')}}" alt="">
+                            <em>Три станции</em>: <strong><img style="width: 30px; opacity: .6; margin-bottom: 10px;"
+                                                               src="{{ asset('icons/metro.svg')}}" alt="">
                                 Гостинный Двор</strong>: Казанский Собор, Спас на
                             Крови,
                             Гостинный Двор, Эрмитаж.
@@ -524,22 +411,8 @@
             <br>
             <center><h4 class="marginTop">Смотреть видео</h4></center>
             <br>
-{{--            <div class="row gx-0 mb-4 mb-lg-5 align-items-center">--}}
-{{--                <div class="col-lg">--}}
-{{--                    <iframe width="560" height="315" src="https://www.youtube.com/embed/J8HJz1pACsQ"--}}
-{{--                            title="YouTube video player" frameborder="0"--}}
-{{--                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"--}}
-{{--                            allowfullscreen></iframe>--}}
-{{--                </div>--}}
-{{--                <div class="col-lg">--}}
-{{--                    <iframe width="560" height="315" src="https://www.youtube.com/embed/pUeHjTWTH_Q"--}}
-{{--                            title="YouTube video player" frameborder="0"--}}
-{{--                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"--}}
-{{--                            allowfullscreen></iframe>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <br>--}}
-
+            @include('blocks.video')
+            <br>
         </div>
     </section>
     <section class="about-section marginTop" id="about">
@@ -596,8 +469,8 @@
     <script>
         var datebook = @json($data['date_book']);
     </script>
-
     <script src="{{ asset('js/buttons/close_button.js') }}" defer></script>
     <script src="{{ asset('js/close/close.js') }}" defer></script>
     <script src="{{ asset('js/calendar.js') }}" defer></script>
+    <script src="{{ asset('js/popup/popup.js') }}" defer></script>
 @endsection

@@ -16,11 +16,19 @@
     }
 
     img.rightM {
+        margin-left: 10px;
         float: right;
         width: 150px;
         height: 150px;
-        object-fit: cover
+        background:#fff;
+        border: solid black;
+        border-color: black;
+    }
 
+    .box3{
+        border-width: 5px 3px 3px 5px;
+        border-radius:95% 4% 97% 5%/4% 94% 3% 95%;
+        transform: rotate(2deg);
     }
 
     @media screen and (max-width: 640px) {
@@ -54,13 +62,13 @@
                                 @if(!empty($img[0]))
 
                                     <img src="{{$img[0]}}"
-                                         height="150px" width="auto" class="rightM">
+                                         height="150px" width="auto" class="rightM box3">
                                 @else
                                     <img src="{{ asset("images/no_image/no_image.jpg") }}"
                                          height="150px" width="auto"
-                                         class="rightM">
+                                         class="rightM box3">
                                 @endif
-                                {!!nl2br(e(mb_substr($item ['text'],  0, 200, 'UTF-8'))) !!}...
+                                {{mb_substr($item ['text'],  0, 250, 'UTF-8') }}...
                                 <br>
                                 <p style="font-size: 10px; margin-top: 20px; float: left">{{date('d.m.Y', strtotime($item['created_at']))}}</p>
                             </a>

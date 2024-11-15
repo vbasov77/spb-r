@@ -88,7 +88,10 @@
                                     <br>
                                     <form action="{{route('admin.in.archive')}}" method="post">
                                         @csrf
-                                        <input type="hidden" name="id" value="{{$data[$i][0]->id }}"/>
+                                        <input type="hidden" name="id" value="{{$data[$i][0]->id}}"/>
+                                        <input type="hidden" name="date_in" value="{{$data[$i][0]->no_in}}"/>
+                                        <input type="hidden" name="date_out" value="{{$data[$i][0]->no_out}}"/>
+                                        <input type="hidden" name="total" value="{{$data[$i][0]->total}}"/>
                                         <i>Отзыв администратора</i><br>
                                         <input type="text" name="comment" id="comment" class="form-control"
                                                placeholder="Отзыв администратора"/>
@@ -96,7 +99,6 @@
                                         <div>
                                             <input id="submit" class="btn btn-outline-dark btn-sm" type="submit"
                                                    value="В архив"/>
-
                                         </div>
                                     </form>
 

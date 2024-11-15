@@ -1,0 +1,94 @@
+*, :after, :before {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans';
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    line-height: 1.42;
+}
+
+/*.section{*/
+/*  padding: 4em 1.5rem;*/
+/*}*/
+.section h2 {
+    font-size: 30px;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+
+.section__inner {
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.bg {
+    height: 90vh;
+    background-repeat: no-repeat;
+    background-position: 50% 0%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFF;
+}
+
+.bg--1 {
+    position: relative;
+    background-image: url('../../images/front/hero_bg_2.jpg');
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+.bg--2 {
+    position: relative;
+    background-image: url('../../images/front/t45y45y45.jpg');
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+.bg--1:after, .bg--2:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .2);
+    z-index: 2;
+}
+
+.inner {
+    position: relative;
+    z-index: 3;
+    color: #fff;
+    width: 80%;
+}
+
+
+/*.bg--3{*/
+/*  background-image: url('../img/bg3.jpg');*/
+/*}*/
+/*.bg--4{*/
+/*  background-image: url('../img/bg4.jpg');*/
+/*}*/
+
+.font_slider h1 {
+    font-size: 3.3em
+}
+
+.w-block {
+    display: block;
+    width: 80%;
+}
+
+@media screen and (max-width: 640px) {
+    .font_slider h1 {
+        font-size: 2em
+    }
+}

@@ -17,7 +17,9 @@ class Reports extends Migration
             $table->id();
             $table->integer('count_night')->nullable();
             $table->integer('sum')->nullable();
-            $table->string('m&y')->nullable();
+            $table->string('v_period')->nullable();
+            $table->string('expenses')->default(0);
+            $table->string('info_expenses')->nullable();
         });
     }
 

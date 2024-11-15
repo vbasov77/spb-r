@@ -61,8 +61,8 @@
                     <div class="col-9">
                         <nav class="site-navigation text-right" role="navigation">
                             <div class="container">
-                                <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#"
-                                                                                              class="site-menu-toggle js-menu-toggle text-black"><span
+                                <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3">
+                                    <a href="#" class="site-menu-toggle js-menu-toggle text-black"><span
                                                 class="icon-menu h3"></span></a></div>
                                 <ul class="site-menu js-clone-nav d-none d-lg-block">
                                     @guest
@@ -71,7 +71,8 @@
                                         </li>
                                         @if (Route::has('register'))
                                             <li class="nav-item">
-                                                <a class="nav-link" href="{{ route('register') }}">{{ __('Регистрация') }}</a>
+                                                <a class="nav-link"
+                                                   href="{{ route('register') }}">{{ __('Регистрация') }}</a>
                                             </li>
                                         @endif
                                     @else
@@ -93,6 +94,7 @@
                                     @endguest
                                     <li class="active"><a href="{{route('front')}}">{{__('Главная')}}</a></li>
                                 </ul>
+
                             </div>
                         </nav>
                     </div>
@@ -103,7 +105,7 @@
 
     <center>
         <main class="py-4">
-            @include('components.btn-ap')
+            @include('blocks.btn-ap')
             @yield('content')
         </main>
     </center>

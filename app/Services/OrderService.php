@@ -46,25 +46,19 @@ class OrderService extends Service
         return $bookingNoIn;
     }
 
-    public function deleteOrder(int $id): array
+    public function deleteOrder(object $booking): void
     {
-        $booking = $this->bookingService->getBookingByOrderId($id)[0];
         $data = [
             'user_id' => $booking->user_id,
-            'date_book' => $booking->date_book,
-            'info_book' => $booking->info_book,
+            'date_in' => $booking->no_in,
+            'date_out' => $booking->no_out,
             'user_info' => $booking->user_info,
-            'confirmed' => $booking->confirmed,
-            'total' => $booking->total,
-            'info_pay' => $booking->info_pay,
+            'total' => 0,
             'comment' => "Удалено пользователем",
-            'created_at' => $booking->created_at,
         ];
 
         $this->archiveService->save($data);
-        $this->bookingService->delete($id);
-
-        return $data;
+        $this->bookingService->delete($booking->id);
     }
 
 

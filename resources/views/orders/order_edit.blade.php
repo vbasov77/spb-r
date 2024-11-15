@@ -28,7 +28,6 @@
                             <label for="id"><b>ID заказа</b></label><br>
                             <input class="form-control" value="{{$order['id']}} "
                                    readonly="readonly" type="text" name="id"><br>
-
                         </div>
 
                         <div class="border_none">
@@ -37,9 +36,13 @@
                             <input class="form-control"
                                    value="{{$order['no_in']}} - {{$order['no_out']}}"
                                    readonly="readonly" type="text"
-                                   name="date_book"><br>
-                        </div>
+                                   name="date_book">
 
+                            <a onClick="return confirm('Подтвердите действие!')"
+                               href='{{route("admin.edit.dates", ['id' => $order->id])}}' type='button'
+                               class='btn btn-outline-success btn-sm' style="margin: 5px">Редактировать даты</a>
+                        </div>
+                        <br>
                         <div class="border_none">
                             <label for="name"><b>ФИО:</b></label><br>
                             <input class="form-control  @error("name") is-invalid @enderror"
@@ -55,7 +58,6 @@
                                    readonly="readonly"
                                    value="{{ old('phone') ?? $order['phone']  }}"
                                    type="text" name="phone"><br>
-
                         </div>
 
                         <div class="border_none">
@@ -64,8 +66,8 @@
                                    value="{{ old('email') ?? $order['email']  }}" type="text"
                                    readonly="readonly"
                                    name="email"><br>
-
                         </div>
+
                         <br>
                         <div class="border_none">
                             <label for="total"><b>Сумма:</b></label><br>
@@ -73,8 +75,10 @@
                                    value="{{ old('total') ?? $order['total']  }}" type="text"
                                    name="total"><br>
                         </div>
+
                         <div>
-                            <input class="btn btn-outline-primary" type="submit" value="Редактировать">
+                            <input class="btn btn-outline-primary btn-sm" type="submit" value="Редактировать">
+                            <br>
                         </div>
                         <br>
                         <br>

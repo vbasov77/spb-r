@@ -56,7 +56,7 @@
                         <br>
                         <div id="file" class="upload"></div>
                         <br>
-                        <div class="preview"></div>
+
                         <div class="files" id="files"></div>
                         <div class="file" id="file">
                             @if (!empty($images))
@@ -67,6 +67,7 @@
                                 @endforeach
                             @endif
                         </div>
+
                         <button class="btn btn-primary btn-sm submit" id="submit" type="submit">Сохранить</button>
                         <a class="btn btn-success btn-sm" style="color: white;"
                            type='button' onclick="window.location.href = '{{route('show.place', ['id'=>$data->id])}}';">
@@ -75,7 +76,8 @@
                         <div class="btn btn-danger btn-sm deletePost" type="submit">Удалить пост</div>
                         <img src="{{ asset('images/loader/preloader.svg') }}" width="30px" height="auto" alt=""
                              class="preloader-img"/>
-
+                        <br>
+                        <div class="preview"></div>
                     </form>
 
                 </div>

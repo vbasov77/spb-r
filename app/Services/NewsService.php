@@ -44,24 +44,49 @@ class NewsService extends Service
 
     }
 
+    /**
+     * @param int $id
+     */
     public function destroy(int $id)
     {
         $this->newsRepository->destroy($id);
     }
 
+    /**
+     * @param int $id
+     * @return mixed
+     */
     public function findIds(int $id)
     {
         return $this->newsRepository->findIds($id);
     }
 
+    /**
+     * @param int $userId
+     * @return object
+     */
     public function findByUserId(int $userId): object
     {
         return $this->newsRepository->findByUserId($userId);
     }
 
+    /**
+     * @return object
+     */
     public function findForFrontPage(): object
     {
         return $this->newsRepository->findForFrontPage();
     }
+
+
+    public function update(Request $request, int $id): void
+    {
+        $data = [
+            'text' => $request->input('text')
+        ];
+
+        $this->newsRepository->update($data, $id);
+    }
+
 
 }

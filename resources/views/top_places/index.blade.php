@@ -39,7 +39,7 @@
     </style>
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
-            <div id="col-md" class="col-md-9">
+            <div id="col-md" class="col-md-10">
                 @if(count($places))
                     @foreach($places as $place)
                         <div class="card" style="margin-top: 25px;">
@@ -65,7 +65,7 @@
                         </div>
                     @endforeach
                     <br>
-{{--                    {{$places->links()}}--}}
+                    {{--                    {{$places->links()}}--}}
                 @else
                     Нет материала
                 @endif
