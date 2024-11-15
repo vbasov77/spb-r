@@ -25,17 +25,17 @@ class KeyRepository extends Repository
 
     public function idGroupVk(): int
     {
-        return 7754824; // 7754824(prod) | 227627516(test)
+        return 227627516; // 7754824(prod) | 227627516(test)
     }
 
     public function idGroupVkAnimal(): int
     {
-        return 21413221; // 21413221(prod) | 227627516(test)
+        return 227627516; // 21413221(prod) | 227627516(test)
     }
 
     public function idTgChannel(): string
     {
-        return "-1002415592751"; // -1002415592751(prod) | -1002453188364(test)
+        return "-1002453188364"; // -1002415592751(prod) | -1002453188364(test)
     }
 
 }

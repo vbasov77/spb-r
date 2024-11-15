@@ -21,14 +21,11 @@ class Archive extends Migration
             $table->foreign('user_id')
                 ->references('id')->on('users')
                 ->onDelete('cascade');
-            $table->string('date_book');
-            $table->text('info_book');
-            $table->string('user_info');
-            $table->integer('confirmed');
+            $table->string('date_in');
+            $table->string('date_out');
+
             $table->integer('total');
-            $table->string('info_pay');
             $table->string('comment');
-            $table->string('created_at');
         });
     }
 

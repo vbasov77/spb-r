@@ -56,7 +56,7 @@ class BookingController extends Controller
     }
 
     /**
-     * 3 Этап.
+     * 3 Этап. Финал
      * Добавление бронирования в БД
      *
      * @param Request $request
@@ -73,7 +73,7 @@ class BookingController extends Controller
         $checkBooking = $this->bookingService->checkingForEmployment($request->info_book, $request->input('phone'),
             $request->input('email'));
         if ($checkBooking == true) {
-            $user = explode(",", preg_replace('/\s+?\'\s+?/', '\'', $request->more_book [0]));
+            $user = explode(",", preg_replace('/\s+?\'\s+?/', '\'', $request->more_book[0]));
             $userName = $user[0];
             $email = $request->email;
 
@@ -118,7 +118,7 @@ class BookingController extends Controller
          *  цену по каждому дню.
          *
          */
-        $dates = preg_replace("/\s+/", "", $request->date_book);// удалили пробелы
+        $dates = preg_replace("/\s+/", "", $request->input('date_book'));// удалили пробелы
         $dates = explode("-", $dates);// разбили строку на массив
         $countNight = (int)$dateService->getCountNight($dates[0], $dates[1]);//Количество ночей
         $infoBook = (array)$dateService->getInfo($dates[0], $dates[1], $countNight);
@@ -132,9 +132,9 @@ class BookingController extends Controller
 
     }
 
-
     public function ViewAddOrderIsAdmin(BookingService $bookingService): View
     {
+
         $data = $bookingService->getBookingDates();
         return view("orders.add_order_adm", ['data' => $data]);
     }
@@ -145,7 +145,7 @@ class BookingController extends Controller
      */
     public function addOrderIsAdmin(Request $request): RedirectResponse
     {
-        $dates = preg_replace("/\s+/", "", $request->date_book);
+        $dates = preg_replace("/\s+/", "", $request->input('date_book'));
         $datesArr = explode('-', $dates);
         $check = $this->bookingService->checkingForEmploymentAll($datesArr[0], $datesArr[1], 1);
         if ($check) {

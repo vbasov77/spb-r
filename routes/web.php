@@ -21,6 +21,9 @@ use App\Http\Controllers\Admin\Parsers\NewsWallGroupsController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\TopPlacesController;
 use App\Http\Controllers\Admin\ImgPlaceController;
+use App\Http\Controllers\MissedDatesController;
+use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +61,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
         ->where("id", "\d+")->middleware('admin');
     Route::post('/order/edit', [OrderController::class, 'edit'])->name('order.edit')
         ->middleware('admin');
+
+    Route::get('/edit/{id}/dates', [OrderController::class, 'editDates'])->name('edit.dates')
+        ->where("id", "\d+")->middleware('admin');
+    Route::post('/update_dates', [OrderController::class, 'updateDates'])->name('update.dates')
+        ->middleware('admin');
+
     Route::get('/orders', [OrderController::class, 'ordersList'])->name("orders")
         ->middleware('admin');
     Route::get('/order/{id}/reject', [OrderController::class, 'reject'])->name('order.reject')
@@ -75,15 +84,23 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
 
     Route::post('/in_archive', [ArchiveController::class, 'entryArchive'])->name('in.archive')
         ->middleware('admin');
+    Route::post('/update_archive', [ArchiveController::class, 'update'])->name('update.archive')
+        ->middleware('admin');
     Route::get('/view/{id}/archive', [ArchiveController::class, 'index'])->name('view.archive')
-        ->middleware('admin')->where("id", "\d+");
+        ->middleware('admin');
+    Route::get('/edit/{id}/archive', [ArchiveController::class, 'edit'])->name('edit.archive')
+        ->middleware('admin');
     Route::get('/archive', [ArchiveController::class, 'viewAll'])->name('archive')
         ->middleware('admin');
     Route::get('/archive/{id}/delete', [ArchiveController::class, 'delete'])->name('delete.archive')
-        ->middleware('admin')->where("id", "\d+");
+        ->middleware('admin');
 
 
     Route::get('/reports', [ReportController::class, 'index'])->name('reports')
+        ->middleware('admin');
+    Route::get('/create-report', [ReportController::class, 'update'])->name('create.report')
+        ->middleware('admin');
+    Route::post('/edit-report', [ReportController::class, 'edit'])->name('edit.report')
         ->middleware('admin');
 
     Route::match(["get", "post"], '/front_edit', [SettingsController::class, 'front'])->name("front.edit")
@@ -102,9 +119,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
     Route::match(['get', 'post'], '/schedule_add', [ScheduleController::class, 'add'])->name('schedule.add')
         ->middleware('admin');
     Route::match(['get', 'post'], '/edit_schedule_mass', [ScheduleController::class, 'edit'])->name('edit.schedule.mass')->middleware('admin');
-    Route::get('/view_add_order_is_admin', [BookingController::class, 'ViewAddOrderIsAdmin'])->name('view_add_order_is_admin')->middleware('admin');
+    Route::get('/view_add_order_is_admin', [BookingController::class, 'viewAddOrderIsAdmin'])->name('view_add_order_is_admin')->middleware('admin');
     Route::post('/add_order_is_admin', [BookingController::class, 'addOrderIsAdmin'])->name('add_order_is_admin')->middleware('admin');
 
+    Route::get('/missed_dates', [MissedDatesController::class, 'create'])->name('missed.dates')->middleware('admin');
+    Route::post('/store_missed_dates', [MissedDatesController::class, 'store'])->name('store_missed_dates')->middleware('admin');
 
     Route::post('/storeNewsWallGroups', [NewsWallGroupsController::class, 'storeNewsWallGroups'])->name('parser.store-wallGroupsNews')->middleware('admin');
     Route::get('/parser-wallGroupsNews', [NewsWallGroupsController::class, 'showGetNewsWallGroups'])->name('parser.view-wallGroupsNews')->middleware('admin');
@@ -124,6 +143,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
     Route::post('/edit_place/id{id}', [TopPlacesController::class, 'update'])->middleware('admin');
     Route::delete('/delete-place/id{id}', [TopPlacesController::class, 'destroy'])->middleware('admin');
 
+    Route::get('/news-edit', [NewsController::class, 'edit'])->name('edit.news')->middleware('admin');
+    Route::post('/news-create', [NewsController::class, 'update'])->name('update.news')->middleware('admin');
+
 });
 
 Route::get('/show-place/id{id}', [TopPlacesController::class, 'show'])->name('show.place');
@@ -141,6 +163,11 @@ Route::get('/error-message', [ErrorController::class, 'view'])->name('error.mess
 
 
 Route::get('/', [FrontController::class, 'front'])->name("front");
+Route::get('/portfolio', [PortfolioController::class, 'show'])->name("portfolio");
+Route::get('/articles', [ArticleController::class, 'viewAll'])->name("articles");
+Route::get('/article/id{id}', [ArticleController::class, 'index'])
+    ->name('article');
+Route::get('/work{id}', 'MyWorksController@view')->name('work.id');
 
 Route::post('/add_dates', [BookingController::class, 'addDates'])->name("add.dates");
 Route::post('/order_info', [BookingController::class, 'orderInfo'])->name("add.order.info");

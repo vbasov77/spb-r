@@ -14,11 +14,19 @@ use Illuminate\Support\Facades\DB;
 class BookingRepository extends Repository
 {
 
+    /**
+     * @param int $id
+     * @return object
+     */
     public function findById(int $id): object
     {
         return Booking::find($id);
     }
 
+    /**
+     * @param int $id
+     * @return object
+     */
     public function findAllById(int $id): object
     {
         $bookings = Booking::where("booking.user_id", $id)
@@ -29,21 +37,34 @@ class BookingRepository extends Repository
         return $bookings;
     }
 
+    /**
+     * @return object
+     */
     public function findAll(): object
     {
         return Booking::where('confirmed', 1)->get();
     }
 
+    /**
+     * @return object
+     */
     public function getBookingNoInTable(): object
     {
         return Booking::pluck('no_in');
     }
 
+    /**
+     * @param int $id
+     */
     public function delete(int $id): void
     {
         Booking::where("id", $id)->delete();
     }
 
+    /**
+     * @param int $id
+     * @return object
+     */
     public function getBookingByOrderId(int $id): object
     {
         return Booking::leftJoin("users", "booking.user_id", "=", "users.id")
@@ -54,13 +75,19 @@ class BookingRepository extends Repository
                 'users.email', 'user_phone.phone']);
     }
 
-
+    /**
+     * @param array $data
+     * @return int
+     */
     public function addBooking(array $data): int
     {
         return Booking::insertGetId($data);
     }
 
-
+    /**
+     * @param string $noIn
+     * @return array
+     */
     public function getBookingNoIn(string $noIn): array
     {
         $booking = DB::select("select b.*, p.pay, p.total, p.info_pay, up.phone, us.name,
@@ -74,6 +101,9 @@ where b.no_in = " . '"' . $noIn . '"');
         return $booking;
     }
 
+    /**
+     * @param EditOrderRequest $editOrderRequest
+     */
     public function updateOrder(EditOrderRequest $editOrderRequest): void
     {
         $pay = Pay::where('booking_id', $editOrderRequest->input('id'))->first();
@@ -90,6 +120,9 @@ where b.no_in = " . '"' . $noIn . '"');
         }
     }
 
+    /**
+     * @param int $id
+     */
     public function confirmOrder(int $id): void
     {
         $data = [
@@ -98,16 +131,28 @@ where b.no_in = " . '"' . $noIn . '"');
         Booking::where('id', $id)->update($data);
     }
 
+    /**
+     * @param int $id
+     * @param string $infoPay
+     */
     public function updateInfoPay(int $id, string $infoPay): void
     {
         Pay::where('booking_id', $id)->update(['pay' => 1, 'info_pay' => $infoPay]);
     }
 
+    /**
+     * @return object
+     */
     public function getDateBooks(): object
     {
         return Booking::get('date_book');
     }
 
+    /**
+     * @param string $phone
+     * @param string $email
+     * @return object
+     */
     public function getDateBooksByPhone(string $phone, string $email): object
     {
         return DB::table('booking')
@@ -116,6 +161,24 @@ where b.no_in = " . '"' . $noIn . '"');
             ->where('user_phone.phone', $phone)
             ->orWhere('users.email', $email)
             ->get('booking.date_book');
+    }
+
+    /**
+     * @param int $id
+     * @return object
+     */
+    public function findDatesById(int $id): object
+    {
+        return Booking::where('id', $id)->get(['id', 'no_in', 'no_out']);
+    }
+
+    /**
+     * @param array $data
+     * @param int $id
+     */
+    public function updateDates(array $data, int $id)
+    {
+        Booking::where('id', $id)->update($data);
     }
 
 }

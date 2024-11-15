@@ -115,11 +115,13 @@ class DateService extends Service
     {
         $in = date("m.Y", strtotime($date[0]));
         $out = date("m.Y", strtotime($date[1]));
+        $countNight = self::getCountNight($date[0], $date[1]);
+        $costDay = $sum / $countNight;
 
         if ($in === $out) {
             $month = $in;
-            $countNight = self::getCountNight($date[0], $date[1]);
-            $result = Reports::where('m&y', $month)->get();
+
+            $result = Reports::where('v_period', $month)->get();
             $data = [];
             if (!empty(count($result))) {
                 $data[] = $result[0]->count_night;
@@ -127,6 +129,7 @@ class DateService extends Service
             }
             self::setReportInTable($data, $countNight, $sum, $month, $condition);
         } else {
+
             $dateService = new DateService();
             // Если даты захватывают два месяца, то разбиваем диапазон дат на два массива по каждому месяцу,
             $endDatesFirstArray = date('t', strtotime($date[0])) . "." . date('m.Y', strtotime($date[0]));// Получаем последнюю дату месяца 31.02.2022
@@ -135,20 +138,13 @@ class DateService extends Service
             unset($firstDatesArray[0]);
 
             if (count($firstDatesArray)) {
-                $firstStr = $this->scheduleService->getStrInDb(array_values($firstDatesArray)); // Получили стороку для БД
-                $firstArray = $this->scheduleService->findByDatesBook($firstStr); // Получили
 
                 //Получаем сумму по датам первого массива
-                $totalFirstArray = [];
-                foreach ($firstArray as $firstCost) {
-                    $totalFirstArray[] = $firstCost->cost;
-                }
-
-                $totalFirst = array_sum($totalFirstArray);// Вся сумма первого массива
+                $totalFirst = count($firstDatesArray) * $costDay;// Вся сумма первого массива
                 $monthFirst = date('m.Y', strtotime($date[0]));
-
                 $result = $this->reportService->findByMonth($monthFirst);
                 $data = [];
+
                 if (!empty(count($result))) {
                     $data[] = $result[0]->count_night;
                     $data[] = $result[0]->sum;
@@ -163,14 +159,8 @@ class DateService extends Service
             $secondArray = $dateService->getDates($firstDatesSecondArray, $date[1], 0);// Получаем массив дат
 
             if (count($secondArray)) {
-                $str = $this->scheduleService->getStrInDb($secondArray);
 
-                $secondArray = $this->scheduleService->findByDatesBook($str);
-                $totalSecondArray = [];
-                foreach ($secondArray as $cost) {
-                    $totalSecondArray[] = $cost->cost;
-                }
-                $totalSecond = array_sum($totalSecondArray);// Вся сумма второго массива
+                $totalSecond = count($secondArray) * $costDay;// Вся сумма второго массива
                 $monthSecond = date('m.Y', strtotime($date[1]));
                 $dateService = new DateService();
 
@@ -199,7 +189,7 @@ class DateService extends Service
                 $night = $data[0] - $countNight;
                 $new_sum = $data[1] - $sum;
             }
-            Reports::where('m&y', $month)->update(
+            Reports::where('v_period', $month)->update(
                 [
                     'count_night' => $night,
                     'sum' => $new_sum
@@ -208,7 +198,7 @@ class DateService extends Service
             Reports::insert([
                 'count_night' => $countNight,
                 'sum' => $sum,
-                'm&y' => $month
+                'v_period' => $month
             ]);
         }
 

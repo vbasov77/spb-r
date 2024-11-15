@@ -28,4 +28,14 @@ class ArchiveRepository extends Repository
     {
         Archive::where("id", $id)->delete();
     }
+
+    public function getDatesIn()
+    {
+        return Archive::pluck('date_in');
+    }
+
+    public function update(array $data, int $id): void
+    {
+        Archive::where('id', $id)->update($data);
+    }
 }

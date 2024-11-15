@@ -6,6 +6,7 @@ use App\Repositories\KeyRepository;
 use App\Services\NewsService;
 use App\Services\TelegramService;
 use App\Services\VkService;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,6 +54,10 @@ class NewsController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
     public function store(Request $request)
     {
         $dataVk = '';
@@ -110,7 +115,10 @@ class NewsController extends Controller
 
     }
 
-
+    /**
+     * @param Request $request
+     * @return View
+     */
     public function show(Request $request): View
     {
         $post = $this->newsService->findById($request->id);
@@ -124,26 +132,26 @@ class NewsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response
+     * @param Request $request
+     * @return Factory|View
      */
-    public function edit($id)
+    public function edit(Request $request)
     {
-        //
+        $news = $this->newsService->findById($request->input('id'));
+
+        return view('news.edit', ['news' => $news]);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return Response
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request): RedirectResponse
     {
-        //
+        $id = (int) $request->input('id');
+        $this->newsService->update($request, $id);
+
+        return redirect()->route('post', ['id' => $id]);
     }
 
     /**
@@ -153,13 +161,9 @@ class NewsController extends Controller
     {
         try {
             $id = $request->id;
-
             $findIds = $this->newsService->findIds($id);
-
             $this->vkService->destroyPostVk($findIds);
-
             $this->telegramService->destroyTgPost($findIds);
-
             $this->newsService->destroy($id);
 
             exit(json_encode(true));

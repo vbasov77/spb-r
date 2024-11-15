@@ -12,10 +12,19 @@
         }
 
         img.rightM {
+            margin-left: 10px;
             float: right;
             width: 150px;
             height: 150px;
+            background:#fff;
+            border: solid black;
+            border-color: black;
+        }
 
+        .box3{
+            border-width: 5px 3px 3px 5px;
+            border-radius:95% 4% 97% 5%/4% 94% 3% 95%;
+            transform: rotate(2deg);
         }
 
         @media screen and (max-width: 640px) {
@@ -53,11 +62,11 @@
                                     @if(!empty($img[0]))
 
                                         <img src="{{$img[0]}}"
-                                             height="150px" width="auto" class="rightM" style="object-fit: cover;">
+                                             height="150px" width="auto" class="rightM box3" style="object-fit: cover;">
                                     @else
                                         <img src="{{ asset("images/no_image/no_image.jpg") }}"
                                              height="150px" width="auto"
-                                             class="rightM">
+                                             class="rightM box3">
                                     @endif
                                     <div class="textBlock">
                                         {{mb_substr($item ['text'],  0, 250, 'UTF-8') }}...
