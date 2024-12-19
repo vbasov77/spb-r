@@ -2,21 +2,14 @@
 
 namespace App\Providers;
 
-use App\Repositories\ArchiveRepository;
-use App\Repositories\BookingRepository;
-use App\Repositories\PayRepository;
-use App\Repositories\QueueRepository;
-use App\Repositories\ReportRepository;
-use App\Repositories\Repository;
-use App\Repositories\ScheduleRepository;
-use App\Repositories\SettingsRepository;
-use App\Repositories\UserRepository;
+use App\Http\Services\ObjService;
 use App\Services\ArchiveService;
 use App\Services\BookingService;
 use App\Services\DateService;
 use App\Services\KeyService;
 use App\Services\MailService;
 use App\Services\NewsService;
+use App\Services\ObjectService;
 use App\Services\OrderService;
 use App\Services\PayService;
 use App\Services\QueueService;
@@ -53,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(Service::class, NewsService::class);
         $this->app->bind(Service::class, VkService::class);
         $this->app->bind(Service::class, TopPlaceService::class);
+        $this->app->bind(Service::class, ObjectService::class);
     }
 
     /**

@@ -37,6 +37,55 @@ class VkService extends Service
         return json_decode($this->requestRepository->post($url, $params));
     }
 
+    public function createImgMaterial(Request $request, int $groupId)
+    {
+        $accessToken = $this->keyRepository->accessToken();
+        // Получение сервера vk для загрузки изображения.
+        $urlGetWallUploadServer = 'https://api.vk.com/method/photos.getWallUploadServer';
+        $data = [
+            'group_id' => $groupId,
+            'access_token' => $accessToken,
+            'v' => 5.131
+        ];
+
+        $server = json_decode($this->requestRepository->post($urlGetWallUploadServer, $data));
+
+        if (!empty($request->file('file'))) {
+            $count = count($request->file('file'));
+
+            for ($i = 0; $i < $count; $i++) {
+                $image = $request->file('file')[$i]->path();
+                if (!empty($server->response->upload_url)) {
+
+                    // Отправка изображения на сервер.
+                    if (function_exists('curl_file_create')) {
+                        $curlFile = curl_file_create($image, 'image/jpeg', 'image.jpg');
+                    } else {
+                        $curlFile = '@' . $image;
+                    }
+                    $json = json_decode($this->requestRepository->postFile($server->response->upload_url, $curlFile), true);
+
+                    // Сохранение фото в группе.
+                    $urlSaveWallPhoto = 'https://api.vk.com/method/photos.saveWallPhoto';
+                    $dataSaveWallPhoto = [
+                        'group_id' => $groupId,
+                        'server' => $json['server'],
+                        'photo' => stripslashes($json['photo']),
+                        'hash' => $json['hash'],
+                        'access_token' => $accessToken,
+                        'v' => 5.131
+                    ];
+                    $save[] = json_decode($this->requestRepository->post($urlSaveWallPhoto, $dataSaveWallPhoto));
+                }
+            }
+            $countImages = count($save);
+
+            for ($l = 0; $l < $countImages; $l++) {
+                $files[] = 'photo' . $save[$l]->response[0]->owner_id . '_' . $save[$l]->response[0]->id;
+            }
+        }
+
+    }
 
     public function getWallUploadServer(Request $request, int $groupId)
     {

@@ -8,6 +8,7 @@ use App\Services\BookingService;
 use App\Services\NewsService;
 use App\Services\SettingsService;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -26,10 +27,15 @@ class FrontController extends Controller
 
     /**
      * @param BookingService $bookingService
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|View
+     * @return Factory|RedirectResponse|View
      */
     public function front(BookingService $bookingService)
     {
+        if (!empty(Auth::user())) {
+            if (Auth::user()->isAdmin()) {
+                return redirect()->route('admin.general');
+            }
+        }
         $data = $bookingService->getBookingDates();
         $settings = new SettingsService();
         $frontSettings = $settings->findSettingsFrontPage();

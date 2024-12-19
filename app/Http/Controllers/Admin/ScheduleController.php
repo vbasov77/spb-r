@@ -7,10 +7,16 @@ use App\Services\DateService;
 use App\Services\ScheduleService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\Factory;
 use Illuminate\View\View;
 
 class ScheduleController extends Controller
 {
+    /**
+     * @param ScheduleService $scheduleService
+     * @param DateService $dateService
+     * @return View
+     */
     public function view(ScheduleService $scheduleService, DateService $dateService): View
     {
         $schedules = $scheduleService->findAll();
@@ -21,6 +27,12 @@ class ScheduleController extends Controller
         return view('schedule.schedule')->with(['dateBook' => $dateBookStr]);
     }
 
+    /**
+     * @param Request $request
+     * @param DateService $dateService
+     * @param ScheduleService $scheduleService
+     * @return Factory|RedirectResponse|View
+     */
     public function edit(Request $request,
                                    DateService $dateService,
                                    ScheduleService $scheduleService)
@@ -47,6 +59,10 @@ class ScheduleController extends Controller
 
     }
 
+    /**
+     * @param ScheduleService $scheduleService
+     * @return View
+     */
     public function delSchedule(ScheduleService $scheduleService): View
     {
         $count = $scheduleService->delSchedule();
@@ -54,6 +70,12 @@ class ScheduleController extends Controller
     }
 
 
+    /**
+     * @param Request $request
+     * @param DateService $dateService
+     * @param ScheduleService $scheduleService
+     * @return Factory|RedirectResponse|View
+     */
     public function add(Request $request, DateService $dateService, ScheduleService $scheduleService)
     {
         if ($request->isMethod('get')) {
@@ -72,17 +94,23 @@ class ScheduleController extends Controller
 
             // Запись расписания
             $scheduleService->createSchedule($array);
+
             return redirect()->action([ScheduleController::class, 'view']);
         }
     }
 
 
+    /**
+     * @param Request $request
+     * @param ScheduleService $scheduleService
+     * @return RedirectResponse
+     */
     public function editScheduleCost(Request $request, ScheduleService $scheduleService)
     {
         $str = $scheduleService->getStrUpdateSchedules($request);
         $scheduleService->updateScheduleCost((string)$str);
-
         $message = "Изменения сохранены";
+
         return redirect()->action([SettingsController::class, 'index'], ['message' => $message]);
     }
 }

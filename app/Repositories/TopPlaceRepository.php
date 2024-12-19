@@ -29,6 +29,9 @@ class TopPlaceRepository extends Repository
         TopPlaces::where('id', $id)->update($place);
     }
 
+    /**
+     * @param int $id
+     */
     public function destroy(int $id): void
     {
         TopPlaces::where('id', $id)->delete();

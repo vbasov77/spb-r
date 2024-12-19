@@ -15,9 +15,12 @@ class Objects extends Migration
     {
         Schema::create('objects', function (Blueprint $table) {
             $table->id();
+            $table->string('address');
             $table->string('count_rooms');
-            $table->string('title')->nullable();
-            $table->text('text_obj')->nullable();
+            $table->string('coordinates');
+            $table->integer('floor');
+            $table->integer('area');
+            $table->integer('active')->default(1);
         });
     }
 

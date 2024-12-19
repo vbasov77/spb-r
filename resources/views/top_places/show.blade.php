@@ -1,26 +1,17 @@
 @extends('layouts.app')
 @section('content')
     <style>
-        .width-slider {
-            width: 60%;
+        .zoom {
+            border: solid black;
+            border-color: black;
         }
 
-        .carousel-inner img {
-            width: 100%;
-            height: 100%;
-        }
-
-        .carousel-inner {
-            height: 400px;
-        }
-
-        @media (max-width: 500px) {
-            .width-slider {
-                width: 100%;
-            }
+        .box3 {
+            border-width: 5px 3px 3px 5px;
+            border-radius: 95% 4% 97% 5%/4% 94% 3% 95%;
         }
     </style>
-
+    <link href="{{ asset('css/gallery.css') }}" rel="stylesheet">
     <section class="projects-section bg-light" id="projects">
         <div class="container px-4 px-lg-5">
             <div class="row align-items-center">
@@ -37,49 +28,20 @@
         <div class="container px-4 px-lg-5">
             <div class="row align-items-center">
                 <div class="col-xl-12">
-                    <div class="width-slider">
-                        {{--
-                                                class="carousel-inner" role="listbox" style=" width:100%; height: 500px !important;"
-                        --}}
-                        <div id="carusel" class="carousel slide" data-ride="carousel">
-                            <ul class="carousel-indicators">
-                                @if(!empty($images))
-                                    @for ($s = 0; $s < count($images); $s++)
-                                        @php
-                                            if ($s == 0){
-                                                 $active = "active";
-                                            } else {$active = "";}
-                                        @endphp
-                                        <li data-target="#carusel" data-slide-to="{{$s}}" class="{{$active}}"></li>
-                                    @endfor
-                                @endif
-                            </ul>
-                            <div class="carousel-inner">
-                                @if(!empty($images))
-                                    @for ($i = 0; $i < count($images); $i++)
-                                        @php
-                                            if ($i == 0){
-                                                $carusel = "carousel-item active";
-                                                 } else {$carusel = "carousel-item";}
-                                        @endphp
-                                        <div class="{{$carusel}}">
-                                            <img src="{{ asset('images/places/' . $images[$i]->path)}}"
-                                                 class="img-fluid" alt="">
-                                        </div>
-                                    @endfor
-                                @else
-                                    <img src="{{ asset('images/no_image/no_image.jpg')}}" alt="">
-                                @endif
-                                <a class="carousel-control-prev" href="#carusel" data-slide="prev">
-                                    <span class="carousel-control-prev-icon"></span>
-                                </a>
-                                <a class="carousel-control-next" href="#carusel" data-slide="next">
-                                    <span class="carousel-control-next-icon"></span>
-                                </a>
-                                <br>
+                    @if(!empty(count($images)))
+                        <div class="container">
+                            <div class="row justify-content-center text-center">
+                                @foreach($images as $image)
+                                    @php($random = rand(-2, 2))
+                                    <div class="col-lg-4 col-md-4 col-xs-6 thumb">
+
+                                        <img src="{{$image->path}}" style="transform: rotate({{$random}}deg);"
+                                             class="zoom img-fluid box3" alt="">
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
             <br>

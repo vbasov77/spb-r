@@ -28,6 +28,11 @@ class KeyRepository extends Repository
         return 227627516; // 7754824(prod) | 227627516(test)
     }
 
+    public function idGroupVkMaterial(): int
+    {
+        return 228381286; // 228375253;
+    }
+
     public function idGroupVkAnimal(): int
     {
         return 227627516; // 21413221(prod) | 227627516(test)

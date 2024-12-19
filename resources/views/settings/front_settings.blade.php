@@ -1,12 +1,17 @@
 @extends('layouts.app')
 @section('content')
 
+    @if(!empty($message))
+        <div class="alert alert-success">
+            {{$message}}
+        </div>
+    @endif
     <section class="about-section text-center" id="about">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8">
                     <h3>Редактировать главную страницу</h3>
-                    <form action="{{route("admin.front.edit")}}" onsubmit="return Validate(this);"
+                    <form action="{{route("admin.front.update")}}" onsubmit="return Validate(this);"
                           enctype="multipart/form-data" method="post">
                         @csrf
                         <div>

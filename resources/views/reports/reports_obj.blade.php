@@ -70,6 +70,9 @@
                         <canvas id="incomeAndExpensesChart" width="600" height="300"></canvas>
                         <br>
                         <canvas id="weekday" width="600" height="300"></canvas>
+                        <br>
+                        <canvas id="countNight" width="600" height="300"></canvas>
+
                     @else
                         Отчётов пока не найдено...
                     @endif
@@ -83,11 +86,13 @@
             var expensesStr = @json($expensesStr);
             var total = @json($total);
             var weekday = @json($weekday);
+            var countNight = @json($countNight);
         </script>
         <script src="{{ asset('js/chart/chart.min.js') }}" defer></script>
         <script src="{{ asset('js/chart/v_chart.js') }}" defer></script>
         <script src="{{ asset('js/chart/income_and_expenses.js') }}" defer></script>
         <script src="{{ asset('js/chart/weekday.js') }}" defer></script>
+        <script src="{{ asset('js/chart/count_night.js') }}" defer></script>
 
     @endpush
 @endsection

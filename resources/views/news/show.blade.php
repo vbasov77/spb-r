@@ -1,7 +1,6 @@
 @extends('layouts.app', ['title' => $post->title])
 @section('content')
     <style>
-
         .zoom {
             border: solid black;
             border-color: black;

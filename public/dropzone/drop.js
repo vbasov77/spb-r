@@ -35,7 +35,6 @@ $(function () {
         dictFileSizeUnits: "Максимум 2 MB",
         dictDefaultMessage: '<div class="dz-button" type="button">Нажмите здесь или перетащите сюда файлы для загрузки</div>',
         success: function (file, response) {
-            var url = file.dataURL;
             var res = JSON.parse(response);
             var str = String(res.images);
             array = str.split(',');

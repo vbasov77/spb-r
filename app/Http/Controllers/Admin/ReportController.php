@@ -36,12 +36,14 @@ class ReportController extends Controller
         $expensesStr = $this->reportService->getExpensesStr($reports);
         $total = $this->reportService->getTotalSumStr($sumStr, $expensesStr);
         $weekDay = $this->reportService->getCountWeekday();
+        $countNight = $this->reportService->getCountNight($reports);
 
         return view('reports.reports_obj', [
             'reports' => $reports,
             'sumStr' => $sumStr,
             'expensesStr' => $expensesStr,
             'total' => $total,
+            'countNight' => $countNight,
             'weekday' => $weekDay
         ]);
     }

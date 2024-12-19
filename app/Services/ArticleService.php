@@ -5,19 +5,34 @@ namespace App\Services;
 
 
 use App\Repositories\ArticleRepository;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
-use phpDocumentor\Reflection\DocBlock\Serializer;
 
-class ArticleService extends Serializer
+
+class ArticleService extends Service
 {
     private $articleRepository;
 
 
+    /**
+     * ArticleService constructor.
+     */
     public function __construct()
     {
         $this->articleRepository = new ArticleRepository();
     }
 
+    public function findByTag(Request $request)
+    {
+        return $this->articleRepository->findByTag($request->input('tag'));
+    }
+
+
+    /**
+     * @param $articles
+     * @return array
+     */
     public function getArticleTags($articles): array
     {
         $tags = [];
@@ -26,52 +41,49 @@ class ArticleService extends Serializer
             //удалили пробелы после запятой
         }
         $tags = array_unique(Arr::collapse($tags));
+
         return $tags;
     }
 
-
-    public function getTags(): array
-    {
-        $tags = $this->articleRepository->findTags();
-        if (!empty(count($tags))) {
-            $count = count($tags);
-            $tagsArray = [];
-            for ($i = 0; $i < $count; $i++)
-                $arr = explode(",",
-                    preg_replace("/\s*([,\[\]])\s*/", "$1", $tags[$i])); // Удалили пробелы
-            foreach ($arr as $value) {
-                if (!in_array($value, $tagsArray))
-                    $tagsArray[] = $value;
-            }
-        } else
-            $tagsArray = [];
-        return $tagsArray;
-    }
-
+    /**
+     * @return object
+     */
     public function findAll(): object
     {
         return $this->articleRepository->findAll();
     }
 
-
+    /**
+     * @return object
+     */
     public function findForFront(): object
     {
         return $this->articleRepository->findForFront();
     }
 
+    /**
+     * @return object
+     */
     public function findAllWithPaginate(): object
     {
         return $this->articleRepository->findAllWithPaginate();
     }
 
-    public function searchEveryWhereOnRequest(string $search): object
+    /**
+     * @param string $search
+     * @return LengthAwarePaginator
+     */
+    public function searchEveryWhereOnRequest(string $search): LengthAwarePaginator
     {
         return $this->articleRepository->searchEveryWhereOnRequest($search);
     }
 
-    public function searchForASpecificQuery(string $name, string $search): object
+    /**
+     * @param int $id
+     */
+    public function destroy(int $id)
     {
-        return $this->articleRepository->searchForASpecificQuery($name, $search);
+        $this->articleRepository->destroy($id);
     }
 
 

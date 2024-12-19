@@ -6,11 +6,28 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Services\SettingsService;
+use Faker\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class SettingsController extends Controller
 {
+    private $settingsService;
+
+    /**
+     * SettingsController constructor.
+     */
+    public function __construct()
+    {
+        $this->settingsService = new SettingsService();
+    }
+
+
+    /**
+     * @param Request $request
+     * @return View
+     */
     public function index(Request $request): View
     {
         if (empty($request->message)) {
@@ -21,23 +38,31 @@ class SettingsController extends Controller
     }
 
 
-    public function front(Request $request, SettingsService $settingsService)
+    /**
+     * @param Request $request
+     * @return Factory|View
+     */
+    public function edit(Request $request)
     {
-        if ($request->isMethod('post')) {
-            $inDb = implode("&", $request->input("data"));
-            $settingsService->updateFrontSettings($inDb);
-            $message = "Настройки сохранены";
+        $settings = $this->settingsService->findSettingsFrontPage();
+        $data = explode("&", $settings->settings);
+        !empty($request->message) ? $message = $request->message : $message = null;
 
-            return redirect()->action([SettingsController::class, "front"], ['message' => $message]);
-        }
-
-        if ($request->isMethod('get')) {
-            $settings = $settingsService->findSettingsFrontPage();
-            $data = explode("&", $settings->settings);
-            !empty($request->message) ? $message = $request->message : $message = null;
-
-            return view('settings.front_settings', ['data' => $data, "message" => $message]);
-        }
-
+        return view('settings.front_settings', ['data' => $data, "message" => $message]);
     }
+
+
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function update(Request $request)
+    {
+        $inDb = implode("&", $request->input("data"));
+        $this->settingsService->updateFrontSettings($inDb);
+        $message = "Настройки сохранены";
+
+        return redirect()->action([SettingsController::class, "edit"], ['message' => $message]);
+    }
+
 }
