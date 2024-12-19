@@ -12,6 +12,7 @@ class TopPlaceService extends Service
     private $fileService;
     private $imgPlaceService;
 
+
     public function __construct()
     {
         $this->topPlaceRepository = new TopPlaceRepository();
@@ -28,11 +29,11 @@ class TopPlaceService extends Service
         ];
         $id = $this->topPlaceRepository->store($place);
 
-        $img = [];
         if (!empty(count($request->file('img')))) {
             $count = count($request->file('img'));
             for ($i = 0; $i < $count; $i++) {
-                $img[] = $this->fileService->storeFileInPublic($request->file('img')[$i], $id);
+                $path = $this->fileService->storeFileInServerVk($request->file('img')[$i]);
+                $this->imgPlaceService->store((string)$path, (int)$id);
             }
         }
 
@@ -59,6 +60,9 @@ class TopPlaceService extends Service
         $this->topPlaceRepository->update($request->id, $place);
     }
 
+    /**
+     * @param int $id
+     */
     public function destroy(int $id)
     {
         $images = $this->imgPlaceService->findImagesByPlaceId($id);

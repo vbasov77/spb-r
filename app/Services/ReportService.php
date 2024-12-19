@@ -83,7 +83,8 @@ class ReportService extends Service
                 $arrayReports[] = [
                     'month' => (int)$period[0],
                     'year' => (int)$period[1],
-                    'sum' => (int)$reports[$i]->sum
+                    'sum' => (int)$reports[$i]->sum,
+                    'count_night' => (int)$reports[$i]->count_night
                 ];
             }
         }
@@ -103,7 +104,7 @@ class ReportService extends Service
                 $arrayReports[] = [
                     'month' => (int)$period[0],
                     'year' => (int)$period[1],
-                    'sum' => (int)$reports[$i]->expenses
+                    'sum' => (int)$reports[$i]->expenses,
                 ];
             }
         }
@@ -168,6 +169,39 @@ class ReportService extends Service
 
         return implode(',', $arr);
 
+    }
+
+    public function getCountNight(object $reports)
+    {
+        $yar = date('Y');
+        $count = count($reports);
+        $arrayReports = [];
+
+        for ($i = 0; $i < $count; $i++) {
+            $period = explode('.', $reports[$i]->v_period);
+            if ($period[1] === $yar) {
+                $arrayReports[] = [
+                    'month' => (int)$period[0],
+                    'year' => (int)$period[1],
+                    'count_night' => (int)$reports[$i]->count_night,
+                ];
+            }
+        }
+
+        $countNight = [];
+        $countMonth = 0;
+        for ($l = 0; $l < 12; $l++) {
+            $countMonth++;
+            $countNight[$l] = 0;
+            foreach ($arrayReports as $value) {
+                if ($value['month'] === $countMonth) {
+                    $countNight[$l] = $value['count_night'];
+                    break;
+                }
+            }
+        }
+
+        return implode(',', $countNight);
     }
 
 }

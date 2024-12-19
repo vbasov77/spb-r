@@ -91,7 +91,6 @@ class NewsController extends Controller
             $vkAnimal = $this->vkService->getWallUploadServer($request, $keyAnimal);
             !empty($vkGo) ? $dataVk = $vkGo [0]['vkPostId'] . ',' . $vkAnimal[0]['vkPostId']
                 : $dataVk = $vkAnimal[0]['vkPostId'];
-
             if (!empty($vkAnimal[1]['images'])) {
                 $img = $vkAnimal[1]['images'];
             }
@@ -123,7 +122,6 @@ class NewsController extends Controller
     {
         $post = $this->newsService->findById($request->id);
         $images = [];
-
         if (isset($post->img)) {
             $images = json_decode($post->img);
         }

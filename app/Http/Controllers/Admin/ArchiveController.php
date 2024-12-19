@@ -6,13 +6,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Archive;
 use App\Services\ArchiveService;
 use App\Services\BookingService;
 use App\Services\DateService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class ArchiveController extends Controller

@@ -61,7 +61,7 @@
                         <div class="file" id="file">
                             @if (!empty($images))
                                 @foreach ($images as $item)
-                                    <img class="img-thumbnail del" src="{{ asset("images/places/$item->path") }}/"
+                                    <img class="img-thumbnail del" src="{{$item->path}}/"
                                          alt=""
                                          data-file="{{$item}}">
                                 @endforeach
@@ -73,7 +73,7 @@
                            type='button' onclick="window.location.href = '{{route('show.place', ['id'=>$data->id])}}';">
                             Просмотр
                         </a>
-                        <div class="btn btn-danger btn-sm deletePost" type="submit">Удалить пост</div>
+                        <div class="btn btn-danger btn-sm deleteArticle" type="submit">Удалить пост</div>
                         <img src="{{ asset('images/loader/preloader.svg') }}" width="30px" height="auto" alt=""
                              class="preloader-img"/>
                         <br>
@@ -90,7 +90,7 @@
         <script>
             var id = @json($data->id);
         </script>
-        <script src="{{ asset('dropzone/drop.js') }}" defer></script>
+        <script src="{{ asset('dropzone/drop_places.js') }}" defer></script>
 
         <script src="{{ asset('js/deletes/delete_place.js') }}" defer></script>
     @endpush

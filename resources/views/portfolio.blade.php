@@ -2,29 +2,18 @@
 <html lang="en">
 <head>
     <title>
-        @isset($title)
-            {{ $title }} |
-        @endisset
-        {{ config('app.name') }}
+        PORTFOLIO
     </title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {{--    Styles--}}
-    <link href="https://fonts.googleapis.com/css?family=Oswald:400,700|Work+Sans:300,400,700" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('themes/funder/fonts/icomoon/style.css')}}">
-
-
     <link rel="stylesheet" href="{{asset('themes/funder/css/style.css')}}">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
-
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    {{--    <script src="{{ asset('js/app.js') }}" defer></script>--}}
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    {{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>--}}
+    <script src="{{asset('js/jquery/jquery-3.2.1.js')}}"></script>
+    <script src="{{asset('js/bootstrap/v4.6.2.js')}}"></script>
 </head>
-
 <body style="background-image: url('{{asset('themes/funder/images/bg.jpg')}}');">
 <script src="{{asset('js/preloader/preloader.js')}}"></script>
 <div class="site-wrap">
@@ -381,11 +370,10 @@
 
 <section>
     <footer style="padding: 35px; " class="footer bg-black small text-center">
-        <div style="color: white" class="container px-4 px-lg-5">{{config('app.name')}} &copy; {{date('Y')}}</div>
+        <div style="color: white" class="container px-4 px-lg-5">PORTFOLIO &copy; {{date('Y')}}</div>
     </footer>
 </section>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="{{asset('themes/funder/js/aos.js')}}"></script>
 <script src="{{asset('themes/funder/js/main.js')}}"></script>
 <script src="{{asset('themes/funder/js/owl.carousel.min.js')}}"></script>
@@ -408,7 +396,6 @@
             debug: false, // Режим отладки
             min: 0, // минимальное положение (в %) на которое может смещаться фон
             max: 90 // максимальное положение (в %) на которое может смещаться фон
-
         });
     })
 </script>

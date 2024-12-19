@@ -20,7 +20,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
     <!-- Styles -->
     <link rel="stylesheet" href="{{asset('themes/funder/fonts/icomoon/style.css')}}">
     <link rel="stylesheet" href="{{asset('themes/funder/css/style.css')}}">
@@ -117,8 +116,6 @@
 
 </footer>
 
-<script src="{{asset('themes/funder/js/aos.js')}}"></script>
-<script src="{{asset('themes/funder/js/main.js')}}"></script>
 @stack('scripts')
 
 </body>

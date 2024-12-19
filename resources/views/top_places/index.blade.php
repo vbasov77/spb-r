@@ -47,7 +47,7 @@
                                 <a class="link" style="text-decoration: none"
                                    href="{{route('show.place', ["id" => $place->id])}}">
                                     @if(!empty($place->path))
-                                        <img src="{{ asset('images/places/' . $place->path)}}"
+                                        <img src="{{$place->path}}"
                                              height="150px" width="auto" class="rightM" style="object-fit: cover;">
                                     @else
                                         <img src="{{ asset("images/no_image/no_image.jpg") }}"

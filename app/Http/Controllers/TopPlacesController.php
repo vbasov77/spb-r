@@ -90,11 +90,7 @@ class TopPlacesController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return Response
+     * @param Request $request
      */
     public function update(Request $request)
     {
@@ -111,7 +107,6 @@ class TopPlacesController extends Controller
     /**
      * @param Request $request
      */
-
     public function destroy(Request $request)
     {
         try {

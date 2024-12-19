@@ -28,33 +28,27 @@ class ImgPlaceController extends Controller
     public function create(Request $request)
     {
         if ($request->file('file')) {
-            $id = $request->id;
-            $this->fileService->storeFileInPublic($request->file('file'), (int)$id);
-            $images = $this->imgPlaceService->findImagesByPlaceId((int)$id);
-            foreach ($images as $value) {
+            $path = $this->fileService->storeFileInServerVk($request->file('file'));
+            $this->imgPlaceService->store($path, (int)$request->id);
+
+
+            $result = ImgPlace::where('place_id', $request->id)->get();
+            foreach ($result as $value) {
                 $array[] = $value->path;
             }
+            $data = implode('^', $array);
+            $fil = (string)$data;
+            $res = ['answer' => 'ok', 'images' => (string)$fil];
 
-            $data = implode(',', $array);
-            $file = (string)$data;
-
-            $res = ['answer' => 'ok', 'images' => $file];
-        } else {
-            $res = ['answer' => 'error', 'mess' => 'Ошибка'];
+            exit(json_encode($res));
         }
-        exit(json_encode($res));
     }
 
     public function destroy(Request $request)
     {
         if ($request->get('file')) {
             $file = $request->get('file');
-            $this->fileService->destroyImg($file);
             $this->imgPlaceService->destroy($file['path']);
-
-//
-//            $res = ['answer' => 'ok', 'images' => gettype($file)];
-//            exit(json_encode($res));
         }
     }
 }
