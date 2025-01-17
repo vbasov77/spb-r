@@ -26,8 +26,7 @@ var dataThird= {
     borderColor: 'green'
 };
 var speedData = {
-    labels: ["Январь", "Февраль", "Март", "Апрель", "Май",
-        "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+    labels: months,
     datasets: [dataFirst, dataSecond, dataThird]
 };
 

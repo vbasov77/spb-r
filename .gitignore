@@ -1,4 +1,4 @@
-/node_modules
+/app/Repositories/KeyRepository.php
 /public/images
 /public/img
 /storage

@@ -1,10 +1,7 @@
-h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5 {
-    font-family: math;
-}
 
 a.link h4 {
     text-decoration: none;
-    opacity: .8;
+    opacity: .7;
 }
 
 a.link:hover h4 {

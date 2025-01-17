@@ -5,7 +5,7 @@
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-lg-8">
-                    <form action="{{route("admin.edit.report")}}" method="post">
+                    <form action="{{route("admin.update.report")}}" method="post">
                         @csrf
                         <h3> Изменить данные</h3>
                         <br>

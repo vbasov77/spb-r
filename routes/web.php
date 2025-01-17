@@ -28,6 +28,10 @@ use App\Http\Controllers\ObjController;
 use App\Http\Controllers\Admin\MaterialController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SearchController;
+use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CalculatorController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -97,12 +101,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
     Route::get('/archive/{id}/delete', [ArchiveController::class, 'delete'])->name('delete.archive')
         ->middleware('admin');
 
-
-    Route::get('/reports', [ReportController::class, 'index'])->name('reports')
+    Route::get('/create-report', [ReportController::class, 'edit'])->name('create.report')
         ->middleware('admin');
-    Route::get('/create-report', [ReportController::class, 'update'])->name('create.report')
-        ->middleware('admin');
-    Route::post('/edit-report', [ReportController::class, 'edit'])->name('edit.report')
+    Route::post('/update-report', [ReportController::class, 'update'])->name('update.report')
         ->middleware('admin');
 
     Route::get('/front_edit', [SettingsController::class, 'edit'])->name("front.edit")
@@ -184,8 +185,31 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
         ->name('store.article')->middleware('admin');
     Route::post('/update_article', [ArticleController::class, 'update'])
         ->name('update.article')->middleware('admin');
-
 });
+
+
+Route::get('/reports', [ReportController::class, 'index'])->name('reports');
+Route::post('/check_reports_index', [ReportController::class, 'checkReportsIndex'])->name('check.reports_index');
+
+Route::get('/show-obj/id{id}', [ObjController::class, 'show'])->name('show.obj');
+
+Route::get('/omega3-calc', [CalculatorController::class, 'omega3Calculator'])->name("omega3Calculator");
+Route::get('/products-calc', [CalculatorController::class, 'productsCalculator'])->name("productsCalculator");
+Route::get('/products_sum_pack-calc', [CalculatorController::class, 'productSumPacCalculator'])->name("productSumPacCalculator");
+
+Route::get('/recipes', [RecipeController::class, 'index'])->name("recipes");
+Route::get('/recipe{id}', [RecipeController::class, 'show'])->name("recipe");
+Route::get('/edit-recipe{id}', [RecipeController::class, 'edit'])->name("edit.recipe")->middleware('auth');
+Route::get('/create-recipe', [RecipeController::class, 'create'])->name("create.recipe")->middleware('auth');
+Route::post('/store-recipe', [RecipeController::class, 'store'])->name("store.recipe")->middleware('auth');
+Route::post('/update-recipe', [RecipeController::class, 'update'])->name("update.recipe")->middleware('auth');
+Route::delete('/delete-recipe/id{id}', [RecipeController::class, 'destroy'])->name("delete.recipe")->middleware('auth');
+Route::delete('/delete-recipe_img/{id}/{file}', [RecipeController::class, 'deleteImg'])->name("delete.img")->middleware('auth');
+
+
+Route::post('/save_comment', [CommentController::class, 'store'])->name('save.comment');
+Route::delete('/delete-comment', [CommentController::class, 'destroy'])->name("comment.delete");
+
 
 Route::get('/show-place/id{id}', [TopPlacesController::class, 'show'])->name('show.place');
 Route::get('/list-places', [TopPlacesController::class, 'index'])->name('list.places');

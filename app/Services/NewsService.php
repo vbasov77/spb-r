@@ -15,22 +15,38 @@ class NewsService extends Service
     private $newsRepository;
     private $fileService;
 
+    /**
+     * NewsService constructor.
+     */
     public function __construct()
     {
         $this->newsRepository = new NewsRepository();
         $this->fileService = new FileService();
     }
 
+    /**
+     * @param int $id
+     * @return object
+     */
     public function findById(int $id): object
     {
         return $this->newsRepository->findById($id);
     }
 
+    /**
+     * @return object
+     */
     public function findAll(): object
     {
         return $this->newsRepository->findAll();
     }
 
+    /**
+     * @param Request $request
+     * @param array $ids
+     * @param string $img
+     * @return int
+     */
     public function store(Request $request, array $ids, string $img): int
     {
         $data = [
@@ -78,7 +94,10 @@ class NewsService extends Service
         return $this->newsRepository->findForFrontPage();
     }
 
-
+    /**
+     * @param Request $request
+     * @param int $id
+     */
     public function update(Request $request, int $id): void
     {
         $data = [

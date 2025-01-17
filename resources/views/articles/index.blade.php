@@ -5,6 +5,12 @@
     @include('blocks.search_article')
     <!-------------------------------------------------------------    Форма поиска-->
 
+    <style>
+        .rightM {
+            width: auto;
+            height: auto;
+        }
+    </style>
     <section>
         <div class="container">
             <div class="row justify-content-center">
@@ -19,7 +25,7 @@
             </div>
         </div>
     </section>
-    <center><h3 style="margin: 60px 0 40px 0; font-family: sans-serif;">Заметки</h3></center>
+    <center><h3 style="margin: 60px 0 40px 0; ">Заметки</h3></center>
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div id="col-md" class="col-md-9">

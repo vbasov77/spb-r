@@ -82,7 +82,11 @@ class MaterialController extends Controller
     }
 
 
-    public function show(Request $request)
+    /**
+     * @param Request $request
+     * @return View
+     */
+    public function show(Request $request): View
     {
         $material = $this->materialService->findById($request->id);
         $images = $this->imgMaterialService->findAllByMaterialId($request->id);

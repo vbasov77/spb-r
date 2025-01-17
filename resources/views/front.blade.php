@@ -227,7 +227,6 @@
                                 <div class='form_radio_btn2 my_mobile' style="text-align: center;">
                                     <input type='radio' id="initial2" name="guests" value="2" required
                                     ><label for='initial2'>2 гостя</label></div>
-
                                 <br>
                                 <br>
                                 <div>

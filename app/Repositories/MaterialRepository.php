@@ -47,8 +47,8 @@ class MaterialRepository extends Repository
     {
         return Material::leftJoin('images_materials', 'materials.id', '=', 'images_materials.material_id')
             ->where('materials.id', $id)
-            ->get(['materials.id', 'materials.title', 'materials.obj_id', 'materials.description', 'materials.price', 'materials.quantity',
-                'images_materials.path']);
+            ->get(['materials.id', 'materials.title', 'materials.obj_id', 'materials.description', 'materials.price',
+                'materials.quantity', 'images_materials.path', 'materials.link_to']);
     }
 
     /**

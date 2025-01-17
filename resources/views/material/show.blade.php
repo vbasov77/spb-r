@@ -16,9 +16,9 @@
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center text-center">
                 <div class="col-lg-9">
-                    <h1>{{$material->title}}</h1>
+                    <h1 style="margin-top: 50px; font-family: cursive;">{{$material->title}}</h1>
                     <b>Сумма:</b>
-                    {{$material->price}}
+                    {{$material->price}} <img style="opacity: .7; padding-bottom: 3px;" src="{{asset('icons/ruble.svg')}}" width="17px" height="auto">
                     <br>
                     <b>Количество:</b>
                     {{$material->quantity}}
@@ -26,6 +26,12 @@
                     @if(!empty($material->description))
                         Подробнее:<br>
                         {!!$material->description!!}
+                    @endif
+                    @if(!empty($material->link_to))
+                        <br>
+                        <a href="{{$material->link_to}}" style="margin-top: 40px" target="_blank" class="btn btn-outline-success btn-sm">
+                            Ссылка на материал
+                        </a>
                     @endif
                     <br>
                     @if(!empty(count($images)))

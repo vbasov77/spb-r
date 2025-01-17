@@ -30,7 +30,7 @@
                             {{$message}}
                         </div>
                     @endif
-                    <h1 style="margin: 40px 0 60px 0">Добавить материал</h1>
+                    <h1 style="margin: 40px 0 60px 0">Редактировать материал</h1>
                     @if ($errors->any())
                         <div class="alert alert-danger">
                             <ul>
@@ -64,16 +64,24 @@
                         <br>
                         <div>
                             <label for="price"><b>Цена:</b></label>
-                            <input name="price" type="number" value="{{$material->price ?? old('price') }}"
+                            <input name="price" step="any" type="number" value="{{$material->price ?? old('price') }}"
                                    class="form-control"
                                    placeholder="Цена" autocomplete="off" required>
                         </div>
                         <br>
                         <div>
                             <label for="quantity"><b>Количество:</b></label>
-                            <input name="quantity" type="number" value="{{$material->quantity ?? old('quantity') }}"
+                            <input name="quantity" step="any" type="number" value="{{$material->quantity ?? old('quantity') }}"
                                    class="form-control"
                                    placeholder="Количество" autocomplete="off" required>
+                        </div>
+                        <br>
+                        <br>
+                        <div>
+                            <label for="link_to"><b>Ссылка на материал:</b></label>
+                            <input name="link_to" type="text" value="{{$material->link_to ?? old('link_to') }}"
+                                   class="form-control"
+                                   placeholder="Ссылка на материал" autocomplete="off">
                         </div>
                         <br>
                         <div id="file" class="upload"></div>

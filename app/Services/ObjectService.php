@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Http\Requests\Objects\CreateObjRequest;
 use App\Repositories\ObjRepository;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,7 @@ class ObjectService extends Service
     }
 
 
-    public function store(Request $request)
+    public function store(CreateObjRequest $request)
     {
         $data = [
             'address' => $request->input('address'),

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Objects\CreateObjRequest;
 use App\Models\Obj;
 use App\Services\ObjectService;
 use Illuminate\Http\RedirectResponse;
@@ -41,7 +42,7 @@ class ObjController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(CreateObjRequest $request)
     {
         $id = $this->objService->store($request);
 
@@ -49,14 +50,14 @@ class ObjController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return View
      */
-    public function show($id)
+    public function show(Request $request): View
     {
-        //
+        $obj = $this->objService->findById($request->id);
+
+        return view('objects.show', ['obj' => $obj]);
     }
 
     /**

@@ -10,6 +10,16 @@
             padding: 10px;
         }
 
+        @media (max-width: 600px) {
+            .indexTable {
+                font-size: 7px;
+            }
+            .mob{
+                display: none;
+            }
+        }
+
+
         .custom-tooltip:hover .tooltip-text {
             visibility: visible; /* Вот такое чудо! */
         }
@@ -19,7 +29,7 @@
     <section class="about-section text-center" id="about">
         <div class="container-fluid">
             <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-lg-9">
+                <div class="col-lg-9 indexTable">
                     <h1 style="margin-top: 40px">Весь период</h1>
                     @if(!empty(count($reports)))
                         <table style="text-align: left" class="table">
@@ -39,20 +49,19 @@
                                 <tr>
                                     <th scope="row"> {{$report->v_period}} </th>
                                     <th scope="row"> {{$report->count_night}} </th>
-                                    <th scope="row"> {{$report->sum}}<img style="padding-bottom: 2px;" width="14px"
+                                    <th scope="row"> {{$report->sum}}<img class="mob" style="padding-bottom: 2px;" width="14px"
                                                                           src="{{asset("icons/ruble.svg")}}">
                                     </th>
-
                                     <th scope="row"
                                         class="custom-tooltip"
                                         title="">{{$report->expenses}}
-                                        <img style="padding-bottom: 2px;" width="13px"
-                                             src="{{asset("icons/ruble.svg")}}">
+                                        <img  class="mob" style="padding-bottom: 2px;" width="13px"
+                                              src="{{asset("icons/ruble.svg")}}">
                                         <span class="tooltip-text">{{ $report->info_expenses }}</span>
                                     </th>
 
                                     <th scope="row"> {{$report->sum - $report->expenses}}
-                                        <img style="padding-bottom: 2px;" width="14px"
+                                        <img class="mob" style="padding-bottom: 2px;" width="14px"
                                              src="{{asset("icons/ruble.svg")}}">
                                     </th>
 
@@ -87,6 +96,7 @@
             var total = @json($total);
             var weekday = @json($weekday);
             var countNight = @json($countNight);
+            var months = @json($months);
         </script>
         <script src="{{ asset('js/chart/chart.min.js') }}" defer></script>
         <script src="{{ asset('js/chart/v_chart.js') }}" defer></script>

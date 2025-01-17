@@ -8,8 +8,6 @@ use App\Models\Article;
 use Illuminate\Config\Repository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
-use mysql_xdevapi\TableInsert;
-use phpDocumentor\Reflection\Types\Mixed_;
 
 class ArticleRepository extends Repository
 {
@@ -51,7 +49,7 @@ class ArticleRepository extends Repository
      * @param string $tag
      * @return mixed
      */
-    public function findByTag(string $tag): Mixed_
+    public function findByTag(string $tag)
     {
         return Article::where('tags', 'LIKE', "%$tag%")->paginate(10);
     }

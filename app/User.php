@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\Booking;
 use App\Models\UserPhone;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -40,21 +41,43 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @return bool
+     */
     public function isAdmin()
     {
         return $this->role == 1;
     }
 
+    /**
+     * @return bool
+     */
     public function isModerator()
     {
         return $this->role == 2;
     }
 
+    /**
+     * @param int $userIdOfThisRecipe
+     * @return bool
+     */
+    public function isAuthor(int $userIdOfThisRecipe)
+    {
+        return $this->id == $userIdOfThisRecipe;
+    }
+
+
+    /**
+     * @return HasOne
+     */
     public function userPhone()
     {
         return $this->hasOne(UserPhone::class);
     }
 
+    /**
+     * @return HasOne
+     */
     public function booking()
     {
         return $this->hasOne(Booking::class);

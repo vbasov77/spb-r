@@ -5,6 +5,7 @@ namespace App\Services;
 
 
 use App\Repositories\ArchiveRepository;
+use App\Repositories\KeyRepository;
 use App\Repositories\ReportRepository;
 use Illuminate\Http\Request;
 
@@ -13,12 +14,14 @@ class ReportService extends Service
 
     private $reportRepository;
     private $archiveRepository;
+    private $keyRepository;
 
 
     public function __construct()
     {
         $this->reportRepository = new ReportRepository();
         $this->archiveRepository = new ArchiveRepository();
+        $this->keyRepository = new KeyRepository();
     }
 
     /**
@@ -70,65 +73,55 @@ class ReportService extends Service
         $this->reportRepository->editExpenses($request->input('id'), $data);
     }
 
-
+    /**
+     * @param object $reports
+     * @return string
+     */
     public function getSumStr(object $reports)
     {
-        $yar = date('Y');
+        $dates = $this->getMonthNumbers();
         $count = count($reports);
-        $arrayReports = [];
-
-        for ($i = 0; $i < $count; $i++) {
-            $period = explode('.', $reports[$i]->v_period);
-            if ($period[1] === $yar) {
-                $arrayReports[] = [
-                    'month' => (int)$period[0],
-                    'year' => (int)$period[1],
-                    'sum' => (int)$reports[$i]->sum,
-                    'count_night' => (int)$reports[$i]->count_night
-                ];
-            }
-        }
-
-        return $this->sumStr($arrayReports);
-    }
-
-    public function getExpensesStr(object $reports)
-    {
-        $yar = date('Y');
-        $count = count($reports);
-        $arrayReports = [];
-
-        for ($i = 0; $i < $count; $i++) {
-            $period = explode('.', $reports[$i]->v_period);
-            if ($period[1] === $yar) {
-                $arrayReports[] = [
-                    'month' => (int)$period[0],
-                    'year' => (int)$period[1],
-                    'sum' => (int)$reports[$i]->expenses,
-                ];
-            }
-        }
-        return $this->sumStr($arrayReports);
-    }
-
-    public function sumStr(array $arrayReports)
-    {
-        $sum = [];
-        $countMonth = 0;
+        $arraySum = [];
         for ($l = 0; $l < 12; $l++) {
-            $countMonth++;
-            $sum[$l] = 0;
-            foreach ($arrayReports as $value) {
-                if ($value['month'] === $countMonth) {
-                    $sum[$l] = $value['sum'];
+            $arraySum[$l] = 0;
+            for ($i = 0; $i < $count; $i++) {
+                if ($dates[$l] === $reports[$i]->v_period) {
+                    $arraySum[$l] = (int)$reports[$i]->sum;
                     break;
                 }
             }
         }
 
-        return implode(',', $sum);
+        return implode(',', $arraySum);
     }
 
+    /**
+     * @param object $reports
+     * @return string
+     */
+    public function getExpensesStr(object $reports)
+    {
+        $dates = $this->getMonthNumbers();
+        $count = count($reports);
+        $arraySum = [];
+        for ($l = 0; $l < 12; $l++) {
+            $arraySum[$l] = 0;
+            for ($i = 0; $i < $count; $i++) {
+                if ($dates[$l] === $reports[$i]->v_period) {
+                    $arraySum[$l] = (int)$reports[$i]->expenses;
+                    break;
+                }
+            }
+        }
+
+        return implode(',', $arraySum);
+    }
+
+    /**
+     * @param string $strFirst
+     * @param string $strSecond
+     * @return string
+     */
     public function getTotalSumStr(string $strFirst, string $strSecond)
     {
         $arrayFirst = explode(',', $strFirst);
@@ -143,6 +136,9 @@ class ReportService extends Service
         return implode(',', $newArray);
     }
 
+    /**
+     * @return string
+     */
     public function getCountWeekday()
     {
         $arrayDates = $this->archiveRepository->getDatesIn();
@@ -168,40 +164,69 @@ class ReportService extends Service
         array_shift($arr);
 
         return implode(',', $arr);
-
     }
 
+    /**
+     * @param object $reports
+     * @return string
+     */
     public function getCountNight(object $reports)
     {
-        $yar = date('Y');
+        $dates = $this->getMonthNumbers();
         $count = count($reports);
-        $arrayReports = [];
-
-        for ($i = 0; $i < $count; $i++) {
-            $period = explode('.', $reports[$i]->v_period);
-            if ($period[1] === $yar) {
-                $arrayReports[] = [
-                    'month' => (int)$period[0],
-                    'year' => (int)$period[1],
-                    'count_night' => (int)$reports[$i]->count_night,
-                ];
-            }
-        }
-
         $countNight = [];
-        $countMonth = 0;
         for ($l = 0; $l < 12; $l++) {
-            $countMonth++;
             $countNight[$l] = 0;
-            foreach ($arrayReports as $value) {
-                if ($value['month'] === $countMonth) {
-                    $countNight[$l] = $value['count_night'];
+            for ($i = 0; $i < $count; $i++) {
+                if ($dates[$l] === $reports[$i]->v_period) {
+                    $countNight[$l] = (int)$reports[$i]->count_night;
                     break;
                 }
             }
         }
 
         return implode(',', $countNight);
+    }
+
+    /**
+     * @return array
+     */
+    public function getMonthNames()
+    {
+        $monthToDay = date('Y-m-d');
+
+        $months = [1 => 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+            'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+        $count = 12;
+        $arrayMonth = [];
+        for ($i = 0; $i < $count; $i++) {
+            $nextMonthTs = strtotime("$monthToDay - $i month");
+            $arrayMonth[] = $months[date('n', $nextMonthTs)];
+        }
+        return array_reverse($arrayMonth);
+    }
+
+    /**
+     * @return array
+     */
+    public function getMonthNumbers()
+    {
+        $monthToDay = date('Y-m-d');
+        $count = 12;
+        $arrayMonth = [];
+        for ($i = 0; $i < $count; $i++) {
+            $nextMonthTs = strtotime("$monthToDay - $i month");
+            $arrayMonth[] = date('m.Y', $nextMonthTs);
+        }
+        return array_reverse($arrayMonth);
+    }
+
+    /**
+     * @return string
+     */
+    public function getPasswordReportsIndex(): string
+    {
+        return $this->keyRepository->checkReportsIndex();
     }
 
 }

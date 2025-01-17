@@ -30,11 +30,30 @@
         </li>
     </ul>
 </li>
+<li class="has-children">
+    <a href="#">Калькуляторы</a>
+    <ul class="dropdown">
+        <li>
+            <a class="dropdown-item" href="{{route('omega3Calculator')}}">Омега3</a>
+            <a class="dropdown-item" href="{{route('productsCalculator')}}">Продуктов за кг</a>
+            <a class="dropdown-item" href="{{route('productSumPacCalculator')}}">Продуктов за уп-у</a>
+        </li>
+    </ul>
+</li>
+<li class="has-children">
+    <a href="#">Рецепты</a>
+    <ul class="dropdown">
+        <li>
+            <a class="dropdown-item" href="{{route('recipes')}}">Все рецепты</a>
+            <a class="dropdown-item" href="{{route('create.recipe')}}">Добавить рецепт</a>
+        </li>
+    </ul>
+</li>
 <li>
     <a class="dropdown-item" href="{{route('admin.settings')}}">Настройки</a>
     <a class="dropdown-item" href="{{route('admin.orders')}}">Заказы</a>
     <a class="dropdown-item" href="{{route('admin.view.queue')}}">Очереди</a>
-    <a class="dropdown-item" href="{{route('admin.reports')}}">Отчёты</a>
+    <a class="dropdown-item" href="{{route('reports')}}">Отчёты</a>
     <a class="dropdown-item" href="{{route('admin.archive')}}">Архив</a>
     <a class="dropdown-item" href="{{route('admin.del.schedule')}}">Очистить базу</a>
     <a class="dropdown-item" href="{{route('list.places')}}">Куда сходить</a>

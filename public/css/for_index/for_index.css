@@ -1,0 +1,42 @@
+a.link {
+    color: black;
+    text-decoration: none;
+}
+
+a.link:hover h4 {
+    opacity: 1;
+}
+
+img.rightM {
+    margin-left: 10px;
+    float: right;
+    width: 150px;
+    height: 150px;
+    background:#fff;
+    border: solid black;
+    border-color: black;
+}
+
+.box3{
+    border-width: 5px 3px 3px 5px;
+    border-radius:95% 4% 97% 5%/4% 94% 3% 95%;
+    transform: rotate(2deg);
+}
+
+@media screen and (max-width: 640px) {
+    .col-md-9 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    img.rightM {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+}
+
+.page-item.active .page-link {
+    background-color: #fd7e14;
+    border-color: #fd7e14;
+}

@@ -40,7 +40,7 @@
                                                       class="font-weight-bold">PORTFOLIO</a>
                         </h2>
                     </div>
-                    <div class="col-10">
+                    <div class="col-9">
                         <nav class="site-navigation text-right" role="navigation">
                             <div class="container">
                                 <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#"

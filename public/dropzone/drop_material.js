@@ -25,9 +25,9 @@ let myDropzone = new Dropzone("div#file", {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     },
     url: "/admin/store_img/material" + id,
-    maxFilesize: 1,
-    maxFiles: 10,
-    parallelUploads: 1,
+    maxFilesize: 5,
+    maxFiles: 100,
+    parallelUploads: 5,
     acceptedFiles: ".png,.jpg,.gif,.jpeg",
     dictInvalidFileType: "Разрешены к загрузке только файлы .png, .jpg, .gif, .jpeg",
     dictMaxFilesExceeded: "Максимум 10 фото",

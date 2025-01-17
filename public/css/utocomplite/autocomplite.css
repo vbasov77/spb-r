@@ -2,11 +2,6 @@
     top: 100px;
 }
 
-.card {
-    height: 70vh;
-}
-
-
 select#list {
     min-width: 350px;
     border: none;
