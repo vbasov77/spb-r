@@ -7,7 +7,6 @@ use App\Services\ArticleService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\Factory;
 use Illuminate\View\View;
 
@@ -64,8 +63,9 @@ class ArticleController extends Controller
         $search = $request->input("search");
 
         $articles = $this->articleService->searchEveryWhereOnRequest($search);
+        $tags = $this->articleService->getArticleTags($articles);
 
-        return view('articles.index', ['articles' => $articles, 'tags' => null]);
+        return view('articles.index', ['articles' => $articles, 'tags' => $tags]);
     }
 
     public function update(Request $request)

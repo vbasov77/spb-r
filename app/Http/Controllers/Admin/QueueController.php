@@ -16,6 +16,23 @@ use Illuminate\View\View;
 
 class QueueController extends Controller
 {
+    private $queueService;
+    private $dateService;
+
+    /**
+     * QueueController constructor.
+     */
+    public function __construct()
+    {
+        $this->queueService = new QueueService();
+        $this->dateService = new DateService();
+    }
+
+
+    /**
+     * @param QueueService $queueService
+     * @return View
+     */
     public function queueList(QueueService $queueService): View
     {
         $data = $queueService->getDataQueues();
@@ -23,6 +40,9 @@ class QueueController extends Controller
     }
 
 
+    /**
+     * @return View
+     */
     public function toQueue()
     {
         $bookingService = new BookingService();
@@ -32,28 +52,23 @@ class QueueController extends Controller
 
     }
 
-    public function addQueue(AddQueueRequest $addQueueRequest)
+    /**
+     * @param AddQueueRequest $request
+     * @return RedirectResponse
+     */
+    public function addQueue(AddQueueRequest $request)
     {
-        $dateService = new DateService();
-        $queueService = new QueueService();
-        // этот код выполнится, если используется метод POST
-        $booking = explode("-", preg_replace("/\s+/", "", $addQueueRequest->date_book));
+        $data = $this->getBooking($request);
+        $this->queueService->create($data);
 
-        $countNight = $dateService->getCountNight($booking[0], $booking[1]);
-
-        $data = [
-            'date_in' => strtotime($booking[0]),
-            'date_out' => strtotime($booking[1]),
-            'count_night' => $countNight,
-            'name' => $addQueueRequest->name,
-            'phone' => $addQueueRequest->phone,
-            'messenger' => $addQueueRequest->messenger
-        ];
-
-        $queueService->create($data);
         return redirect()->action([QueueController::class, 'queueList']);
     }
 
+    /**
+     * @param Request $request
+     * @param BookingService $bookingService
+     * @return View
+     */
     public function editView(Request $request, BookingService $bookingService)
     {
         $queueService = new QueueService();
@@ -65,23 +80,35 @@ class QueueController extends Controller
 
     }
 
-    public function edit(DateService $dateService, EditQueueRequest $editQueueRequest)
+    /**
+     * @param EditQueueRequest $request
+     * @return RedirectResponse
+     */
+    public function edit(EditQueueRequest $request)
     {
-        $queueService = new QueueService();
+        $data = $this->getBooking($request);
+        $this->queueService->update($data, (int)$request->id);
 
-        $booking = explode("-", preg_replace("/\s+/", "", $editQueueRequest->date_book));
-        $countNight = $dateService->getCountNight($booking[0], $booking[1]);
+        return redirect()->action([QueueController::class, 'queueList']);
+    }
 
-        $data = [
+    /**
+     * @param object $request
+     * @return array
+     */
+    public function getBooking(object $request)
+    {
+        $booking = explode("-", preg_replace("/\s+/", "", $request->date_book));
+        $countNight = $this->dateService->getCountNight($booking[0], $booking[1]);
+
+        return $data = [
             'date_in' => strtotime($booking[0]),
             'date_out' => strtotime($booking[1]),
             'count_night' => $countNight,
-            'name' => $editQueueRequest->name,
-            'phone' => $editQueueRequest->phone,
-            'messenger' => $editQueueRequest->messenger
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'messenger' => $request->messenger
         ];
-        $queueService->update($data, (int)$editQueueRequest->id);
-        return redirect()->action([QueueController::class, 'queueList']);
     }
 
 

@@ -24,9 +24,9 @@ class SearchController extends Controller
             $request->session()->forget('search');
             $request->session()->save();
         }
-        $request->session()->put('search', $request->search);
+        $request->session()->put('search', $request->title);
         $request->session()->save();
-        $search = $request->input("search");
+        $search = $request->input("title");
         $objId = (int) $request->objId;
 
         if (mb_strlen($search) > 3) {
@@ -36,7 +36,7 @@ class SearchController extends Controller
             $materials = $this->materialService->searchEveryWhereOnRequest($search) :
             $materials = $this->materialService->findItEverywhere($search, $objId);
 
-        return view('search.search', ['materials' => $materials]);
+        return view('search.materials', ['materials' => $materials]);
     }
 
     public function deleteSession(Request $request)

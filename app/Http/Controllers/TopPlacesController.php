@@ -6,7 +6,6 @@ use App\Services\ImgPlaceService;
 use App\Services\TopPlaceService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class TopPlacesController extends Controller
@@ -14,6 +13,9 @@ class TopPlacesController extends Controller
     private $topPlaceService;
     private $imgPlaceService;
 
+    /**
+     * TopPlacesController constructor.
+     */
     public function __construct()
     {
         $this->topPlaceService = new TopPlaceService();

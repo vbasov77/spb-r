@@ -30,7 +30,7 @@ class ReportRepository extends Repository
      */
     public function findAll(): object
     {
-        return Reports::orderBy('v_period')->get();
+        return Reports::orderBy('id', 'desc')->get();
     }
 
     public function findById(int $id)

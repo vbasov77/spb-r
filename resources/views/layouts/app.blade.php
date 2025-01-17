@@ -25,8 +25,8 @@
     <link rel="stylesheet" href="{{asset('themes/funder/css/style.css')}}">
 
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/all.css') }}" rel="stylesheet">
     <link href="{{ asset('bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/all.css') }}" rel="stylesheet">
 
     <script src="{{ asset('js/app.js') }}" defer></script>
 

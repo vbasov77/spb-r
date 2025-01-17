@@ -43,4 +43,9 @@ class KeyRepository extends Repository
         return "-1002453188364"; // -1002415592751(prod) | -1002453188364(test)
     }
 
+    public function checkReportsIndex()
+    {
+        return "$2y$10$6HJyJG8kAcXUxdx8VE/hIOVdTbtkbEbY9moLqrJEAI52NOyu5j632";
+    }
+
 }

@@ -1,10 +1,10 @@
 var popCanvas = document.getElementById("popChart");
 var arrDataSum = dataSum.split(',');
+
 var barChart = new Chart(popCanvas, {
     type: 'bar',
     data: {
-        labels: ["Январь", "Февраль", "Март", "Апрель", "Май",
-            "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+        labels: months,
         datasets: [{
             label: 'ОБОРОТ',
             data: arrDataSum,
@@ -23,6 +23,5 @@ var barChart = new Chart(popCanvas, {
                 'rgb(255, 99, 132)',
             ]
         }]
-
     }
 });

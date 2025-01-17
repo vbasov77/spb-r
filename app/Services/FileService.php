@@ -85,7 +85,6 @@ class FileService extends Service
         if (!empty($image)) {
             // Допустимые символы для уникального имени файла
             $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
             // Создаём уникальное имя для файла
             $fileName = substr(str_shuffle($permitted_chars), 0, 16) . '.' . $image->extension();
 

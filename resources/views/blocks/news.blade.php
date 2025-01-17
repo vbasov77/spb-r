@@ -4,47 +4,7 @@
             style="color: white; margin-top: 50px; margin-bottom: 50px;" class="button2">Telegram Канал
     </button>
 </div>
-
-<style>
-    a.link {
-        color: black;
-        text-decoration: none;
-    }
-
-    a.link:hover h4 {
-        opacity: 1;
-    }
-
-    img.rightM {
-        margin-left: 10px;
-        float: right;
-        width: 150px;
-        height: 150px;
-        background:#fff;
-        border: solid black;
-        border-color: black;
-    }
-
-    .box3{
-        border-width: 5px 3px 3px 5px;
-        border-radius:95% 4% 97% 5%/4% 94% 3% 95%;
-        transform: rotate(2deg);
-    }
-
-    @media screen and (max-width: 640px) {
-        .col-md-9 {
-            flex: 0 0 100%;
-            max-width: 100%;
-        }
-
-        img.rightM {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-    }
-
-
-</style>
+<link rel="stylesheet" href="{{asset('css/for_index/for_index.css')}}">
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div id="col-md" class="col-md-9">

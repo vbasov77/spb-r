@@ -1,62 +1,22 @@
-@extends('layouts.app')
+@extends('layouts.create_material')
 @section('content')
     <link rel="stylesheet" href="{{asset('css/search/search.css')}}">
-    <style>
-        a.link {
-            color: black;
-            text-decoration: none;
-        }
-
-        a.link:hover h4 {
-            opacity: 1;
-        }
-
-        img.rightM {
-            margin-left: 10px;
-            float: right;
-            width: 150px;
-            height: 150px;
-            background: #fff;
-            border: solid black;
-            border-color: black;
-        }
-
-        .box3 {
-            border-width: 5px 3px 3px 5px;
-            border-radius: 95% 4% 97% 5%/4% 94% 3% 95%;
-            transform: rotate(2deg);
-        }
-
-        @media screen and (max-width: 640px) {
-            .col-md-9 {
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-
-            img.rightM {
-                width: 100%;
-                margin-bottom: 20px;
-            }
-
-        }
-
-        .page-item.active .page-link {
-            background-color: #fd7e14;
-            border-color: #fd7e14;
-        }
-
-    </style>
-    <!-------------------------------------------------------------    Форма поиска-->
+    <link rel="stylesheet" href="{{asset('css/for_index/for_index.css')}}">
     <section class="about-section text-center">
         <div class="container px-4 px-lg-5">
             <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-9" style="margin-top: 60px">
+                <div class="col-md-8" style="margin-top: 60px">
                     <form class="example" method="post" action="{{route('admin.search')}}">
                         @csrf
-                        <input id="input" type="search" value="{{session('search')}}"
-                               placeholder="Поиск...." name="search" required>
-                        <button style="float: right" type="submit"><img width="20px"
-                                                                        src="{{asset('/icons/search.svg')}}"></button>
+                        <input id="value" type="search" value="{{session("search")}}" placeholder="Поиск...."
+                               name="title" required>
+                        <input type="hidden" name="objId" value="0">
+                        <button type="submit"><img width="20px" src="{{asset('/icons/search.svg')}}"></button>
+                        <br>
+                        <div id="dropdown">
+                            <select style="background-color: gainsboro; margin-top: 5px; position: relative; float: left;" class="select" name="list" id="list"></select>
+                        </div>
+
                     </form>
                     <br>
                     <button class="btn btn-outline-info btn-sm" type="submit" id="deleteSession">Очистить</button>
@@ -83,9 +43,17 @@
                                              class="rightM box3">
                                     @endif
                                     <div class="textBlock">
-                                        <h3>{{$material->title}}</h3><br>
-                                        {{$material->description}}
-                                        <br>
+                                        <div class="textBlock">
+                                            <h3 style="font-family: cursive">{{$material->title}}</h3>
+                                            <br>
+                                            <small><i>{{$material->description}}</i></small>
+                                            <br>
+                                            <small><i><b>Сумма: {{$material->price}}</b></i>
+                                                <img width="17px" height="auto" src="{{asset('icons/ruble.svg')}} "></small>
+                                            <br>
+                                            <small><i><b>Количество: {{$material->quantity}}</b></i></small>
+                                            <br>
+                                        </div>
                                     </div>
                                     <br>
                                 </a>
@@ -101,7 +69,7 @@
     </div>
 
     <section>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="{{ asset('js/autocomplite/autocomplite.js') }}" defer></script>
         <script type="text/javascript" src="{{asset('js/search/search.js')}}" defer></script>
     </section>
 @endsection

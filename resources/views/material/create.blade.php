@@ -43,16 +43,23 @@
                         <br>
                         <div>
                             <label for="price"><b>Цена:</b></label>
-                            <input name="price" type="number" value="{{old('price') }}"
+                            <input name="price" step="any" type="number" value="{{old('price') }}"
                                    class="form-control"
                                    placeholder="Цена" autocomplete="off" required>
                         </div>
                         <br>
                         <div>
                             <label for="quantity"><b>Количество:</b></label>
-                            <input name="quantity" type="number" value="{{old('quantity') }}"
+                            <input name="quantity" step="any" type="number" value="{{old('quantity') }}"
                                    class="form-control"
                                    placeholder="Количество" autocomplete="off" required>
+                        </div>
+                        <br>
+                        <div>
+                            <label for="link_to"><b>Ссылка на материал:</b></label>
+                            <input name="link_to" type="text" value="{{old('link_to') }}"
+                                   class="form-control"
+                                   placeholder="Ссылка на материал" autocomplete="off" >
                         </div>
                         <br>
                         <br>

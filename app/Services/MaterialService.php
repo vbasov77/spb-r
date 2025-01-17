@@ -47,6 +47,7 @@ class MaterialService extends Service
             'description' => $request->input('description'),
             'price' => $request->input('price'),
             'quantity' => $request->input('quantity'),
+            'link_to' => $request->input('link_to'),
         ];
 
         $this->materialRepository->update($data, $request->id);

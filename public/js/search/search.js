@@ -1,4 +1,5 @@
-const inputEl = document.querySelector('#input');
+const inputEl = document.querySelector('#value');
+const dropdown = document.getElementById('dropdown');
 inputEl.addEventListener('focus', event => { //Покрасит рамку
     event.target.style.outline = "1px solid #f57106";
 
@@ -15,6 +16,7 @@ document.getElementById('deleteSession').addEventListener('click', (e) => {
         success: function (res) {
             console.log(res);
             inputEl.value = '';
+            dropdown.style.display = 'none';
         },
     });
 });

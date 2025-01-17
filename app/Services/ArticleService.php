@@ -33,7 +33,7 @@ class ArticleService extends Service
      * @param $articles
      * @return array
      */
-    public function getArticleTags($articles): array
+    public function getArticleTags(object $articles): array
     {
         $tags = [];
         for ($i = 0; $i < count($articles); $i++) {

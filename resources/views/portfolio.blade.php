@@ -52,7 +52,6 @@
                                             </li>
                                         @endif
                                     @endguest
-
                                     <li>
                                         <a href="{{route('articles')}}">Заметки</a>
                                         {{--                                        @include('blocks.tools')--}}
@@ -118,8 +117,6 @@
             #custom_html-89 {
                 border-bottom: 5px solid white;
             }
-
-
         </style>
         <link rel="stylesheet" href="{{asset('css/articles/all_article.css')}}">
         <div class="container-fluid">
