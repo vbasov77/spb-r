@@ -24,7 +24,7 @@ class CheckReportsIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            "password" => ['required', 'integer']
+            "password" => ['required', 'string']
         ];
     }
 
@@ -45,9 +45,7 @@ class CheckReportsIndexRequest extends FormRequest
     {
         return [
             'required' => "Поле :attribute обязательно для заполнения",
-            'integer' => "Поле :attribute должно быть цыфрой",
-            'min:4' =>  "Поле :attribute не должно быть меньше 4-х символов",
-            'max:4' => "Поле :attribute не должно быть больше 4-х символов"
+            'string' => "Поле :attribute должно быть строкой",
         ];
     }
 }

@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CalculatorController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -186,7 +187,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], static function () {
     Route::post('/update_article', [ArticleController::class, 'update'])
         ->name('update.article')->middleware('admin');
 });
-
 
 Route::get('/reports', [ReportController::class, 'index'])->name('reports');
 Route::post('/check_reports_index', [ReportController::class, 'checkReportsIndex'])->name('check.reports_index');
